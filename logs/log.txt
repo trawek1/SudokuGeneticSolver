@@ -1,0 +1,29 @@
+2025-05-20 00:42:18.568 INFO  App.main :: Hello Woąćęrld!
+2025-05-20 00:42:18.570 DEBUG App.main :: Debugging information
+2025-05-20 00:42:18.570 ERROR App.main :: An error occurred
+2025-05-20 00:42:18.571 WARN  App.main :: This is a warning
+2025-05-20 00:42:18.571 TRACE App.main :: Trace information
+2025-05-20 00:42:18.571 INFO  App.main :: Application finished successfully
+2025-05-20 01:27:29.777 INFO  App.main :: Hello Woąćęrld!
+2025-05-20 01:27:29.780 DEBUG App.main :: Debugging information
+2025-05-20 01:27:29.780 ERROR App.main :: An error occurred
+2025-05-20 01:27:29.781 WARN  App.main :: This is a warning
+2025-05-20 01:27:29.781 TRACE App.main :: Trace information
+2025-05-20 01:27:29.781 INFO  App.main :: Application finished successfully
+2025-05-20 01:30:48.876 DEBUG App.main :: ==== ==== ==== ==== START
+2025-05-20 01:30:53.285 DEBUG App.main :: ==== ==== ==== ==== START
+2025-05-20 01:32:00.178 DEBUG App.main :: ==== ==== ==== ==== START
+2025-05-20 01:33:03.319 DEBUG App.main :: ==== ==== ==== ==== START
+2025-05-20 01:34:24.243 DEBUG App.main :: ==== ==== ==== ==== START
+2025-05-20 01:35:50.219 DEBUG App.main :: ==== ==== ==== ==== START
+2025-05-20 01:35:50.224 WARN  BoardField.setValue :: Próbowano zmienić wartość pola stałego!
+2025-05-20 01:35:50.250 WARN  BoardField.removeValue :: Próbowano zmienić wartość pola stałego!
+2025-05-20 01:36:43.031 DEBUG App.main :: ==== ==== ==== ==== START
+2025-05-20 01:36:43.037 WARN  BoardField.setValue :: Próbowano zmienić wartość pola stałego!
+2025-05-20 01:36:43.064 WARN  BoardField.removeValue :: Próbowano zmienić wartość pola stałego!
+2025-05-20 01:55:50.160 DEBUG App.main :: ==== ==== ==== ==== START
+2025-05-20 01:55:50.165 WARN  BoardField.setValue :: Próbowano zmienić wartość pola stałego!
+2025-05-20 02:07:55.413 DEBUG App.main :: ==== ==== ==== ==== START
+2025-05-20 02:07:55.419 WARN  BoardField.setValue :: Próbowano zmienić wartość pola stałego!
+2025-05-20 02:10:31.780 DEBUG App.main :: ==== ==== ==== ==== START
+2025-05-20 02:10:31.786 WARN  BoardField.setValue :: Próbowano zmienić wartość pola stałego!
