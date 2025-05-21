@@ -3,6 +3,7 @@ import static org.junit.Assert.assertEquals;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.TreeSet;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions.*;
@@ -66,6 +67,31 @@ public class BoardTest {
         assertEquals(3, board.getSudokuSize());
         assertEquals(9, board.getBoardSize());
         assertEquals(9, board.getMaxValue());
+        // załadowanie wartości - narożniki
+        assertEquals(9, board.getValue(1, 1));
+        assertEquals(0, board.getValue(1, 9));
+        assertEquals(0, board.getValue(9, 1));
+        assertEquals(0, board.getValue(9, 9));
+        // załadowanie wartości - losowe pola
+        assertEquals(7, board.getValue(3, 7));
+        assertEquals(5, board.getValue(6, 2));
+        // załadowanie wartości - wiersze
+        Set<Integer> values;
+        values = board.getUsedValuesFromRow(1);
+        assertEquals("[6, 8, 9]", values.toString());
+        values = board.getUsedValuesFromRow(5);
+        assertEquals("[2, 4, 5, 9]", values.toString());
+        // załadowanie wartości - kolumny
+        values = board.getUsedValuesFromCol(4);
+        assertEquals("[1, 2, 5, 9]", values.toString());
+        values = board.getUsedValuesFromCol(9);
+        assertEquals("[3]", values.toString());
+        // załadowanie wartości - bloki
+        values = board.getUsedValuesFromBlock(2, 5);
+        assertEquals("[1, 6, 8, 9]", values.toString());
+        values = board.getUsedValuesFromBlock(9, 1);
+        assertEquals("[2, 7]", values.toString());
+        // TODO exportToArray
     }
 
     @Test
@@ -93,6 +119,38 @@ public class BoardTest {
         assertEquals(4, board.getSudokuSize());
         assertEquals(16, board.getBoardSize());
         assertEquals(16, board.getMaxValue());
+        // załadowanie wartości - narożniki
+        assertEquals(0, board.getValue(1, 1));
+        assertEquals(4, board.getValue(1, 16));
+        assertEquals(0, board.getValue(16, 1));
+        assertEquals(3, board.getValue(16, 16));
+        // załadowanie wartości - losowe pola
+        assertEquals(10, board.getValue(11, 8));
+        assertEquals(0, board.getValue(15, 14));
+        // załadowanie wartości - wiersze
+        Set<Integer> values;
+        values = board.getUsedValuesFromRow(2);
+        Set
+        assertEquals("[8, 9, 13, 14, 15, 16]", values.toString());
+        values = board.getUsedValuesFromRow(12);
+        assertEquals("[1, 2, 6, 8, 9, 10, 11, 12, 13, 16]", values.toString());
+        // załadowanie wartości - kolumny
+        values = board.getUsedValuesFromCol(4);
+        assertEquals("[3, 7, 16]", values.toString());
+        values = board.getUsedValuesFromCol(16);
+        assertEquals("[1, 3, 4, 5, 10, 12, 13, 14, 16]", values.toString());
+        // załadowanie wartości - bloki
+        values = board.getUsedValuesFromBlock(3, 11);
+        assertEquals("[2, 6, 7, 8, 9, 10, 11, 13, 14, 15, 16]", values.toString());
+        values = board.getUsedValuesFromBlock(1, 1);
+        assertEquals("[8, 11, 14, 15, 16]", values.toString());
+        // TODO exportToArray
+
+        // TODO ---------------teraz
+        // Przenieś elementy z HashSet do TreeSet (automatycznie posortuje)
+        // Set<String> treeSet = new TreeSet<>(hashSet);
+
+
     }
 
     @Test
