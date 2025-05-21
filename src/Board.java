@@ -22,8 +22,8 @@ public class Board extends BoardBase {
 
         int boardSize = this.getBoardSize();
         if (_initialValues.length != boardSize * boardSize) {
-            Logger.error("Tablica wartości planszy ma niepoprawny rozmiar! Oczekiwano {}, a otrzymano {}.",
-                    boardSize * boardSize, _initialValues.length);
+            Logger.error("Tablica wartości planszy ma niepoprawny rozmiar! Otrzymano {} wartości pól.",
+                    _initialValues.length);
             throw new IllegalArgumentException("Tablica wartości planszy ma niepoprawny rozmiar!");
         }
 
@@ -83,11 +83,25 @@ public class Board extends BoardBase {
                     this.getBoardSize(), _colNumber);
             return false;
         }
-        if (this.board[_rowNumber - 1][_colNumber - 1].isFieldConst()) {
+        if (this.board[_rowNumber - 1][_colNumber - 1].isConstField()) {
             Logger.error("Nie można usunąć wartości z pola stałego!");
             return false;
         }
         return this.board[_rowNumber - 1][_colNumber - 1].removeValue();
+    }
+
+    public boolean isConstField(int _rowNumber, int _colNumber) {
+        if (!this.isCorrectRowNumber(_rowNumber)) {
+            Logger.error("Numer wiersza jest spoza zakresu! Oczekiwano 1-{}, otrzymano {}.",
+                    this.getBoardSize(), _rowNumber);
+            return false;
+        }
+        if (!this.isCorrectColNumber(_colNumber)) {
+            Logger.error("Numer kolumny jest spoza zakresu! Oczekiwano 1-{}, otrzymano {}.",
+                    this.getBoardSize(), _colNumber);
+            return false;
+        }
+        return this.board[_rowNumber - 1][_colNumber - 1].isConstField();
     }
 
     public Set<Integer> getUsedValuesFromRow(int _rowNumber) {
@@ -164,7 +178,7 @@ public class Board extends BoardBase {
         for (int row = 0; row < this.getBoardSize(); row++) {
             for (int col = 0; col < this.getBoardSize(); col++) {
                 int value = this.board[row][col].getValue();
-                if (this.board[row][col].isFieldConst()) {
+                if (this.board[row][col].isConstField()) {
                     value *= -1;
                 }
                 result[index++] = value;
@@ -203,7 +217,7 @@ public class Board extends BoardBase {
                     System.out.print("|");
                 }
                 int value = this.board[row][col].getValue();
-                if (this.board[row][col].isFieldConst()) {
+                if (this.board[row][col].isConstField()) {
                     System.out.printf("(%" + valueFormat + "d)", value);
                 } else {
                     if (value != EMPTY_FIELD) {

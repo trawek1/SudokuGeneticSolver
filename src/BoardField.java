@@ -26,7 +26,7 @@ public class BoardField extends BoardBase {
         this.possibilities.setAllValuesAsImpossible();
     }
 
-    public boolean isFieldConst() {
+    public boolean isConstField() {
         return this.isConst;
     }
 

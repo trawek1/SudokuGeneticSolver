@@ -49,3 +49,72 @@
 2025-05-21 19:37:25.200 DEBUG App.main :: ==== ==== ==== ==== STOP
 2025-05-21 19:38:58.526 DEBUG App.main :: ==== ==== ==== ==== START
 2025-05-21 19:38:58.529 DEBUG App.main :: ==== ==== ==== ==== STOP
+2025-05-21 20:17:33.548 DEBUG App.main :: ==== ==== ==== ==== START
+2025-05-21 20:17:33.552 ERROR Board.<init> :: Tablica wartości planszy ma niepoprawny rozmiar! Oczekiwano 1, a otrzymano 3.
+2025-05-21 20:17:33.553 ERROR SolverBruteForce.<init> :: Niepoprawne dane planszy! Tablica wartości planszy ma niepoprawny rozmiar!
+2025-05-21 20:18:00.163 DEBUG App.main :: ==== ==== ==== ==== START
+2025-05-21 20:18:00.167 ERROR Board.<init> :: Tablica wartości planszy ma niepoprawny rozmiar! Oczekiwano 1, a otrzymano 3.
+2025-05-21 20:18:00.167 ERROR SolverBruteForce.<init> :: Niepoprawne dane planszy! Tablica wartości planszy ma niepoprawny rozmiar!
+2025-05-21 20:18:14.553 DEBUG App.main :: ==== ==== ==== ==== START
+2025-05-21 20:18:14.557 ERROR Board.<init> :: Tablica wartości planszy ma niepoprawny rozmiar! Oczekiwano 1, a otrzymano 4.
+2025-05-21 20:18:14.557 ERROR SolverBruteForce.<init> :: Niepoprawne dane planszy! Tablica wartości planszy ma niepoprawny rozmiar!
+2025-05-21 20:19:09.964 DEBUG App.main :: ==== ==== ==== ==== START
+2025-05-21 20:19:09.967 ERROR Board.<init> :: Tablica wartości planszy ma niepoprawny rozmiar! Oczekiwano 1, a otrzymano 4.
+2025-05-21 20:19:09.968 ERROR SolverBruteForce.<init> :: Niepoprawne dane planszy! Tablica wartości planszy ma niepoprawny rozmiar!
+2025-05-21 20:20:41.942 DEBUG App.main :: ==== ==== ==== ==== START
+2025-05-21 20:20:41.948 DEBUG App.main :: ==== ==== ==== ==== STOP
+2025-05-21 20:20:49.148 DEBUG App.main :: ==== ==== ==== ==== START
+2025-05-21 20:20:49.153 ERROR Board.<init> :: Tablica wartości planszy ma niepoprawny rozmiar! Oczekiwano 1, a otrzymano 15.
+2025-05-21 20:20:49.153 ERROR SolverBruteForce.<init> :: Niepoprawne dane planszy! Tablica wartości planszy ma niepoprawny rozmiar!
+2025-05-21 20:21:08.246 DEBUG App.main :: ==== ==== ==== ==== START
+2025-05-21 20:21:08.249 ERROR Board.<init> :: Tablica wartości planszy ma niepoprawny rozmiar! Oczekiwano 16, a otrzymano 17.
+2025-05-21 20:21:08.250 ERROR SolverBruteForce.<init> :: Niepoprawne dane planszy! Tablica wartości planszy ma niepoprawny rozmiar!
+2025-05-21 20:33:16.295 DEBUG App.main :: ==== ==== ==== ==== START
+2025-05-21 20:33:16.300 ERROR Board.<init> :: Tablica wartości planszy ma niepoprawny rozmiar! Otrzymano 17 wartości pól.
+2025-05-21 20:33:16.300 ERROR SolverBruteForce.<init> :: Niepoprawne dane planszy! Tablica wartości planszy ma niepoprawny rozmiar!
+2025-05-21 21:12:15.898 DEBUG App.main :: ==== ==== ==== ==== START
+2025-05-21 21:12:15.904 ERROR Board.isConstField :: Numer wiersza jest spoza zakresu! Oczekiwano 1-9, otrzymano 0.
+2025-05-21 21:12:15.905 ERROR Board.getValue :: Numer wiersza jest spoza zakresu! Oczekiwano 1-9, otrzymano 0.
+2025-05-21 21:12:15.905 DEBUG App.main :: ==== ==== ==== ==== STOP
+2025-05-21 21:13:15.917 DEBUG App.main :: ==== ==== ==== ==== START
+2025-05-21 21:13:15.922 DEBUG App.main :: ==== ==== ==== ==== STOP
+2025-05-21 21:13:18.264 DEBUG App.main :: ==== ==== ==== ==== START
+2025-05-21 21:13:18.271 DEBUG App.main :: ==== ==== ==== ==== STOP
+2025-05-21 21:16:04.452 DEBUG App.main :: ==== ==== ==== ==== START
+2025-05-21 21:16:04.501 DEBUG App.main :: ==== ==== ==== ==== STOP
+2025-05-21 21:16:49.647 DEBUG App.main :: ==== ==== ==== ==== START
+2025-05-21 21:16:49.691 DEBUG App.main :: ==== ==== ==== ==== STOP
+2025-05-21 21:17:09.792 DEBUG App.main :: ==== ==== ==== ==== START
+2025-05-21 21:17:09.837 DEBUG App.main :: ==== ==== ==== ==== STOP
+2025-05-21 21:17:31.320 DEBUG App.main :: ==== ==== ==== ==== START
+2025-05-21 21:17:31.365 DEBUG App.main :: ==== ==== ==== ==== STOP
+2025-05-21 21:20:19.280 DEBUG App.main :: ==== ==== ==== ==== START
+2025-05-21 21:20:19.315 INFO  SolverBruteForce.startSolving :: Nie znaleziono rozwiązania!
+2025-05-21 21:20:19.329 DEBUG App.main :: ==== ==== ==== ==== STOP
+2025-05-21 21:24:45.215 DEBUG App.main :: ==== ==== ==== ==== START
+2025-05-21 21:24:45.235 INFO  SolverBruteForce.startSolving :: Nie znaleziono rozwiązania!
+2025-05-21 21:24:45.239 DEBUG App.main :: ==== ==== ==== ==== STOP
+2025-05-21 21:25:45.885 DEBUG App.main :: ==== ==== ==== ==== START
+2025-05-21 21:25:45.909 INFO  SolverBruteForce.startSolving :: Rozpoczeto rozwiązywanie...
+2025-05-21 21:25:45.909 INFO  SolverBruteForce.startSolving :: Nie znaleziono rozwiązania!
+2025-05-21 21:25:45.915 DEBUG App.main :: ==== ==== ==== ==== STOP
+2025-05-21 21:26:05.462 DEBUG App.main :: ==== ==== ==== ==== START
+2025-05-21 21:26:05.492 INFO  SolverBruteForce.startSolving :: Rozpoczeto rozwiązywanie...
+2025-05-21 21:26:23.360 INFO  SolverBruteForce.startSolving :: Nie znaleziono rozwiązania!
+2025-05-21 21:26:23.364 DEBUG App.main :: ==== ==== ==== ==== STOP
+2025-05-21 21:26:27.209 DEBUG App.main :: ==== ==== ==== ==== START
+2025-05-21 21:26:27.231 INFO  SolverBruteForce.startSolving :: Rozpoczeto rozwiązywanie...
+2025-05-21 21:26:30.784 INFO  SolverBruteForce.startSolving :: Nie znaleziono rozwiązania!
+2025-05-21 21:26:30.788 DEBUG App.main :: ==== ==== ==== ==== STOP
+2025-05-21 21:28:15.682 DEBUG App.main :: ==== ==== ==== ==== START
+2025-05-21 21:28:15.705 INFO  SolverBruteForce.startSolving :: Rozpoczeto rozwiązywanie...
+2025-05-21 21:33:41.705 INFO  SolverBruteForce.startSolving :: Nie znaleziono rozwiązania!
+2025-05-21 21:33:41.710 DEBUG App.main :: ==== ==== ==== ==== STOP
+2025-05-21 21:37:46.192 DEBUG App.main :: ==== ==== ==== ==== START
+2025-05-21 21:37:46.215 INFO  SolverBruteForce.startSolving :: Rozpoczeto rozwiązywanie...
+2025-05-21 21:38:14.983 INFO  SolverBruteForce.startSolving :: Znaleziono rozwiązanie!
+2025-05-21 21:38:14.988 DEBUG App.main :: ==== ==== ==== ==== STOP
+2025-05-21 21:38:36.623 DEBUG App.main :: ==== ==== ==== ==== START
+2025-05-21 21:38:36.656 INFO  SolverBruteForce.startSolving :: Rozpoczeto rozwiązywanie...
+2025-05-21 21:38:36.802 INFO  SolverBruteForce.startSolving :: Znaleziono rozwiązanie!
+2025-05-21 21:38:36.815 DEBUG App.main :: ==== ==== ==== ==== STOP
