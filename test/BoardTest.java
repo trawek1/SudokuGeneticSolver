@@ -1,14 +1,12 @@
 import static org.junit.Assert.assertEquals;
 
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
-
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.Assertions.*;
 
 public class BoardTest {
+    // TODO > dokończyć testy jednostkowe
+
     @Test
     public void testBoard2x2() {
         int[] testBoard2x2 = {
@@ -30,23 +28,29 @@ public class BoardTest {
         // załadowanie wartości - losowe pola
         assertEquals(4, board.getValue(3, 1));
         assertEquals(3, board.getValue(4, 3));
+
+        Set<Integer> values = new TreeSet<>();
         // załadowanie wartości - wiersze
-        Set<Integer> values;
-        values = board.getUsedValuesFromRow(1);
+        values.clear();
+        values.addAll(board.getUsedValuesFromRow(1));
         assertEquals("[2, 4]", values.toString());
-        values = board.getUsedValuesFromRow(4);
+        values.clear();
+        values.addAll(board.getUsedValuesFromRow(4));
         assertEquals("[1, 3]", values.toString());
         // załadowanie wartości - kolumny
-        values = board.getUsedValuesFromCol(1);
+        values.clear();
+        values.addAll(board.getUsedValuesFromCol(1));
         assertEquals("[1, 4]", values.toString());
-        values = board.getUsedValuesFromCol(4);
+        values.clear();
+        values.addAll(board.getUsedValuesFromCol(4));
         assertEquals("[2, 3]", values.toString());
         // załadowanie wartości - bloki
-        values = board.getUsedValuesFromBlock(1, 1);
+        values.clear();
+        values.addAll(board.getUsedValuesFromBlock(1, 1));
         assertEquals("[1, 2]", values.toString());
-        values = board.getUsedValuesFromBlock(3, 4);
+        values.clear();
+        values.addAll(board.getUsedValuesFromBlock(3, 4));
         assertEquals("[2, 3]", values.toString());
-        // TODO exportToArray
     }
 
     @Test
@@ -75,23 +79,29 @@ public class BoardTest {
         // załadowanie wartości - losowe pola
         assertEquals(7, board.getValue(3, 7));
         assertEquals(5, board.getValue(6, 2));
+
+        Set<Integer> values = new TreeSet<>();
         // załadowanie wartości - wiersze
-        Set<Integer> values;
-        values = board.getUsedValuesFromRow(1);
+        values.clear();
+        values.addAll(board.getUsedValuesFromRow(1));
         assertEquals("[6, 8, 9]", values.toString());
-        values = board.getUsedValuesFromRow(5);
+        values.clear();
+        values.addAll(board.getUsedValuesFromRow(5));
         assertEquals("[2, 4, 5, 9]", values.toString());
         // załadowanie wartości - kolumny
-        values = board.getUsedValuesFromCol(4);
+        values.clear();
+        values.addAll(board.getUsedValuesFromCol(4));
         assertEquals("[1, 2, 5, 9]", values.toString());
-        values = board.getUsedValuesFromCol(9);
+        values.clear();
+        values.addAll(board.getUsedValuesFromCol(9));
         assertEquals("[3]", values.toString());
         // załadowanie wartości - bloki
-        values = board.getUsedValuesFromBlock(2, 5);
+        values.clear();
+        values.addAll(board.getUsedValuesFromBlock(2, 5));
         assertEquals("[1, 6, 8, 9]", values.toString());
-        values = board.getUsedValuesFromBlock(9, 1);
+        values.clear();
+        values.addAll(board.getUsedValuesFromBlock(9, 1));
         assertEquals("[2, 7]", values.toString());
-        // TODO exportToArray
     }
 
     @Test
@@ -127,30 +137,29 @@ public class BoardTest {
         // załadowanie wartości - losowe pola
         assertEquals(10, board.getValue(11, 8));
         assertEquals(0, board.getValue(15, 14));
+
+        Set<Integer> values = new TreeSet<>();
         // załadowanie wartości - wiersze
-        Set<Integer> values;
-        values = board.getUsedValuesFromRow(2);
-        Set
+        values.clear();
+        values.addAll(board.getUsedValuesFromRow(2));
         assertEquals("[8, 9, 13, 14, 15, 16]", values.toString());
-        values = board.getUsedValuesFromRow(12);
+        values.clear();
+        values.addAll(board.getUsedValuesFromRow(12));
         assertEquals("[1, 2, 6, 8, 9, 10, 11, 12, 13, 16]", values.toString());
         // załadowanie wartości - kolumny
-        values = board.getUsedValuesFromCol(4);
+        values.clear();
+        values.addAll(board.getUsedValuesFromCol(4));
         assertEquals("[3, 7, 16]", values.toString());
-        values = board.getUsedValuesFromCol(16);
+        values.clear();
+        values.addAll(board.getUsedValuesFromCol(16));
         assertEquals("[1, 3, 4, 5, 10, 12, 13, 14, 16]", values.toString());
         // załadowanie wartości - bloki
-        values = board.getUsedValuesFromBlock(3, 11);
+        values.clear();
+        values.addAll(board.getUsedValuesFromBlock(3, 11));
         assertEquals("[2, 6, 7, 8, 9, 10, 11, 13, 14, 15, 16]", values.toString());
-        values = board.getUsedValuesFromBlock(1, 1);
+        values.clear();
+        values.addAll(board.getUsedValuesFromBlock(1, 1));
         assertEquals("[8, 11, 14, 15, 16]", values.toString());
-        // TODO exportToArray
-
-        // TODO ---------------teraz
-        // Przenieś elementy z HashSet do TreeSet (automatycznie posortuje)
-        // Set<String> treeSet = new TreeSet<>(hashSet);
-
-
     }
 
     @Test
@@ -187,5 +196,91 @@ public class BoardTest {
         assertEquals(5, board.getSudokuSize());
         assertEquals(25, board.getBoardSize());
         assertEquals(25, board.getMaxValue());
+        // załadowanie wartości - narożniki
+        assertEquals(0, board.getValue(1, 1));
+        assertEquals(0, board.getValue(1, 25));
+        assertEquals(0, board.getValue(25, 1));
+        assertEquals(0, board.getValue(25, 25));
+        // załadowanie wartości - losowe pola
+        assertEquals(6, board.getValue(10, 6));
+        assertEquals(17, board.getValue(20, 16));
+
+        Set<Integer> values = new TreeSet<>();
+        // załadowanie wartości - wiersze
+        values.clear();
+        values.addAll(board.getUsedValuesFromRow(10));
+        assertEquals("[1, 3, 6, 7, 9, 11, 12, 21, 25]", values.toString());
+        values.clear();
+        values.addAll(board.getUsedValuesFromRow(20));
+        assertEquals("[1, 2, 3, 4, 6, 8, 11, 12, 14, 16, 17, 18, 19, 21, 23, 25]", values.toString());
+        // załadowanie wartości - kolumny
+        values.clear();
+        values.addAll(board.getUsedValuesFromCol(4));
+        assertEquals("[2, 3, 5, 8, 12, 13, 21, 23]", values.toString());
+        values.clear();
+        values.addAll(board.getUsedValuesFromCol(23));
+        assertEquals("[1, 2, 3, 4, 6, 7, 9, 10, 12, 13, 16, 17, 18, 21, 23]", values.toString());
+        // załadowanie wartości - bloki
+        values.clear();
+        values.addAll(board.getUsedValuesFromBlock(3, 17));
+        assertEquals("[1, 4, 8, 9, 10, 12, 13, 15, 18, 22, 24]", values.toString());
+        values.clear();
+        values.addAll(board.getUsedValuesFromBlock(12, 12));
+        assertEquals("[7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 24]", values.toString());
+    }
+
+    @Test
+    public void test_SetValue() {
+        int[] testBoard2x2 = {
+                0, -2, -4, 0,
+                -1, 0, 0, -3,
+                -4, 0, 0, -2,
+                0, -1, -3, 0
+        };
+        Board board = new Board(testBoard2x2);
+
+        // dodawanie wartości w pustym polu
+        board.setValue(1, 1, 3);
+        assertEquals(3, board.getValue(1, 1));
+
+        board.setValue(2, 2, 4);
+        assertEquals(4, board.getValue(2, 2));
+
+        // dodawanie wartości w polu stałym
+        board.setValue(4, 3, 2);
+        assertEquals(3, board.getValue(4, 3));
+
+        // dodawanie wartości w polu zmiennym mającym już wartość
+        board.setValue(1, 1, 4);
+        // TODO !! wyłączyłem kontrolę możliwości
+        // assertEquals(3, board.getValue(1, 1)); // przy włączonej kontroli możliwości
+        assertEquals(4, board.getValue(1, 1)); // przy wyłączonej kontroli możliwości
+    }
+
+    @Test
+    public void test_removeValue() {
+        int[] testBoard2x2 = {
+                0, -2, -4, 0,
+                -1, 0, 0, -3,
+                -4, 0, 0, -2,
+                0, -1, -3, 0
+        };
+        Board board = new Board(testBoard2x2);
+        board.setValue(1, 1, 3);
+        board.setValue(2, 2, 4);
+
+        // usuwanie wartości w polu zmiennym mającym wartość
+        board.removeValue(1, 1);
+        assertEquals(0, board.getValue(1, 1));
+        board.removeValue(2, 2);
+        assertEquals(0, board.getValue(2, 2));
+
+        // usuwanie wartości w polu stałym
+        board.removeValue(1, 2);
+        assertEquals(2, board.getValue(1, 2));
+
+        // usuwanie wartości w polu pustym
+        board.removeValue(4, 4);
+        assertEquals(0, board.getValue(4, 4));
     }
 }

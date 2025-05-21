@@ -26,6 +26,10 @@ public class BoardField extends BoardBase {
         this.possibilities.setAllValuesAsImpossible();
     }
 
+    public boolean isFieldConst() {
+        return this.isConst;
+    }
+
     public int getValue() {
         return this.value;
     }
@@ -40,11 +44,12 @@ public class BoardField extends BoardBase {
                     _value, this.getMaxValue());
             return false;
         }
-        if (this.possibilities.isValueImpossible(_value)) {
-            return false;
-        }
+        // TODO !! wyłączyłem kontrolę możliwości
+        // if (this.possibilities.isValueImpossible(_value)) {
+        // return false;
+        // }
         this.value = _value;
-        this.possibilities.setAllValuesAsImpossible();
+        // this.possibilities.setAllValuesAsImpossible();
         return true;
     }
 
@@ -54,12 +59,9 @@ public class BoardField extends BoardBase {
             return false;
         }
         this.value = EMPTY_FIELD;
-        this.possibilities.setAllValuesAsUnknown();
+        // TODO !! wyłączyłem kontrolę możliwości
+        // this.possibilities.setAllValuesAsUnknown();
         return true;
-    }
-
-    public boolean isFieldConst() {
-        return this.isConst;
     }
 
 }

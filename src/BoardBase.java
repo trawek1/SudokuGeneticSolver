@@ -2,9 +2,10 @@ import org.tinylog.Logger;
 
 public class BoardBase {
     public final int SUDOKU_SIZE_MIN = 2;
-    public final int EMPTY_FIELD = 0;
     public final int SUDOKU_SIZE_MAX = 6;
     public final int SUDOKU_SIZE_DEFAULT = 3;
+    public final int EMPTY_FIELD = 0;
+    public final int RETURN_ERROR = -999999;
 
     private final int sudokuSize;
     private final int boardSize;

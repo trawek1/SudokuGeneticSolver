@@ -44,54 +44,50 @@ public class Board extends BoardBase {
         }
     }
 
-    // public int getValue(int _rowNumber, int _colNumber) {
-    // if (!this.isCorrectRowNumber(_rowNumber)) {
-    // Logger.error("Numer wiersza jest spoza zakresu! Oczekiwano 1-{}, otrzymano
-    // {}.",
-    // this.getBoardSize(), _rowNumber);
-    // // TODO dodać lepszą kontrolę błędu - empty field jest błędny
-    // return EMPTY_FIELD;
-    // }
-    // if (!this.isCorrectColNumber(_colNumber)) {
-    // Logger.error("Numer kolumny jest spoza zakresu! Oczekiwano 1-{}, otrzymano
-    // {}.",
-    // this.getBoardSize(), _colNumber);
-    // // TODO dodać lepszą kontrolę błędu - empty field jest błędny
-    // return EMPTY_FIELD;
-    // }
-    // return this.board[--_rowNumber][--_colNumber].getValue();
-    // }
+    public int getValue(int _rowNumber, int _colNumber) {
+        if (!this.isCorrectRowNumber(_rowNumber)) {
+            Logger.error("Numer wiersza jest spoza zakresu! Oczekiwano 1-{}, otrzymano {}.",
+                    this.getBoardSize(), _rowNumber);
+            return RETURN_ERROR;
+        }
+        if (!this.isCorrectColNumber(_colNumber)) {
+            Logger.error("Numer kolumny jest spoza zakresu! Oczekiwano 1-{}, otrzymano {}.",
+                    this.getBoardSize(), _colNumber);
+            return RETURN_ERROR;
+        }
+        return this.board[_rowNumber - 1][_colNumber - 1].getValue();
+    }
 
     public boolean setValue(int _rowNumber, int _colNumber, int _value) {
         if (!this.isCorrectRowNumber(_rowNumber)) {
             Logger.error("Numer wiersza jest spoza zakresu! Oczekiwano 1-{}, otrzymano {}.",
                     this.getBoardSize(), _rowNumber);
-            // TODO dodać lepszą kontrolę błędu
             return false;
         }
         if (!this.isCorrectColNumber(_colNumber)) {
             Logger.error("Numer kolumny jest spoza zakresu! Oczekiwano 1-{}, otrzymano {}.",
                     this.getBoardSize(), _colNumber);
-            // TODO dodać lepszą kontrolę błędu
             return false;
         }
-        return this.board[--_rowNumber][--_colNumber].setValue(_value);
+        return this.board[_rowNumber - 1][_colNumber - 1].setValue(_value);
     }
 
-    public int getValue(int _rowNumber, int _colNumber) {
+    public boolean removeValue(int _rowNumber, int _colNumber) {
         if (!this.isCorrectRowNumber(_rowNumber)) {
             Logger.error("Numer wiersza jest spoza zakresu! Oczekiwano 1-{}, otrzymano {}.",
                     this.getBoardSize(), _rowNumber);
-            // TODO dodać lepszą kontrolę błędu - empty field jest błędny
-            return EMPTY_FIELD;
+            return false;
         }
         if (!this.isCorrectColNumber(_colNumber)) {
             Logger.error("Numer kolumny jest spoza zakresu! Oczekiwano 1-{}, otrzymano {}.",
                     this.getBoardSize(), _colNumber);
-            // TODO dodać lepszą kontrolę błędu - empty field jest błędny
-            return EMPTY_FIELD;
+            return false;
         }
-        return this.board[--_rowNumber][--_colNumber].getValue();
+        if (this.board[_rowNumber - 1][_colNumber - 1].isFieldConst()) {
+            Logger.error("Nie można usunąć wartości z pola stałego!");
+            return false;
+        }
+        return this.board[_rowNumber - 1][_colNumber - 1].removeValue();
     }
 
     public Set<Integer> getUsedValuesFromRow(int _rowNumber) {
@@ -101,7 +97,6 @@ public class Board extends BoardBase {
             Logger.error("Numer wiersza jest spoza zakresu! Oczekiwano 1-{}, otrzymano {}.",
                     this.getBoardSize(), _rowNumber);
             return result;
-            // TODO dodać lepszą kontrolę błędu
         }
 
         _rowNumber--;
@@ -121,7 +116,6 @@ public class Board extends BoardBase {
             Logger.error("Numer kolumny jest spoza zakresu! Oczekiwano 1-{}, otrzymano {}.",
                     this.getBoardSize(), _colNumber);
             return result;
-            // TODO dodać lepszą kontrolę błędu
         }
 
         _colNumber--;
@@ -141,13 +135,11 @@ public class Board extends BoardBase {
             Logger.error("Numer wiersza jest spoza zakresu! Oczekiwano 1-{}, otrzymano {}.",
                     this.getBoardSize(), _rowNumber);
             return result;
-            // TODO dodać lepszą kontrolę błędu
         }
         if (!this.isCorrectColNumber(_colNumber)) {
             Logger.error("Numer kolumny jest spoza zakresu! Oczekiwano 1-{}, otrzymano {}.",
                     this.getBoardSize(), _colNumber);
             return result;
-            // TODO dodać lepszą kontrolę błędu
         }
 
         int size = this.getSudokuSize();
@@ -181,7 +173,7 @@ public class Board extends BoardBase {
         return result;
     }
 
-    public void test_showBoard() {
+    public void xxx_showBoard() {
         int sudokuSize = this.getSudokuSize();
         int boardSize = this.getBoardSize();
         String boardLine;

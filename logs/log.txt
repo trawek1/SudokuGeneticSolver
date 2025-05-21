@@ -27,3 +27,25 @@
 2025-05-20 02:07:55.419 WARN  BoardField.setValue :: Próbowano zmienić wartość pola stałego!
 2025-05-20 02:10:31.780 DEBUG App.main :: ==== ==== ==== ==== START
 2025-05-20 02:10:31.786 WARN  BoardField.setValue :: Próbowano zmienić wartość pola stałego!
+2025-05-21 17:31:18.054 DEBUG App.main :: ==== ==== ==== ==== START
+2025-05-21 17:31:18.059 WARN  BoardField.setValue :: Próbowano zmienić wartość pola stałego!
+2025-05-21 17:47:43.921 WARN  BoardField.setValue :: Próbowano zmienić wartość pola stałego!
+2025-05-21 17:56:34.058 DEBUG App.main :: ==== ==== ==== ==== START
+2025-05-21 17:56:34.065 WARN  BoardField.setValue :: Próbowano zmienić wartość pola stałego!
+2025-05-21 17:58:43.081 WARN  BoardField.setValue :: Próbowano zmienić wartość pola stałego!
+2025-05-21 17:59:08.089 ERROR Board.removeValue :: Nie można usunąć wartości z pola stałego!
+2025-05-21 17:59:08.094 WARN  BoardField.setValue :: Próbowano zmienić wartość pola stałego!
+2025-05-21 18:32:43.629 ERROR Board.removeValue :: Nie można usunąć wartości z pola stałego!
+2025-05-21 18:32:43.633 WARN  BoardField.setValue :: Próbowano zmienić wartość pola stałego!
+2025-05-21 18:34:14.738 ERROR Board.removeValue :: Nie można usunąć wartości z pola stałego!
+2025-05-21 18:34:14.743 WARN  BoardField.setValue :: Próbowano zmienić wartość pola stałego!
+2025-05-21 18:34:47.280 ERROR Board.removeValue :: Nie można usunąć wartości z pola stałego!
+2025-05-21 18:34:47.284 WARN  BoardField.setValue :: Próbowano zmienić wartość pola stałego!
+2025-05-21 19:36:49.681 DEBUG App.main :: ==== ==== ==== ==== START
+2025-05-21 19:36:49.686 WARN  BoardField.setValue :: Próbowano zmienić wartość pola stałego!
+2025-05-21 19:37:20.582 DEBUG App.main :: ==== ==== ==== ==== START
+2025-05-21 19:37:20.585 DEBUG App.main :: ==== ==== ==== ==== STOP
+2025-05-21 19:37:25.198 DEBUG App.main :: ==== ==== ==== ==== START
+2025-05-21 19:37:25.200 DEBUG App.main :: ==== ==== ==== ==== STOP
+2025-05-21 19:38:58.526 DEBUG App.main :: ==== ==== ==== ==== START
+2025-05-21 19:38:58.529 DEBUG App.main :: ==== ==== ==== ==== STOP
