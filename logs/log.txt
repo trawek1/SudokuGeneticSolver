@@ -118,3 +118,7 @@
 2025-05-21 21:38:36.656 INFO  SolverBruteForce.startSolving :: Rozpoczeto rozwiązywanie...
 2025-05-21 21:38:36.802 INFO  SolverBruteForce.startSolving :: Znaleziono rozwiązanie!
 2025-05-21 21:38:36.815 DEBUG App.main :: ==== ==== ==== ==== STOP
+2025-05-21 21:40:32.852 DEBUG App.main :: ==== ==== ==== ==== START
+2025-05-21 21:40:32.912 INFO  SolverBruteForce.startSolving :: Rozpoczeto rozwiązywanie...
+2025-05-21 21:44:10.848 INFO  SolverBruteForce.startSolving :: Znaleziono rozwiązanie!
+2025-05-21 21:44:10.886 DEBUG App.main :: ==== ==== ==== ==== STOP
