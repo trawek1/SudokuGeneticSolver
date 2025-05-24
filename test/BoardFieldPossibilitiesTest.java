@@ -1,7 +1,6 @@
 import org.junit.jupiter.api.Test;
 
 public class BoardFieldPossibilitiesTest {
-    // TODO > dokończyć testy jednostkowe
     @Test
     void testClearValuesImpossible() {
 

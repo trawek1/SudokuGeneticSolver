@@ -44,6 +44,20 @@ public class Board extends BoardBase {
         }
     }
 
+    public boolean isEmptyField(int _rowNumber, int _colNumber) {
+        if (!this.isCorrectRowNumber(_rowNumber)) {
+            Logger.error("Numer wiersza jest spoza zakresu! Oczekiwano 1-{}, otrzymano {}.",
+                    this.getBoardSize(), _rowNumber);
+            return false;
+        }
+        if (!this.isCorrectColNumber(_colNumber)) {
+            Logger.error("Numer kolumny jest spoza zakresu! Oczekiwano 1-{}, otrzymano {}.",
+                    this.getBoardSize(), _colNumber);
+            return false;
+        }
+        return this.board[_rowNumber - 1][_colNumber - 1].getValue() == EMPTY_FIELD;
+    }
+
     public int getValue(int _rowNumber, int _colNumber) {
         if (!this.isCorrectRowNumber(_rowNumber)) {
             Logger.error("Numer wiersza jest spoza zakresu! Oczekiwano 1-{}, otrzymano {}.",

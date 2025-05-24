@@ -5,7 +5,6 @@ import java.util.TreeSet;
 import org.junit.jupiter.api.Test;
 
 public class BoardTest {
-    // TODO > dokończyć testy jednostkowe
 
     @Test
     public void testBoard2x2() {
