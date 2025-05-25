@@ -19,6 +19,9 @@ Aplikacja do rozwiązywania sudoku metodą algorytmów genetycznych. Projekt zal
 ## Pomocne linki
 **Algorytmy genetyczne** : 
 
+**Sudoku** :
+Sudoku 4x4 różnych poziomów - [generator](https://puzzlemadness.co.uk/16by16giantsudoku/easy)
+
 **Różne** :
 składnia [Markdown](https://www.markdownguide.org/cheat-sheet/), 
 arkusz kodów [emotek](https://www.webfx.com/tools/emoji-cheat-sheet/)

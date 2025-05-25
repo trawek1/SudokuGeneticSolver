@@ -10,7 +10,10 @@ public class SolverBase {
     private long timeStart = 0;
     private long timeStop = 0;
 
-    // TODO >> brak konstruktora, bo nie ma co inicjalizować
+    public SolverBase() {
+        this.solvingInterationsCount = DEFAULT_SOLVING_ITERATIONS_COUNT;
+        this.resetTimeMeasurement();
+    }
 
     protected void startTimeMeasurement() {
         this.solvingCounter += 1;
@@ -32,22 +35,22 @@ public class SolverBase {
     }
 
     protected String showSolvingTimeAsNanoseconds() {
-        return " " + this.solvingTime;
+        return String.format("%d", this.solvingTime);
     }
 
     protected String showSolvingAverageTimeAsNanoseconds() {
-        return " " + this.solvingTimeSum / this.solvingCounter;
+        return String.format("%d", this.solvingTimeSum / this.solvingCounter);
     }
 
     private String calculateSolvingTime(long _time, int _counter) {
-        long tempNanoseconds = _time / _counter;
-        long minutes = tempNanoseconds / 60_000_000_000L;
-        tempNanoseconds %= 60_000_000_000L;
-        long seconds = tempNanoseconds / 1_000_000_000;
-        tempNanoseconds %= 1_000_000_000;
-        long miliseconds = tempNanoseconds / 1_000_000;
-        tempNanoseconds %= 1_000_000;
-        return String.format("%02dm %02ds %03dms %06dns", minutes, seconds, miliseconds, tempNanoseconds);
+        long nanoseconds = _time / _counter;
+        long minutes = nanoseconds / 60_000_000_000L;
+        nanoseconds %= 60_000_000_000L;
+        long seconds = nanoseconds / 1_000_000_000;
+        nanoseconds %= 1_000_000_000;
+        long miliseconds = nanoseconds / 1_000_000;
+        nanoseconds %= 1_000_000;
+        return String.format("%02dm %02ds %03dms %06dns", minutes, seconds, miliseconds, nanoseconds);
     }
 
     protected String showSolvingTime() {

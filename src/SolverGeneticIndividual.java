@@ -4,30 +4,27 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class SolverGeneticIndividual {
+    private static final int FITNESS_PENALTY_EMPTY_FIELD = 1;
+    private static final int FITNESS_PENALTY_VALUE_COLLISION = 2;
+    private static final int FITNESS_PENALTY_CONST_COLLISION = 5;
     private Board board;
-    private int[] boardData;
-    private int boardErrorLevel; // TODO > zmienić na errorLevel
+    private int[] initialBoardData;
+    private int boardErrorLevel;
 
     public SolverGeneticIndividual(int[] _boardData) {
         this.board = new Board(_boardData);
-        this.boardData = _boardData;
+        this.initialBoardData = _boardData;
         this.boardErrorLevel = 0;
     }
 
-    public void getBoardFromParentHard() {
-        SolverGeneticParentMaker parent = new SolverGeneticParentMaker(this.boardData);
+    public void getBoardFromParent() {
+        SolverGeneticParentMaker parent = new SolverGeneticParentMaker(this.initialBoardData);
+        // TODO >>>>> wybór soft lub hard oprzeć o jakiś mechanizm
         parent.hardRandom();
+        // parent.softRandom();
         this.board = null;
         this.board = new Board(parent.getBoardData());
-        this.boardErrorLevel = 0;
-    }
-
-    public void getBoardFromParentSoft() {
-        SolverGeneticParentMaker parent = new SolverGeneticParentMaker(this.boardData);
-        parent.softRandom();
-        this.board = null;
-        this.board = new Board(parent.getBoardData());
-        this.boardErrorLevel = 0;
+        this.calculateFitnessByMissingValues();
     }
 
     public int getBoardErrorLevel() {
@@ -35,7 +32,11 @@ public class SolverGeneticIndividual {
     }
 
     public void calculateFitness() {
-        // TODO >> ta ocena nie uwzględnia powtórzen wartości, można to ulepszyć
+        // TODO >>>>> wybrać metodę liczenia dopasowania
+        this.calculateFitnessByValuesCollisions();
+    }
+
+    public void calculateFitnessByMissingValues() {
         this.boardErrorLevel = 0;
 
         for (int i = 1; i <= board.getBoardSize(); i++) {
@@ -44,72 +45,78 @@ public class SolverGeneticIndividual {
 
             Set<Integer> colValues = new HashSet<>(board.getUsedValuesFromCol(i));
             this.boardErrorLevel += this.board.getMaxValue() - colValues.size();
-
-            // Logger.debug("Oceny: wiersza[{}}]={}, kolumny[{}]={}, sumaryczna={}",
-            // i, rowValues.size(), i, colValues.size(), this.fitness);
         }
 
         for (int row = 1; row < board.getBoardSize(); row += board.getSudokuSize()) {
             for (int col = 1; col < board.getBoardSize(); col += board.getSudokuSize()) {
                 Set<Integer> blockValues = new HashSet<>(board.getUsedValuesFromBlock(row, col));
                 this.boardErrorLevel += this.board.getMaxValue() - blockValues.size();
-                // Logger.debug("Oceny: block[{},{}]={}, sumaryczna={}",
-                // row, col, blockValues.size(), this.fitness);
             }
         }
     }
 
-    // Krzyżowanie z innym osobnikiem.
-    // public SolverGeneticIndividual crossover(SolverGeneticIndividual otherParent)
-    // {
-    // SolverGeneticIndividual child = new
-    // SolverGeneticIndividual(this.initialBoard); // Potomek startuje z kopią
-    // planszy początkowej
+    public void calculateFitnessByValuesCollisions() {
+        this.boardErrorLevel = 0;
 
-    // Random random = new Random();
-    // for (int row = 1; row <= board.getBoardSize(); row++) {
-    // for (int col = 1; col <= board.getBoardSize(); col++) {
-    // if (initialBoard.getValue(row, col) == 0) { // Krzyżujemy tylko puste pola
-    // // Losowo wybieramy wartość od jednego z rodziców
-    // child.board.setValue(row, col, random.nextBoolean() ?
-    // this.board.getValue(row, col) : otherParent.getBoard().getValue(row, col));
-    // } else {
-    // child.board.setValue(row, col, initialBoard.getValue(row, col)); //
-    // Przepisujemy wartości początkowe
-    // }
-    // }
-    // }
+        for (int row = 1; row <= board.getBoardSize(); row++) {
+            for (int col = 1; col <= board.getBoardSize(); col++) {
+                int value = board.getValue(row, col);
 
-    // return child;
-    // }
+                if (value == BoardBase.EMPTY_FIELD) {
+                    this.boardErrorLevel += FITNESS_PENALTY_EMPTY_FIELD;
+                }
 
-    // // Mutacja osobnika.
-    // public void mutate() {
-    // Random random = new Random();
-    // for (int row = 1; row <= board.getBoardSize(); row++) {
-    // for (int col = 1; col <= board.getBoardSize(); col++) {
-    // if (initialBoard.getValue(row, col) == 0 && random.nextDouble() < 0.1) { //
-    // 10% szansy na mutację
-    // int newValue = random.nextInt(board.getBoardSize()) + 1;
-    // board.setValue(row, col, newValue);
-    // }
-    // }
-    // }
-    // }
+                for (int checkInRow = 1; checkInRow <= board.getBoardSize(); checkInRow++) {
+                    if (checkInRow == row) {
+                        continue;
+                    } else if (value == board.getValue(checkInRow, col)) {
+                        this.boardErrorLevel += FITNESS_PENALTY_VALUE_COLLISION;
+                        if (board.isConstField(checkInRow, col)) {
+                            this.boardErrorLevel += FITNESS_PENALTY_CONST_COLLISION;
+                        }
+                    }
+                }
 
-    // @Override
-    // public String toString() {
-    // StringBuilder sb = new StringBuilder();
-    // sb.append("Fitness: ").append(fitness).append("\n");
-    // int[] boardArray = board.exportToArray();
-    // for (int i = 0; i < boardArray.length; i++) {
-    // sb.append(String.format("%3d", boardArray[i]));
-    // if ((i + 1) % board.getBoardSize() == 0) {
-    // sb.append("\n");
-    // }
-    // }
-    // return sb.toString();
-    // }
+                for (int checkInCol = 1; checkInCol <= board.getBoardSize(); checkInCol++) {
+                    if (checkInCol == col) {
+                        continue;
+                    } else if (value == board.getValue(row, checkInCol)) {
+                        this.boardErrorLevel += FITNESS_PENALTY_VALUE_COLLISION;
+                        if (board.isConstField(row, checkInCol)) {
+                            this.boardErrorLevel += FITNESS_PENALTY_CONST_COLLISION;
+                        }
+                    }
+                }
+
+                int blockRowStart = ((row - 1) / board.getSudokuSize()) * board.getSudokuSize() + 1;
+                int blockRowEnd = blockRowStart + board.getSudokuSize() - 1;
+                int blockColStart = ((col - 1) / board.getSudokuSize()) * board.getSudokuSize() + 1;
+                int blockColEnd = blockColStart + board.getSudokuSize() - 1;
+                for (int checkInRow = blockRowStart; checkInRow <= blockRowEnd; checkInRow++) {
+                    for (int checkInCol = blockColStart; checkInCol <= blockColEnd; checkInCol++) {
+                        if (checkInRow == row && checkInCol == col) {
+                            continue;
+                        } else if (value == board.getValue(checkInRow, checkInCol)) {
+                            this.boardErrorLevel += FITNESS_PENALTY_VALUE_COLLISION;
+                            if (board.isConstField(checkInRow, checkInCol)) {
+                                this.boardErrorLevel += FITNESS_PENALTY_CONST_COLLISION;
+                            }
+                        }
+                    }
+                }
+
+            }
+        }
+    }
+
+    public int[] getInitialBoardData() {
+        return this.initialBoardData;
+    }
+
+    public int[] getBoardData() {
+        return this.board.getBoardData();
+    }
+
     public void xxx_showBoard() {
         this.board.xxx_showBoard();
     }

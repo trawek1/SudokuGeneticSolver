@@ -4,7 +4,7 @@ public class BoardField extends BoardBase {
 
     private int value;
     private boolean isConst;
-    private BoardFieldPossibilities possibilities;
+    protected BoardFieldPossibilities possibilities;
 
     public BoardField(int _sudokuSize) {
         super(_sudokuSize);
@@ -23,7 +23,9 @@ public class BoardField extends BoardBase {
         }
         this.value = _constValue;
         this.isConst = true;
-        this.possibilities.setAllValuesAsImpossible();
+        if (this.arePossibilitiesCheckingOn()) {
+            this.possibilities.setAllValuesAsImpossible();
+        }
     }
 
     public boolean isConstField() {
@@ -44,12 +46,15 @@ public class BoardField extends BoardBase {
                     _value, this.getMaxValue());
             return false;
         }
-        // TODO !! wyłączyłem kontrolę możliwości
-        // if (this.possibilities.isValueImpossible(_value)) {
-        // return false;
-        // }
+        if (this.arePossibilitiesCheckingOn()) {
+            if (this.possibilities.isValueImpossible(_value)) {
+                return false;
+            }
+        }
         this.value = _value;
-        // this.possibilities.setAllValuesAsImpossible();
+        if (this.arePossibilitiesCheckingOn()) {
+            this.possibilities.setAllValuesAsImpossible();
+        }
         return true;
     }
 
@@ -59,8 +64,9 @@ public class BoardField extends BoardBase {
             return false;
         }
         this.value = EMPTY_FIELD;
-        // TODO !! wyłączyłem kontrolę możliwości
-        // this.possibilities.setAllValuesAsUnknown();
+        if (this.arePossibilitiesCheckingOn()) {
+            this.possibilities.setAllValuesAsUnknown();
+        }
         return true;
     }
 

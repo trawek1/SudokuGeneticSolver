@@ -3,7 +3,7 @@
 import java.util.Random;
 import java.util.Set;
 
-public class SolverGeneticParentMaker {
+public class SolverGeneticParentMaker extends SolverGeneticBase {
     private final int MAX_SAFE_GENERATION_ATTEMPTS = 25;
     private Board board;
     private final Random random = new Random();
@@ -47,7 +47,7 @@ public class SolverGeneticParentMaker {
     }
 
     public int[] getBoardData() {
-        return this.board.exportToArray();
+        return this.board.getBoardData();
     }
 
     public void xxx_showBoard() {

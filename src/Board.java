@@ -8,8 +8,8 @@ public class Board extends BoardBase {
 
     public Board(int _sudokuSize) {
         super(_sudokuSize);
-        this.board = new BoardField[this.getBoardSize()][this.getBoardSize()];
 
+        this.board = new BoardField[this.getBoardSize()][this.getBoardSize()];
         for (int row = 0; row < this.getBoardSize(); row++) {
             for (int col = 0; col < this.getBoardSize(); col++) {
                 this.board[row][col] = new BoardField(_sudokuSize);
@@ -17,13 +17,16 @@ public class Board extends BoardBase {
         }
     }
 
-    public Board(int[] _initialValues) {
-        super((int) Math.sqrt(Math.sqrt(_initialValues.length)));
+    public Board(int[] _initialBoardData) {
+        super((int) Math.sqrt(Math.sqrt(_initialBoardData.length)));
+        this.setBoardData(_initialBoardData);
+    }
 
+    public void setBoardData(int[] _initialBoardData) {
         int boardSize = this.getBoardSize();
-        if (_initialValues.length != boardSize * boardSize) {
+        if (_initialBoardData.length != boardSize * boardSize) {
             Logger.error("Tablica wartości planszy ma niepoprawny rozmiar! Otrzymano {} wartości pól.",
-                    _initialValues.length);
+                    _initialBoardData.length);
             throw new IllegalArgumentException("Tablica wartości planszy ma niepoprawny rozmiar!");
         }
 
@@ -31,12 +34,12 @@ public class Board extends BoardBase {
         int index = 0;
         for (int row = 0; row < boardSize; row++) {
             for (int col = 0; col < boardSize; col++) {
-                int initialValue = _initialValues[index++];
-                if (initialValue < 0) {
-                    this.board[row][col] = new BoardField(this.getSudokuSize(), Math.abs(initialValue));
-                } else if (initialValue > 0) {
+                int fieldData = _initialBoardData[index++];
+                if (fieldData < 0) {
+                    this.board[row][col] = new BoardField(this.getSudokuSize(), Math.abs(fieldData));
+                } else if (fieldData > 0) {
                     this.board[row][col] = new BoardField(this.getSudokuSize());
-                    this.board[row][col].setValue(initialValue);
+                    this.board[row][col].setValue(fieldData);
                 } else {
                     this.board[row][col] = new BoardField(this.getSudokuSize());
                 }
@@ -186,7 +189,7 @@ public class Board extends BoardBase {
         return result;
     }
 
-    public int[] exportToArray() {
+    public int[] getBoardData() {
         int[] result = new int[this.getBoardSize() * this.getBoardSize()];
         int index = 0;
         for (int row = 0; row < this.getBoardSize(); row++) {

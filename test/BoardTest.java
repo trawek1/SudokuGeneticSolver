@@ -251,7 +251,6 @@ public class BoardTest {
 
         // dodawanie wartości w polu zmiennym mającym już wartość
         board.setValue(1, 1, 4);
-        // TODO !! wyłączyłem kontrolę możliwości
         // assertEquals(3, board.getValue(1, 1)); // przy włączonej kontroli możliwości
         assertEquals(4, board.getValue(1, 1)); // przy wyłączonej kontroli możliwości
     }
