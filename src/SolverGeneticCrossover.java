@@ -11,35 +11,70 @@ import java.util.Random;
  * 3) pola o wartości 0 są polami pustymi.
  */
 
-public class SolverGeneticCrossover extends SolverGeneticBase {
-    public static enum CROSSOVER_METHODS {
-        CROSSOVER_UNIFORM, CROSSOVER_BALANCED_UNIFORM, CROSSOVER_SINGLE_POINT, CROSSOVER_TWO_POINTS
-    };
+public class SolverGeneticCrossover extends SolverBase {
+    private static final int MUTATION_PROBABILITY_MIN = 0;
+    private static final int MUTATION_PROBABILITY_MAX = 100;
+    private static final int MUTATION_PROBABILITY_DEFAULT = 10;
+    private static int mutationProbability;
 
-    public static final String CROSSOVER_UNIFORM = "Krzyżowanie losowe";
-    public static final String CROSSOVER_BALANCED_UNIFORM = "Krzyżowanie losowe balansowane";
-    public static final String CROSSOVER_SINGLE_POINT = "Krzyżowanie jedno-punktowe";
-    public static final String CROSSOVER_TWO_POINTS = "Krzyżowanie dwu-punktowe";
-    public static final String CROSSOVER_DEFAULT = CROSSOVER_SINGLE_POINT;
-    public static final int USE_RANDOM_POINT = -1;
-    public static final int USE_SYMMETRIC_POINT = -2;
-    private static final int RANDOM_BOOLEAN_BALANCE_MIN = 1;
-    private static final int RANDOM_BOOLEAN_BALANCE_MAX = 20;
+    private static final METHODS_OF_CROSSOVER CROSSOVER_METHOD_DEFAULT = METHODS_OF_CROSSOVER.CROSSOVER_SINGLE_POINT;
+    private static METHODS_OF_CROSSOVER crossoverMethod;
+
+    public final int USE_RANDOM_POINT = -1;
+    public final int USE_SYMMETRIC_POINT = -2;
+
+    private final int RANDOM_BOOLEAN_BALANCE_MIN = 1;
+    private final int RANDOM_BOOLEAN_BALANCE_MAX = 10;
+    private int randomBooleanBalance;
+
     private final int[] motherBoardData;
     private final int[] fatherBoardData;
     private final int boardLength;
-    private CROSSOVER_METHODS crossoverMethod;
-    private int randomBooleanBalance;
     private int[] childBoardData;
 
+    /**
+     * ==============================================================================
+     * =================================================================MET.STATYCZNE
+     * ==============================================================================
+     */
+
+    static {
+        crossoverMethod = CROSSOVER_METHOD_DEFAULT;
+        mutationProbability = MUTATION_PROBABILITY_DEFAULT;
+    }
+
+    public static int getMutationProbability() {
+        return mutationProbability;
+    }
+
+    public static void setMutationProbability(int _probability) {
+        if (_probability < MUTATION_PROBABILITY_MIN || _probability > MUTATION_PROBABILITY_MAX) {
+            Logger.warn("Wartość jest spoza zakresu! Oczekiwano {}-{}, otrzymano {}. Ustawiono wartość domyślną {}.",
+                    MUTATION_PROBABILITY_MIN, MUTATION_PROBABILITY_MAX, _probability, MUTATION_PROBABILITY_DEFAULT);
+            mutationProbability = MUTATION_PROBABILITY_DEFAULT;
+        } else {
+            mutationProbability = _probability;
+        }
+    }
+
+    public static void saveSolvingPreferencesToFile() {
+        saveSolvingDataToFile("Metoda krzyżowania: " + crossoverMethod);
+    }
+
+    /**
+     * ==============================================================================
+     * ================================================================MET.DYNAMICZNE
+     * ==============================================================================
+     */
+
     public SolverGeneticCrossover(int[] _parent1BoardData, int[] _parent2BoardData) {
+        super();
         this.motherBoardData = _parent1BoardData;
         this.fatherBoardData = _parent2BoardData;
         this.boardLength = this.motherBoardData.length;
         this.childBoardData = new int[this.boardLength];
         this.randomBooleanBalance = (RANDOM_BOOLEAN_BALANCE_MIN
                 + RANDOM_BOOLEAN_BALANCE_MAX) / 2;
-        crossoverMethod = CROSSOVER_METHODS.CROSSOVER_SINGLE_POINT;
     }
 
     private int getRandomPoint() {
@@ -67,17 +102,13 @@ public class SolverGeneticCrossover extends SolverGeneticBase {
         return _crossoverPoint <= 0 || _crossoverPoint >= this.boardLength - 1;
     }
 
-    public String getCrossoverMethodName() {
-        return this.crossoverMethod.name();
-    }
-
-    public void setCrossoverMethod(CROSSOVER_METHODS _crossoverMethod) {
-        this.crossoverMethod = _crossoverMethod;
+    public void setCrossoverMethod(METHODS_OF_CROSSOVER _crossoverMethod) {
+        crossoverMethod = _crossoverMethod;
     }
 
     public int[] getCrossover() {
         int[] boardData;
-        switch (this.crossoverMethod) {
+        switch (crossoverMethod) {
             case CROSSOVER_UNIFORM:
                 boardData = this.crossoverUniform();
                 break;
@@ -89,9 +120,11 @@ public class SolverGeneticCrossover extends SolverGeneticBase {
                 break;
             case CROSSOVER_TWO_POINTS:
                 boardData = this.crossoverTwoPoint(USE_RANDOM_POINT, USE_RANDOM_POINT);
+                break;
             default:
-                Logger.warn("Nieznana metoda krzyżowania: {}. Używam domyślnej metody {}.",
-                        this.crossoverMethod.name(), CROSSOVER_DEFAULT);
+                Logger.warn(
+                        "Nieznana metoda krzyżowania: {}! Używam metody dwupunktowej z losowymi wartościami puntów.",
+                        crossoverMethod.name());
                 boardData = this.crossoverTwoPoint(USE_RANDOM_POINT, USE_RANDOM_POINT);
         }
         boardData = this.makeMutations(boardData);
@@ -196,7 +229,7 @@ public class SolverGeneticCrossover extends SolverGeneticBase {
 
     private int[] makeMutations(int[] _boardData) {
         Random random = new Random();
-        int mutatedFiledsCount = (int) this.getMutationProbability() * this.boardLength / 100;
+        int mutatedFiledsCount = (int) getMutationProbability() * this.boardLength / 100;
 
         for (int i = 0; i < mutatedFiledsCount; i++) {
             int index = random.nextInt(this.boardLength);
@@ -208,7 +241,8 @@ public class SolverGeneticCrossover extends SolverGeneticBase {
         }
 
         SolverGeneticParentMaker board = new SolverGeneticParentMaker(_boardData);
-        board.softRandom();
+        board.generatorRandomWithChecking();
         return board.getBoardData();
     }
+
 }

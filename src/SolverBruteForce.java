@@ -67,32 +67,32 @@ public class SolverBruteForce extends SolverBase {
         this.board.xxx_showBoard();
         Logger.info("Rozpoczeto rozwiązywanie...");
 
-        this.startTimeMeasurement();
+        startTimeMeasurement();
         boolean isSolved = this.solve();
-        this.stopTimeMeasurement();
+        stopTimeMeasurement();
 
         if (isSolved) {
             Logger.info("Znaleziono rozwiązanie!");
         } else {
             Logger.info("Nie znaleziono rozwiązania!");
         }
-        Logger.info("Czas rozwiązywania: {}", this.showSolvingTime());
+        Logger.info("Czas rozwiązywania: {}", showSolvingTime());
         this.board.xxx_showBoard();
     }
 
     public void startSolvingManyTimes() {
-        this.setSolvingIterationsCount(3);
-        this.resetTimeMeasurement();
+        setSolvingIterationsCount(3);
+        resetTimeMeasurement();
         Logger.info("Rozpoczeto rozwiązywanie wielokrotne...");
-        for (int i = 0; i < this.getSolvingIterationsCount(); i++) {
-            this.resetBoard();
-            this.startTimeMeasurement();
+        for (int i = 0; i < getSolvingIterationsCount(); i++) {
+            resetBoard();
+            startTimeMeasurement();
             boolean isSolved = this.solve();
-            this.stopTimeMeasurement();
+            stopTimeMeasurement();
             Logger.info("Rozwiązywanie nr {}, wynik {}, czas {}", i + 1, isSolved ? "udane" : "błędne",
-                    this.showSolvingTime());
+                    showSolvingTime());
         }
-        Logger.info("Średni czas rozwiązywania: {}", this.showSolvingAverageTime());
+        Logger.info("Średni czas rozwiązywania: {}", showSolvingAverageTime());
         Logger.info("Zakończono rozwiązywanie wielokrotne...");
     }
 }

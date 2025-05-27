@@ -3,15 +3,18 @@ import org.tinylog.Logger;
 
 public class App {
         public static void main(String[] args) {
-                System.out.println("==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ====");
                 System.out.println("==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== === START");
                 Logger.debug("==== ==== ==== ==== START");
 
                 // ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- Solver Genetic Population
-                SolverGeneticPopulation population = new SolverGeneticPopulation(BoardBase.BOARD_TEST_DATA_4x4);
-                System.out.println("Populacja=" + population.getPopulationSize()
-                                + ", % rodziców=" + population.getBestParentsPercent()
-                                + ", pozycja ostatniego=" + population.getCountOfParents());
+                SolverGeneticIndividual.saveSolvingPreferencesToFile();
+                SolverGeneticCrossover.saveSolvingPreferencesToFile();
+                SolverGeneticPopulation.saveSolvingPreferencesToFile();
+
+                SolverGeneticPopulation population = new SolverGeneticPopulation(BoardBase.BOARD_TEST_DATA_3x3);
+                System.out.println("Populacja=" + SolverGeneticPopulation.getPopulationSize()
+                                + ", % rodziców=" + SolverGeneticPopulation.getBestParentsPercent()
+                                + ", pozycja ostatniego=" + SolverGeneticPopulation.getNumberOfParents());
                 System.out.println("Generacja= " + population.getGenerationsCount()
                                 + " :: Dopasowanie: max=" + population.getStatsBestFitness()
                                 + ", ost.rodzica=" + population.getStatsFitnessOfLastParent()
@@ -20,7 +23,7 @@ public class App {
 
                 int firstMax = population.getStatsBestFitness();
                 int intimeMax = firstMax;
-                for (int i = 0; i < 5000; i++) {
+                for (int i = 0; i < 10; i++) {
                         population.createNextAndSwapPopulation();
                         if (population.getGenerationsCount() % 100 == 0) {
                                 System.out.println("Generacja= " + population.getGenerationsCount()
@@ -81,6 +84,5 @@ public class App {
 
                 Logger.debug("==== ==== ==== ==== STOP");
                 System.out.println("==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== STOP");
-                System.out.println("==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ====");
         }
 }

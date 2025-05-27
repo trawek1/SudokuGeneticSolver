@@ -1,9 +1,7 @@
-// import org.tinylog.Logger;
-
 import java.util.Random;
 import java.util.Set;
 
-public class SolverGeneticParentMaker extends SolverGeneticBase {
+public class SolverGeneticParentMaker extends SolverBase {
     private final int MAX_SAFE_GENERATION_ATTEMPTS = 25;
     private Board board;
     private final Random random = new Random();
@@ -12,7 +10,7 @@ public class SolverGeneticParentMaker extends SolverGeneticBase {
         this.board = new Board(_boardData);
     }
 
-    public void hardRandom() {
+    public void generatorRandomFull() {
         for (int row = 1; row <= this.board.getBoardSize(); row++) {
             for (int col = 1; col <= this.board.getBoardSize(); col++) {
                 if (board.isEmptyField(row, col)) {
@@ -22,7 +20,7 @@ public class SolverGeneticParentMaker extends SolverGeneticBase {
         }
     }
 
-    public void softRandom() {
+    public void generatorRandomWithChecking() {
         for (int row = 1; row <= this.board.getBoardSize(); row++) {
             for (int col = 1; col <= this.board.getBoardSize(); col++) {
                 if (board.isEmptyField(row, col)) {

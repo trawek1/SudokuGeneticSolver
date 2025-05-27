@@ -1,15 +1,44 @@
-// import org.tinylog.Logger;
+import org.tinylog.Logger;
 
 import java.util.HashSet;
 import java.util.Set;
 
-public class SolverGeneticIndividual {
+public class SolverGeneticIndividual extends SolverBase {
     private static final int FITNESS_PENALTY_EMPTY_FIELD = 1;
     private static final int FITNESS_PENALTY_VALUE_COLLISION = 2;
     private static final int FITNESS_PENALTY_CONST_COLLISION = 5;
+
+    private static final METHODS_OF_PARENT_GENERATING PARENT_GENERATING_METHOD_DEFAULT = METHODS_OF_PARENT_GENERATING.RANDOM_WITH_CHECKING;
+    private static METHODS_OF_PARENT_GENERATING parentGeneratingMethod;
+
+    private static final METHODS_OF_FITNESS_CALCULATING FITNESS_CALCULATING_METHOD_DEFAULT = METHODS_OF_FITNESS_CALCULATING.VALUES_COLLISIONS;
+    private static METHODS_OF_FITNESS_CALCULATING fitnessCalculatingMethod;
+
     private Board board;
     private int[] initialBoardData;
     private int boardErrorLevel;
+
+    /**
+     * ==============================================================================
+     * =================================================================MET.STATYCZNE
+     * ==============================================================================
+     */
+
+    static {
+        parentGeneratingMethod = PARENT_GENERATING_METHOD_DEFAULT;
+        fitnessCalculatingMethod = FITNESS_CALCULATING_METHOD_DEFAULT;
+    }
+
+    public static void saveSolvingPreferencesToFile() {
+        saveSolvingDataToFile("Metoda generowania rodziców: " + parentGeneratingMethod);
+        saveSolvingDataToFile("Metoda obliczania dopasowania: " + fitnessCalculatingMethod);
+    }
+
+    /**
+     * ==============================================================================
+     * ================================================================MET.DYNAMICZNE
+     * ==============================================================================
+     */
 
     public SolverGeneticIndividual(int[] _boardData) {
         this.board = new Board(_boardData);
@@ -19,12 +48,20 @@ public class SolverGeneticIndividual {
 
     public void getBoardFromParent() {
         SolverGeneticParentMaker parent = new SolverGeneticParentMaker(this.initialBoardData);
-        // TODO >>>>> wybór soft lub hard oprzeć o jakiś mechanizm
-        parent.hardRandom();
-        // parent.softRandom();
+        switch (parentGeneratingMethod) {
+            case METHODS_OF_PARENT_GENERATING.RANDOM_FULL:
+                parent.generatorRandomFull();
+                break;
+            case METHODS_OF_PARENT_GENERATING.RANDOM_WITH_CHECKING:
+                parent.generatorRandomWithChecking();
+                break;
+            default:
+                Logger.error("Nieznana metoda generowania rodziców: {}", parentGeneratingMethod);
+                parent.generatorRandomWithChecking();
+        }
         this.board = null;
         this.board = new Board(parent.getBoardData());
-        this.calculateFitnessByMissingValues();
+        this.calculateFitness();
     }
 
     public int getBoardErrorLevel() {
@@ -32,8 +69,17 @@ public class SolverGeneticIndividual {
     }
 
     public void calculateFitness() {
-        // TODO >>>>> wybrać metodę liczenia dopasowania
-        this.calculateFitnessByValuesCollisions();
+        switch (fitnessCalculatingMethod) {
+            case VALUES_MISSING:
+                this.calculateFitnessByMissingValues();
+                break;
+            case VALUES_COLLISIONS:
+                this.calculateFitnessByValuesCollisions();
+                break;
+            default:
+                Logger.error("Nieznana metoda liczenia dopasowania: {}", fitnessCalculatingMethod);
+                this.calculateFitnessByValuesCollisions();
+        }
     }
 
     public void calculateFitnessByMissingValues() {

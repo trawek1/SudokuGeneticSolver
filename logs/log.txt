@@ -1,2 +1,0 @@
-2025-05-26 01:54:49.134 ERROR Board.removeValue :: Nie można usunąć wartości z pola stałego!
-2025-05-26 01:54:49.138 WARN  BoardField.setValue :: Próbowano zmienić wartość pola stałego!

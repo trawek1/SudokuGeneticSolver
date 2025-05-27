@@ -1,48 +1,61 @@
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 import org.tinylog.Logger;
 
 public class SolverBase {
+    private static final String SOLVING_DATA_FILE_NAME = "logs/solving_info";
+    private static final String SOLVING_DATA_FILE_EXT = ".csv";
     private static final int MAX_SOLVING_ITERATIONS_COUNT = 100;
-    protected static final int DEFAULT_SOLVING_ITERATIONS_COUNT = 10;
-    private int solvingInterationsCount = 0;
-    private long solvingTimeSum = 0;
-    private int solvingCounter = 0;
-    private long solvingTime = 0;
-    private long timeStart = 0;
-    private long timeStop = 0;
+    protected static final int DEFAULT_SOLVING_ITERATIONS_COUNT = 1;
+    private static String solvingDataFilename = "";
+    private static int solvingInterationsCount = 0;
+    private static long solvingTimeSum = 0;
+    private static int solvingCounter = 0;
+    private static long solvingTime = 0;
+    private static long timeStart = 0;
+    private static long timeStop = 0;
+
+    static {
+        solvingInterationsCount = DEFAULT_SOLVING_ITERATIONS_COUNT;
+        setSolvingDataFilenameToActual();
+    }
 
     public SolverBase() {
-        this.solvingInterationsCount = DEFAULT_SOLVING_ITERATIONS_COUNT;
-        this.resetTimeMeasurement();
+        resetTimeMeasurement();
     }
 
-    protected void startTimeMeasurement() {
-        this.solvingCounter += 1;
-        this.timeStart = System.nanoTime();
+    protected static void startTimeMeasurement() {
+        solvingCounter += 1;
+        timeStart = System.nanoTime();
     }
 
-    protected void stopTimeMeasurement() {
-        this.timeStop = System.nanoTime();
-        this.solvingTime = this.timeStop - this.timeStart;
-        this.solvingTimeSum += this.solvingTime;
+    protected static void stopTimeMeasurement() {
+        timeStop = System.nanoTime();
+        solvingTime = timeStop - timeStart;
+        solvingTimeSum += solvingTime;
     }
 
-    protected void resetTimeMeasurement() {
-        this.solvingTimeSum = 0;
-        this.solvingCounter = 0;
-        this.solvingTime = 0;
-        this.timeStart = 0;
-        this.timeStop = 0;
+    protected static void resetTimeMeasurement() {
+        solvingTimeSum = 0;
+        solvingCounter = 0;
+        solvingTime = 0;
+        timeStart = 0;
+        timeStop = 0;
     }
 
-    protected String showSolvingTimeAsNanoseconds() {
-        return String.format("%d", this.solvingTime);
+    protected static String showSolvingTimeAsNanoseconds() {
+        return String.format("%d", solvingTime);
     }
 
-    protected String showSolvingAverageTimeAsNanoseconds() {
-        return String.format("%d", this.solvingTimeSum / this.solvingCounter);
+    protected static String showSolvingAverageTimeAsNanoseconds() {
+        return String.format("%d", solvingTimeSum / solvingCounter);
     }
 
-    private String calculateSolvingTime(long _time, int _counter) {
+    private static String calculateSolvingTime(long _time, int _counter) {
         long nanoseconds = _time / _counter;
         long minutes = nanoseconds / 60_000_000_000L;
         nanoseconds %= 60_000_000_000L;
@@ -53,25 +66,39 @@ public class SolverBase {
         return String.format("%02dm %02ds %03dms %06dns", minutes, seconds, miliseconds, nanoseconds);
     }
 
-    protected String showSolvingTime() {
-        return this.calculateSolvingTime(this.solvingTime, 1);
+    protected static String showSolvingTime() {
+        return calculateSolvingTime(solvingTime, 1);
     }
 
-    protected String showSolvingAverageTime() {
-        return this.calculateSolvingTime(this.solvingTimeSum, this.solvingCounter);
+    protected static String showSolvingAverageTime() {
+        return calculateSolvingTime(solvingTimeSum, solvingCounter);
     }
 
-    public int getSolvingIterationsCount() {
-        return this.solvingInterationsCount;
+    public static int getSolvingIterationsCount() {
+        return solvingInterationsCount;
     }
 
-    public void setSolvingIterationsCount(int _count) {
+    public static void setSolvingIterationsCount(int _count) {
         if (_count < 1 && _count > MAX_SOLVING_ITERATIONS_COUNT) {
             Logger.warn("Wartość jest spoza zakresu! Oczekiwano 1-{}, otrzymano {}.",
                     MAX_SOLVING_ITERATIONS_COUNT, _count);
-            this.solvingInterationsCount = DEFAULT_SOLVING_ITERATIONS_COUNT;
+            solvingInterationsCount = DEFAULT_SOLVING_ITERATIONS_COUNT;
         }
-        this.solvingInterationsCount = _count;
+        solvingInterationsCount = _count;
     }
 
+    public static void setSolvingDataFilenameToActual() {
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("_yyMMdd_HHmmss");
+        solvingDataFilename = SOLVING_DATA_FILE_NAME + now.format(formatter) + SOLVING_DATA_FILE_EXT;
+    }
+
+    public static void saveSolvingDataToFile(String _dataToWrite) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(solvingDataFilename, true))) {
+            writer.write(_dataToWrite);
+            writer.newLine();
+        } catch (IOException e) {
+            Logger.warn("Błąd podczas zapisu do pliku '{}'! Error: {}", solvingDataFilename, e.getMessage());
+        }
+    }
 }
