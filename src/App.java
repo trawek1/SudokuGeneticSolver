@@ -11,7 +11,7 @@ public class App {
                 SolverGeneticCrossover.saveSolvingPreferencesToFile();
                 SolverGeneticPopulation.saveSolvingPreferencesToFile();
 
-                SolverGeneticPopulation population = new SolverGeneticPopulation(BoardBase.BOARD_TEST_DATA_3x3);
+                SolverGeneticPopulation population = new SolverGeneticPopulation(BoardBase.BOARD_TEST_DATA_5x5);
                 System.out.println("Populacja=" + SolverGeneticPopulation.getPopulationSize()
                                 + ", % rodziców=" + SolverGeneticPopulation.getBestParentsPercent()
                                 + ", pozycja ostatniego=" + SolverGeneticPopulation.getNumberOfParents());
@@ -23,9 +23,9 @@ public class App {
 
                 int firstMax = population.getStatsBestFitness();
                 int intimeMax = firstMax;
-                for (int i = 0; i < 10; i++) {
+                for (int i = 0; i < 1000000; i++) {
                         population.createNextAndSwapPopulation();
-                        if (population.getGenerationsCount() % 100 == 0) {
+                        if (population.getGenerationsCount() % 1000 == 0) {
                                 System.out.println("Generacja= " + population.getGenerationsCount()
                                                 + " :: Dopasowanie: max=" + population.getStatsBestFitness()
                                                 + ", ost.rodzica=" + population.getStatsFitnessOfLastParent()

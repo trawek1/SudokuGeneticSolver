@@ -70,7 +70,7 @@ public class SolverGeneticIndividual extends SolverBase {
 
     public void calculateFitness() {
         switch (fitnessCalculatingMethod) {
-            case VALUES_MISSING:
+            case MISSING_VALUES:
                 this.calculateFitnessByMissingValues();
                 break;
             case VALUES_COLLISIONS:

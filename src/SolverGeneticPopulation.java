@@ -5,12 +5,12 @@ import org.tinylog.Logger;
 public class SolverGeneticPopulation extends SolverBase {
     private static final int POPULATION_SIZE_MIN = 10;
     private static final int POPULATION_SIZE_MAX = 500;
-    private static final int POPULATION_SIZE_DEFAULT = 10;
+    private static final int POPULATION_SIZE_DEFAULT = 100;
     private static int populationSize;
 
     private static final int BEST_PARENTS_PERCENT_MIN = 1;
     private static final int BEST_PARENTS_PERCENT_MAX = 50;
-    private static final int BEST_PARENTS_PERCENT_DEFAULT = 5;
+    private static final int BEST_PARENTS_PERCENT_DEFAULT = 10;
     private static int bestParentsPercent;
 
     private static final METHODS_OF_PARENT_SELECTION PARENT_SELECTION_METHOD_DEFAULT = METHODS_OF_PARENT_SELECTION.ROULETTE_SELECTION;
@@ -82,9 +82,8 @@ public class SolverGeneticPopulation extends SolverBase {
     public SolverGeneticPopulation(int[] _initialBoard) {
         this.initialBoard = _initialBoard;
         this.population = new ArrayList<>(getPopulationSize());
-        this.initializePopulation();
-        this.sortPopulationByFitness();
         this.generationsCount = 1;
+        this.initializePopulation();
     }
 
     private void initializePopulation() {
@@ -92,8 +91,17 @@ public class SolverGeneticPopulation extends SolverBase {
             SolverGeneticIndividual individual = new SolverGeneticIndividual(this.initialBoard);
             individual.getBoardFromParent();
             this.population.add(individual);
-            saveSolvingDataToFile("INI-GEN,potomek nr," + (i + 1) + ",potomek lvl," + individual.getBoardErrorLevel());
+            // saveSolvingDataToFile("INI-GEN, POTOMEK nr=," + (i + 1)
+            // + ", lvl=," + individual.getBoardErrorLevel());
         }
+        this.sortPopulationByFitness();
+
+        String fitnessAll = ",";
+        for (SolverGeneticIndividual individual : this.population) {
+            fitnessAll += individual.getBoardErrorLevel() + ",";
+        }
+        saveSolvingDataToFile(String.format("GEN %9d FITNESS: ", this.generationsCount) + fitnessAll);
+
     }
 
     private void sortPopulationByFitness() {
@@ -192,15 +200,21 @@ public class SolverGeneticPopulation extends SolverBase {
             child.calculateFitness();
             population.add(child);
 
-            saveSolvingDataToFile("GEN,pokolenie nr," + this.generationsCount
-                    + ",potomek nr," + (i + 1)
-                    + ",potomek lvl," + child.getBoardErrorLevel()
-                    + ",rodzic 1 pos," + parent1Position
-                    + ",rodzic 1 lvl," + parent1.getBoardErrorLevel()
-                    + ",rodzic 2 pos," + parent1Position
-                    + ",rodzic 2 lvl," + parent2.getBoardErrorLevel());
+            // saveSolvingDataToFile("GEN, POKOLENIE nr=," + this.generationsCount
+            // + ", POTOMEK: nr=," + (i + 1)
+            // + ", lvl=," + child.getBoardErrorLevel()
+            // + ", RODZIC-1: pos=," + parent1Position
+            // + ", lvl=," + parent1.getBoardErrorLevel()
+            // + ", RODZIC-2 pos=," + parent2Position
+            // + ", lvl=," + parent2.getBoardErrorLevel());
         }
         this.sortPopulationByFitness();
+
+        String fitnessAll = ",";
+        for (SolverGeneticIndividual individual : this.population) {
+            fitnessAll += individual.getBoardErrorLevel() + ",";
+        }
+        saveSolvingDataToFile(String.format("GEN %9d FITNESS: ", this.generationsCount) + fitnessAll);
 
         this.generationsCount++;
     }

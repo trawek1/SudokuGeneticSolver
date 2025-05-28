@@ -1,5 +1,5 @@
 public enum METHODS_OF_FITNESS_CALCULATING {
-    VALUES_MISSING("Ilość brakujące wartości w wierszu, kolumnie i bloku"),
+    MISSING_VALUES("Ilość brakujące wartości w wierszu, kolumnie i bloku"),
     VALUES_COLLISIONS("Ilość kolizji wartości w wierszu, kolumnie i bloku");
 
     private final String displayName;
