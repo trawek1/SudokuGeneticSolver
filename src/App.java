@@ -7,38 +7,39 @@ public class App {
                 Logger.debug("==== ==== ==== ==== START");
 
                 // ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- Solver Genetic Population
-                SolverGeneticIndividual.saveSolvingPreferencesToFile();
-                SolverGeneticCrossover.saveSolvingPreferencesToFile();
-                SolverGeneticPopulation.saveSolvingPreferencesToFile();
+                // SolverGeneticIndividual.saveSolvingPreferencesToFile();
+                // SolverGeneticCrossover.saveSolvingPreferencesToFile();
+                // SolverGeneticPopulation.saveSolvingPreferencesToFile();
 
-                SolverGeneticPopulation population = new SolverGeneticPopulation(BoardBase.BOARD_TEST_DATA_5x5);
-                System.out.println("Populacja=" + SolverGeneticPopulation.getPopulationSize()
-                                + ", % rodziców=" + SolverGeneticPopulation.getBestParentsPercent()
-                                + ", pozycja ostatniego=" + SolverGeneticPopulation.getNumberOfParents());
-                System.out.println("Generacja= " + population.getGenerationsCount()
-                                + " :: Dopasowanie: max=" + population.getStatsBestFitness()
-                                + ", ost.rodzica=" + population.getStatsFitnessOfLastParent()
-                                + ", med=" + population.getStatsAverageFitness()
-                                + ", min=" + population.getStatsWorstFitness());
+                // SolverGeneticPopulation population = new
+                // SolverGeneticPopulation(BoardBase.BOARD_TEST_DATA_5x5);
+                // System.out.println("Populacja=" + SolverGeneticPopulation.getPopulationSize()
+                // + ", % rodziców=" + SolverGeneticPopulation.getBestParentsPercent()
+                // + ", pozycja ostatniego=" + SolverGeneticPopulation.getNumberOfParents());
+                // System.out.println("Generacja= " + population.getGenerationsCount()
+                // + " :: Dopasowanie: max=" + population.getStatsBestFitness()
+                // + ", ost.rodzica=" + population.getStatsFitnessOfLastParent()
+                // + ", med=" + population.getStatsAverageFitness()
+                // + ", min=" + population.getStatsWorstFitness());
 
-                int firstMax = population.getStatsBestFitness();
-                int intimeMax = firstMax;
-                for (int i = 0; i < 1000000; i++) {
-                        population.createNextAndSwapPopulation();
-                        if (population.getGenerationsCount() % 1000 == 0) {
-                                System.out.println("Generacja= " + population.getGenerationsCount()
-                                                + " :: Dopasowanie: max=" + population.getStatsBestFitness()
-                                                + ", ost.rodzica=" + population.getStatsFitnessOfLastParent()
-                                                + ", med=" + population.getStatsAverageFitness()
-                                                + ", min=" + population.getStatsWorstFitness());
-                                if (population.getStatsBestFitness() < intimeMax) {
-                                        intimeMax = population.getStatsBestFitness();
-                                }
-                        }
-                }
-                System.out.println("RESULT MAX: first=" + firstMax
-                                + ", intime=" + intimeMax
-                                + ", last=" + population.getStatsBestFitness());
+                // int firstMax = population.getStatsBestFitness();
+                // int intimeMax = firstMax;
+                // for (int i = 0; i < 1000000; i++) {
+                // population.createNextAndSwapPopulation();
+                // if (population.getGenerationsCount() % 1000 == 0) {
+                // System.out.println("Generacja= " + population.getGenerationsCount()
+                // + " :: Dopasowanie: max=" + population.getStatsBestFitness()
+                // + ", ost.rodzica=" + population.getStatsFitnessOfLastParent()
+                // + ", med=" + population.getStatsAverageFitness()
+                // + ", min=" + population.getStatsWorstFitness());
+                // if (population.getStatsBestFitness() < intimeMax) {
+                // intimeMax = population.getStatsBestFitness();
+                // }
+                // }
+                // }
+                // System.out.println("RESULT MAX: first=" + firstMax
+                // + ", intime=" + intimeMax
+                // + ", last=" + population.getStatsBestFitness());
 
                 // ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- Solver Genetic Individual
                 // SolverGeneticIndividual mother = new

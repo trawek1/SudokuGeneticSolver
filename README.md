@@ -22,9 +22,14 @@ Aplikacja do rozwiązywania sudoku metodą algorytmów genetycznych. Projekt zal
 **Sudoku** :
 Sudoku 4x4 różnych poziomów - [generator](https://puzzlemadness.co.uk/16by16giantsudoku/easy)
 
+**Lanterna**
+Simple Uber [GitHub](https://github.com/diogox/simple-uber), 
+Raycaster [GitHub](https://github.com/ArkoSammy12/TUI-Raycaster)
+
 **Różne** :
 składnia [Markdown](https://www.markdownguide.org/cheat-sheet/), 
-arkusz kodów [emotek](https://www.webfx.com/tools/emoji-cheat-sheet/)
+arkusz kodów [emotek](https://www.webfx.com/tools/emoji-cheat-sheet/), 
+znaki [Unicode](https://en.wikipedia.org/wiki/Box-drawing_characters#Unicode)
 
 ## Różności
 `Ctrl+Shift+V` : zmiana widoku text/markdown \
