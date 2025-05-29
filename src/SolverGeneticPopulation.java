@@ -3,18 +3,20 @@ import java.util.*;
 import org.tinylog.Logger;
 
 public class SolverGeneticPopulation extends SolverBase {
-    private static final int POPULATION_SIZE_MIN = 10;
+    private static final int POPULATION_SIZE_MIN = 50;
     private static final int POPULATION_SIZE_MAX = 500;
+    private static final int POPULATION_SIZE_STEP = 50;
     private static final int POPULATION_SIZE_DEFAULT = 100;
     private static int populationSize;
 
-    private static final int BEST_PARENTS_PERCENT_MIN = 1;
+    private static final int BEST_PARENTS_PERCENT_MIN = 2;
     private static final int BEST_PARENTS_PERCENT_MAX = 50;
+    private static final int BEST_PARENTS_PERCENT_STEP = 2;
     private static final int BEST_PARENTS_PERCENT_DEFAULT = 10;
     private static int bestParentsPercent;
 
-    private static final METHODS_OF_PARENT_SELECTION PARENT_SELECTION_METHOD_DEFAULT = METHODS_OF_PARENT_SELECTION.ROULETTE_SELECTION;
-    private static METHODS_OF_PARENT_SELECTION parentSelectionMethod;
+    private static final MethodsOfParentSelection PARENT_SELECTION_METHOD_DEFAULT = MethodsOfParentSelection.ROULETTE_SELECTION;
+    private static MethodsOfParentSelection parentSelectionMethod;
 
     private List<SolverGeneticIndividual> population;
     private int[] initialBoard;
@@ -36,6 +38,13 @@ public class SolverGeneticPopulation extends SolverBase {
         return populationSize;
     }
 
+    public static void changePopulationSizeByStep() {
+        populationSize += POPULATION_SIZE_STEP;
+        if (populationSize > POPULATION_SIZE_MAX) {
+            populationSize = POPULATION_SIZE_MIN;
+        }
+    }
+
     public static void setPopulationSize(int _size) {
         if (_size < POPULATION_SIZE_MIN && _size > POPULATION_SIZE_MAX) {
             Logger.warn("Wartość jest spoza zakresu! Oczekiwano {}-{}, otrzymano {}. Ustawiono wartość domyślną {}.",
@@ -47,6 +56,13 @@ public class SolverGeneticPopulation extends SolverBase {
 
     public static int getBestParentsPercent() {
         return bestParentsPercent;
+    }
+
+    public static void changeBestParentsPercentByStep() {
+        bestParentsPercent += BEST_PARENTS_PERCENT_STEP;
+        if (bestParentsPercent > BEST_PARENTS_PERCENT_MAX) {
+            bestParentsPercent = BEST_PARENTS_PERCENT_MIN;
+        }
     }
 
     public static void setBestParentsPercent(int _percent) {
@@ -62,6 +78,14 @@ public class SolverGeneticPopulation extends SolverBase {
         int parentsAmount = (int) Math.ceil(
                 populationSize * (getBestParentsPercent() / 100.0));
         return (parentsAmount > 0 ? parentsAmount : 1);
+    }
+
+    public static String getParentSelectionMethodName() {
+        return parentSelectionMethod.getDisplayName();
+    }
+
+    public static void changeParentSelectionMethod() {
+        parentSelectionMethod = parentSelectionMethod.next();
     }
 
     public static void saveSolvingPreferencesToFile() {

@@ -8,11 +8,8 @@ public class SolverGeneticIndividual extends SolverBase {
     private static final int FITNESS_PENALTY_VALUE_COLLISION = 2;
     private static final int FITNESS_PENALTY_CONST_COLLISION = 5;
 
-    private static final METHODS_OF_PARENT_GENERATING PARENT_GENERATING_METHOD_DEFAULT = METHODS_OF_PARENT_GENERATING.RANDOM_WITH_CHECKING;
-    private static METHODS_OF_PARENT_GENERATING parentGeneratingMethod;
-
-    private static final METHODS_OF_FITNESS_CALCULATING FITNESS_CALCULATING_METHOD_DEFAULT = METHODS_OF_FITNESS_CALCULATING.VALUES_COLLISIONS;
-    private static METHODS_OF_FITNESS_CALCULATING fitnessCalculatingMethod;
+    private static final MethodsOfFitnessCalculating FITNESS_CALCULATING_METHOD_DEFAULT = MethodsOfFitnessCalculating.VALUES_COLLISIONS;
+    private static MethodsOfFitnessCalculating fitnessCalculatingMethod;
 
     private Board board;
     private int[] initialBoardData;
@@ -25,12 +22,18 @@ public class SolverGeneticIndividual extends SolverBase {
      */
 
     static {
-        parentGeneratingMethod = PARENT_GENERATING_METHOD_DEFAULT;
         fitnessCalculatingMethod = FITNESS_CALCULATING_METHOD_DEFAULT;
     }
 
+    public static String getFitnessCalculatingMethodName() {
+        return fitnessCalculatingMethod.getDisplayName();
+    }
+
+    public static MethodsOfFitnessCalculating changeFitnessCalculatingMethod() {
+        return fitnessCalculatingMethod = fitnessCalculatingMethod.next();
+    }
+
     public static void saveSolvingPreferencesToFile() {
-        saveSolvingDataToFile("Metoda generowania rodziców: " + parentGeneratingMethod);
         saveSolvingDataToFile("Metoda obliczania dopasowania: " + fitnessCalculatingMethod);
     }
 
@@ -48,18 +51,6 @@ public class SolverGeneticIndividual extends SolverBase {
 
     public void getBoardFromParent() {
         SolverGeneticParentMaker parent = new SolverGeneticParentMaker(this.initialBoardData);
-        switch (parentGeneratingMethod) {
-            case METHODS_OF_PARENT_GENERATING.RANDOM_FULL:
-                parent.generatorRandomFull();
-                break;
-            case METHODS_OF_PARENT_GENERATING.RANDOM_WITH_CHECKING:
-                parent.generatorRandomWithChecking();
-                break;
-            default:
-                Logger.error("Nieznana metoda generowania rodziców: {}", parentGeneratingMethod);
-                parent.generatorRandomWithChecking();
-        }
-        this.board = null;
         this.board = new Board(parent.getBoardData());
         this.calculateFitness();
     }

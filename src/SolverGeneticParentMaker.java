@@ -1,13 +1,58 @@
+import org.tinylog.Logger;
+
 import java.util.Random;
 import java.util.Set;
 
 public class SolverGeneticParentMaker extends SolverBase {
+    private static final MethodsOfParentGenerating PARENT_GENERATING_METHOD_DEFAULT = MethodsOfParentGenerating.RANDOM_WITH_CHECKING;
+    private static MethodsOfParentGenerating parentGeneratingMethod;
+
     private final int MAX_SAFE_GENERATION_ATTEMPTS = 25;
     private Board board;
     private final Random random = new Random();
 
+    /**
+     * ==============================================================================
+     * =================================================================MET.STATYCZNE
+     * ==============================================================================
+     */
+
+    static {
+        parentGeneratingMethod = PARENT_GENERATING_METHOD_DEFAULT;
+    }
+
+    public static String getParentGeneratingMethodName() {
+        return parentGeneratingMethod.getDisplayName();
+    }
+
+    public static void changeParentGeneratingMethod() {
+        parentGeneratingMethod = parentGeneratingMethod.next();
+    }
+
+    public static void saveSolvingPreferencesToFile() {
+        saveSolvingDataToFile("Metoda generowania rodziców: " + parentGeneratingMethod);
+    }
+
+    /**
+     * ==============================================================================
+     * ================================================================MET.DYNAMICZNE
+     * ==============================================================================
+     */
+
     public SolverGeneticParentMaker(int[] _boardData) {
         this.board = new Board(_boardData);
+        this.generateParent();
+    }
+
+    public void generateParent() {
+        switch (parentGeneratingMethod) {
+            case MethodsOfParentGenerating.RANDOM_FULL -> this.generatorRandomFull();
+            case MethodsOfParentGenerating.RANDOM_WITH_CHECKING -> this.generatorRandomWithChecking();
+            default -> {
+                Logger.error("Nieznana metoda generowania rodziców: {}", parentGeneratingMethod);
+                this.generatorRandomWithChecking();
+            }
+        }
     }
 
     public void generatorRandomFull() {

@@ -3,9 +3,9 @@ import org.tinylog.Logger;
 public class BoardBase {
     public static final int RETURN_ERROR = -999999;
     public static final int EMPTY_FIELD = 0;
-    public final int SUDOKU_SIZE_MIN = 2;
-    public final int SUDOKU_SIZE_MAX = 6;
-    public final int SUDOKU_SIZE_DEFAULT = 3;
+    public static final int SUDOKU_SIZE_MIN = 2;
+    public static final int SUDOKU_SIZE_MAX = 5;
+    public static final int SUDOKU_SIZE_DEFAULT = 3;
 
     public static final int[] BOARD_TEST_DATA_2x2 = {
             0, -2, -4, 0,
@@ -42,7 +42,6 @@ public class BoardBase {
             -15, -4, 0, 0, 0, 0, -3, 0, -2, 0, 0, 0, 0, 0, 0, 0,
             0, -14, 0, 0, 0, 0, -10, -15, -7, -5, -9, 0, -12, -13, 0, -3
     };
-    // A=10, B=11, C=12, D=13, E=14, F=15, G=16
     public static final int[] BOARD_TEST_DATA_4x4_HARD = {
             0, 0, 0, -14, -15, 0, -1, 0, -12, -9, 0, 0, 0, -6, 0, 0,
             0, 0, -2, 0, -3, 0, -11, 0, 0, 0, 0, 0, 0, 0, 0, -1,

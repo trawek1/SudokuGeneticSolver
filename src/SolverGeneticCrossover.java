@@ -14,11 +14,12 @@ import java.util.Random;
 public class SolverGeneticCrossover extends SolverBase {
     private static final int MUTATION_PROBABILITY_MIN = 0;
     private static final int MUTATION_PROBABILITY_MAX = 100;
+    private static final int MUTATION_PROBABILITY_STEP = 5;
     private static final int MUTATION_PROBABILITY_DEFAULT = 10;
     private static int mutationProbability;
 
-    private static final METHODS_OF_CROSSOVER CROSSOVER_METHOD_DEFAULT = METHODS_OF_CROSSOVER.CROSSOVER_SINGLE_POINT;
-    private static METHODS_OF_CROSSOVER crossoverMethod;
+    private static final MethodsOfCrossover CROSSOVER_METHOD_DEFAULT = MethodsOfCrossover.CROSSOVER_SINGLE_POINT;
+    private static MethodsOfCrossover crossoverMethod;
 
     public final int USE_RANDOM_POINT = -1;
     public final int USE_SYMMETRIC_POINT = -2;
@@ -43,11 +44,27 @@ public class SolverGeneticCrossover extends SolverBase {
         mutationProbability = MUTATION_PROBABILITY_DEFAULT;
     }
 
+    public static String getCrossoverMethodName() {
+        return crossoverMethod.getDisplayName();
+    }
+
+    public static void changeCrossoverMethod() {
+        crossoverMethod = crossoverMethod.next();
+    }
+
     public static int getMutationProbability() {
         return mutationProbability;
     }
 
+    public static void changeMutationProbabilityByStep() {
+        mutationProbability += MUTATION_PROBABILITY_STEP;
+        if (mutationProbability > MUTATION_PROBABILITY_MAX) {
+            mutationProbability = MUTATION_PROBABILITY_MIN;
+        }
+    }
+
     public static void setMutationProbability(int _probability) {
+        // TODO >> zmienić wartość na min i max zamiast default
         if (_probability < MUTATION_PROBABILITY_MIN || _probability > MUTATION_PROBABILITY_MAX) {
             Logger.warn("Wartość jest spoza zakresu! Oczekiwano {}-{}, otrzymano {}. Ustawiono wartość domyślną {}.",
                     MUTATION_PROBABILITY_MIN, MUTATION_PROBABILITY_MAX, _probability, MUTATION_PROBABILITY_DEFAULT);
@@ -102,7 +119,7 @@ public class SolverGeneticCrossover extends SolverBase {
         return _crossoverPoint <= 0 || _crossoverPoint >= this.boardLength - 1;
     }
 
-    public void setCrossoverMethod(METHODS_OF_CROSSOVER _crossoverMethod) {
+    public void setCrossoverMethod(MethodsOfCrossover _crossoverMethod) {
         crossoverMethod = _crossoverMethod;
     }
 
@@ -124,7 +141,7 @@ public class SolverGeneticCrossover extends SolverBase {
             default:
                 Logger.warn(
                         "Nieznana metoda krzyżowania: {}! Używam metody dwupunktowej z losowymi wartościami puntów.",
-                        crossoverMethod.name());
+                        crossoverMethod);
                 boardData = this.crossoverTwoPoint(USE_RANDOM_POINT, USE_RANDOM_POINT);
         }
         boardData = this.makeMutations(boardData);
