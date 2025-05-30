@@ -1,20 +1,20 @@
-public enum MethodsOfParentGenerating {
+public enum ParentGeneratingMethods {
     RANDOM_FULL("losowy bez kontroli") {
-        public MethodsOfParentGenerating next() {
+        public ParentGeneratingMethods next() {
             return RANDOM_WITH_CHECKING;
         }
     },
     RANDOM_WITH_CHECKING("losowy ze sprawdzaniem") {
-        public MethodsOfParentGenerating next() {
+        public ParentGeneratingMethods next() {
             return RANDOM_FULL;
         }
     };
 
     private final String displayName;
 
-    public abstract MethodsOfParentGenerating next();
+    public abstract ParentGeneratingMethods next();
 
-    MethodsOfParentGenerating(String _displayName) {
+    ParentGeneratingMethods(String _displayName) {
         this.displayName = _displayName;
     }
 

@@ -18,8 +18,8 @@ public class SolverGeneticCrossover extends SolverBase {
     private static final int MUTATION_PROBABILITY_DEFAULT = 10;
     private static int mutationProbability;
 
-    private static final MethodsOfCrossover CROSSOVER_METHOD_DEFAULT = MethodsOfCrossover.CROSSOVER_SINGLE_POINT;
-    private static MethodsOfCrossover crossoverMethod;
+    private static final CrossoverMethods CROSSOVER_METHOD_DEFAULT = CrossoverMethods.CROSSOVER_SINGLE_POINT;
+    private static CrossoverMethods crossoverMethod;
 
     public final int USE_RANDOM_POINT = -1;
     public final int USE_SYMMETRIC_POINT = -2;
@@ -119,7 +119,7 @@ public class SolverGeneticCrossover extends SolverBase {
         return _crossoverPoint <= 0 || _crossoverPoint >= this.boardLength - 1;
     }
 
-    public void setCrossoverMethod(MethodsOfCrossover _crossoverMethod) {
+    public void setCrossoverMethod(CrossoverMethods _crossoverMethod) {
         crossoverMethod = _crossoverMethod;
     }
 
