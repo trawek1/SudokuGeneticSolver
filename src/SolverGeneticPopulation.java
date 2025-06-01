@@ -1,3 +1,4 @@
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import org.tinylog.Logger;
@@ -12,7 +13,7 @@ public class SolverGeneticPopulation extends SolverBase {
     private static final int BEST_PARENTS_PERCENT_MIN = 2;
     private static final int BEST_PARENTS_PERCENT_MAX = 50;
     private static final int BEST_PARENTS_PERCENT_STEP = 2;
-    private static final int BEST_PARENTS_PERCENT_DEFAULT = 10;
+    private static final int BEST_PARENTS_PERCENT_DEFAULT = 30;
     private static int bestParentsPercent;
 
     private static final ParentSelectionMethods PARENT_SELECTION_METHOD_DEFAULT = ParentSelectionMethods.ROULETTE_SELECTION;
@@ -119,17 +120,11 @@ public class SolverGeneticPopulation extends SolverBase {
             // + ", lvl=," + individual.getBoardErrorLevel());
         }
         this.sortPopulationByFitness();
-
-        String fitnessAll = ",";
-        for (SolverGeneticIndividual individual : this.population) {
-            fitnessAll += individual.getBoardErrorLevel() + ",";
-        }
-        saveSolvingDataToFile(String.format("GEN %9d FITNESS: ", this.generationsCount) + fitnessAll);
-
+        this.savePopulationData();
     }
 
     private void sortPopulationByFitness() {
-        this.population.sort(Comparator.comparingInt(SolverGeneticIndividual::getBoardErrorLevel));
+        this.population.sort(Comparator.comparingInt(SolverGeneticIndividual::getFitnessLevel));
     }
 
     public int getGenerationsCount() {
@@ -137,20 +132,20 @@ public class SolverGeneticPopulation extends SolverBase {
     }
 
     public int getStatsBestFitness() {
-        return population.get(0).getBoardErrorLevel();
+        return population.get(0).getFitnessLevel();
     }
 
     public int getStatsWorstFitness() {
-        return population.get(population.size() - 1).getBoardErrorLevel();
+        return population.get(population.size() - 1).getFitnessLevel();
     }
 
     public int getStatsFitnessOfLastParent() {
-        return population.get(getNumberOfParents() - 1).getBoardErrorLevel();
+        return population.get(getNumberOfParents() - 1).getFitnessLevel();
     }
 
     public double getStatsAverageFitness() {
         double averageFitness = population.stream()
-                .mapToInt(SolverGeneticIndividual::getBoardErrorLevel)
+                .mapToInt(SolverGeneticIndividual::getFitnessLevel)
                 .average()
                 .orElse(0.0);
         return Math.round(averageFitness * 100.0) / 100.0;
@@ -172,7 +167,7 @@ public class SolverGeneticPopulation extends SolverBase {
         List<SolverGeneticIndividual> parents = new ArrayList<>();
 
         double totalFitnessInverse = this.population.stream()
-                .mapToDouble(individual -> 1.0 / (1.0 + individual.getBoardErrorLevel()))
+                .mapToDouble(individual -> 1.0 / (1.0 + individual.getFitnessLevel()))
                 .sum();
 
         parents.add(this.population.get(0));
@@ -181,7 +176,7 @@ public class SolverGeneticPopulation extends SolverBase {
             double cumulativeProbability = 0.0;
             int index = 0;
             while (cumulativeProbability < randomValue) {
-                cumulativeProbability += 1.0 / (1.0 + this.population.get(index).getBoardErrorLevel())
+                cumulativeProbability += 1.0 / (1.0 + this.population.get(index).getFitnessLevel())
                         / totalFitnessInverse;
                 if (cumulativeProbability >= randomValue) {
                     parents.add(this.population.get(index));
@@ -233,14 +228,25 @@ public class SolverGeneticPopulation extends SolverBase {
             // + ", lvl=," + parent2.getBoardErrorLevel());
         }
         this.sortPopulationByFitness();
-
-        String fitnessAll = ",";
-        for (SolverGeneticIndividual individual : this.population) {
-            fitnessAll += individual.getBoardErrorLevel() + ",";
-        }
-        saveSolvingDataToFile(String.format("GEN %9d FITNESS: ", this.generationsCount) + fitnessAll);
-
+        this.savePopulationData();
         this.generationsCount++;
     }
 
+    public void savePopulationData() {
+        Date date = new Date(System.currentTimeMillis());
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss.SSS");
+        String time = (", TIME," + sdf.format(date));
+
+        String stats = ", STAT,";
+        stats += this.getStatsBestFitness() + ",";
+        stats += this.getStatsFitnessOfLastParent() + ",";
+        stats += String.format("%4.0f", this.getStatsAverageFitness()) + ",";
+        stats += this.getStatsWorstFitness();
+
+        String fitnessAll = ", FIT,";
+        for (SolverGeneticIndividual individual : this.population) {
+            fitnessAll += individual.getFitnessLevel() + ",";
+        }
+        saveSolvingDataToFile(String.format("GEN %9d", this.generationsCount) + time + stats + fitnessAll);
+    }
 }

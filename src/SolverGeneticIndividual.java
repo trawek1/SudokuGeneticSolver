@@ -13,7 +13,7 @@ public class SolverGeneticIndividual extends SolverBase {
 
     private Board board;
     private int[] initialBoardData;
-    private int boardErrorLevel;
+    private int fitnessLevel;
 
     /**
      * ==============================================================================
@@ -46,17 +46,17 @@ public class SolverGeneticIndividual extends SolverBase {
     public SolverGeneticIndividual(int[] _boardData) {
         this.board = new Board(_boardData);
         this.initialBoardData = _boardData;
-        this.boardErrorLevel = 0;
+        this.fitnessLevel = 0;
     }
 
     public void getBoardFromParent() {
-        SolverGeneticParentMaker parent = new SolverGeneticParentMaker(this.initialBoardData);
+        SolverGeneticParentMaker parent = new SolverGeneticParentMaker(this.initialBoardData, true);
         this.board = new Board(parent.getBoardData());
         this.calculateFitness();
     }
 
-    public int getBoardErrorLevel() {
-        return boardErrorLevel;
+    public int getFitnessLevel() {
+        return fitnessLevel;
     }
 
     public void calculateFitness() {
@@ -71,45 +71,50 @@ public class SolverGeneticIndividual extends SolverBase {
                 Logger.error("Nieznana metoda liczenia dopasowania: {}", fitnessCalculatingMethod);
                 this.calculateFitnessByValuesCollisions();
         }
+        if (this.fitnessLevel == 0) {
+            SolverBase.stopTimeMeasurement();
+            Logger.info("Średni czas rozwiązywania: {}", showSolvingAverageTime());
+            System.exit(0);
+        }
     }
 
     public void calculateFitnessByMissingValues() {
-        this.boardErrorLevel = 0;
+        this.fitnessLevel = 0;
 
         for (int i = 1; i <= board.getBoardSize(); i++) {
             Set<Integer> rowValues = new HashSet<>(board.getUsedValuesFromRow(i));
-            this.boardErrorLevel += this.board.getMaxValue() - rowValues.size();
+            this.fitnessLevel += this.board.getMaxValue() - rowValues.size();
 
             Set<Integer> colValues = new HashSet<>(board.getUsedValuesFromCol(i));
-            this.boardErrorLevel += this.board.getMaxValue() - colValues.size();
+            this.fitnessLevel += this.board.getMaxValue() - colValues.size();
         }
 
         for (int row = 1; row < board.getBoardSize(); row += board.getSudokuSize()) {
             for (int col = 1; col < board.getBoardSize(); col += board.getSudokuSize()) {
                 Set<Integer> blockValues = new HashSet<>(board.getUsedValuesFromBlock(row, col));
-                this.boardErrorLevel += this.board.getMaxValue() - blockValues.size();
+                this.fitnessLevel += this.board.getMaxValue() - blockValues.size();
             }
         }
     }
 
     public void calculateFitnessByValuesCollisions() {
-        this.boardErrorLevel = 0;
+        this.fitnessLevel = 0;
 
         for (int row = 1; row <= board.getBoardSize(); row++) {
             for (int col = 1; col <= board.getBoardSize(); col++) {
                 int value = board.getValue(row, col);
 
                 if (value == BoardBase.EMPTY_FIELD) {
-                    this.boardErrorLevel += FITNESS_PENALTY_EMPTY_FIELD;
+                    this.fitnessLevel += FITNESS_PENALTY_EMPTY_FIELD;
                 }
 
                 for (int checkInRow = 1; checkInRow <= board.getBoardSize(); checkInRow++) {
                     if (checkInRow == row) {
                         continue;
                     } else if (value == board.getValue(checkInRow, col)) {
-                        this.boardErrorLevel += FITNESS_PENALTY_VALUE_COLLISION;
+                        this.fitnessLevel += FITNESS_PENALTY_VALUE_COLLISION;
                         if (board.isConstField(checkInRow, col)) {
-                            this.boardErrorLevel += FITNESS_PENALTY_CONST_COLLISION;
+                            this.fitnessLevel += FITNESS_PENALTY_CONST_COLLISION;
                         }
                     }
                 }
@@ -118,9 +123,9 @@ public class SolverGeneticIndividual extends SolverBase {
                     if (checkInCol == col) {
                         continue;
                     } else if (value == board.getValue(row, checkInCol)) {
-                        this.boardErrorLevel += FITNESS_PENALTY_VALUE_COLLISION;
+                        this.fitnessLevel += FITNESS_PENALTY_VALUE_COLLISION;
                         if (board.isConstField(row, checkInCol)) {
-                            this.boardErrorLevel += FITNESS_PENALTY_CONST_COLLISION;
+                            this.fitnessLevel += FITNESS_PENALTY_CONST_COLLISION;
                         }
                     }
                 }
@@ -134,9 +139,9 @@ public class SolverGeneticIndividual extends SolverBase {
                         if (checkInRow == row && checkInCol == col) {
                             continue;
                         } else if (value == board.getValue(checkInRow, checkInCol)) {
-                            this.boardErrorLevel += FITNESS_PENALTY_VALUE_COLLISION;
+                            this.fitnessLevel += FITNESS_PENALTY_VALUE_COLLISION;
                             if (board.isConstField(checkInRow, checkInCol)) {
-                                this.boardErrorLevel += FITNESS_PENALTY_CONST_COLLISION;
+                                this.fitnessLevel += FITNESS_PENALTY_CONST_COLLISION;
                             }
                         }
                     }

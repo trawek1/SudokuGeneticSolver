@@ -15,10 +15,10 @@ public class SolverGeneticCrossover extends SolverBase {
     private static final int MUTATION_PROBABILITY_MIN = 0;
     private static final int MUTATION_PROBABILITY_MAX = 100;
     private static final int MUTATION_PROBABILITY_STEP = 5;
-    private static final int MUTATION_PROBABILITY_DEFAULT = 10;
+    private static final int MUTATION_PROBABILITY_DEFAULT = 15;
     private static int mutationProbability;
 
-    private static final CrossoverMethods CROSSOVER_METHOD_DEFAULT = CrossoverMethods.CROSSOVER_SINGLE_POINT;
+    private static final CrossoverMethods CROSSOVER_METHOD_DEFAULT = CrossoverMethods.CROSSOVER_BALANCED_UNIFORM;
     private static CrossoverMethods crossoverMethod;
 
     public final int USE_RANDOM_POINT = -1;
@@ -64,11 +64,14 @@ public class SolverGeneticCrossover extends SolverBase {
     }
 
     public static void setMutationProbability(int _probability) {
-        // TODO >> zmienić wartość na min i max zamiast default
-        if (_probability < MUTATION_PROBABILITY_MIN || _probability > MUTATION_PROBABILITY_MAX) {
-            Logger.warn("Wartość jest spoza zakresu! Oczekiwano {}-{}, otrzymano {}. Ustawiono wartość domyślną {}.",
-                    MUTATION_PROBABILITY_MIN, MUTATION_PROBABILITY_MAX, _probability, MUTATION_PROBABILITY_DEFAULT);
-            mutationProbability = MUTATION_PROBABILITY_DEFAULT;
+        if (_probability < MUTATION_PROBABILITY_MIN) {
+            Logger.warn("Wartość jest spoza zakresu! Oczekiwano {}-{}, otrzymano {}. Ustawiono wartość minimalną.",
+                    MUTATION_PROBABILITY_MIN, MUTATION_PROBABILITY_MAX, _probability);
+            mutationProbability = MUTATION_PROBABILITY_MIN;
+        } else if (_probability > MUTATION_PROBABILITY_MAX) {
+            Logger.warn("Wartość jest spoza zakresu! Oczekiwano {}-{}, otrzymano {}. Ustawiono wartość maksymalną.",
+                    MUTATION_PROBABILITY_MIN, MUTATION_PROBABILITY_MAX, _probability);
+            mutationProbability = MUTATION_PROBABILITY_MAX;
         } else {
             mutationProbability = _probability;
         }
@@ -257,7 +260,7 @@ public class SolverGeneticCrossover extends SolverBase {
             }
         }
 
-        SolverGeneticParentMaker board = new SolverGeneticParentMaker(_boardData);
+        SolverGeneticParentMaker board = new SolverGeneticParentMaker(_boardData, false);
         board.generatorRandomWithChecking();
         return board.getBoardData();
     }

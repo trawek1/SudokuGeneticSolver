@@ -29,7 +29,7 @@ public class BoardFieldTest {
 
     @Test
     void testGetValue() {
-        // TODO > uzupełnić testy klasy
+
     }
 
     @Test

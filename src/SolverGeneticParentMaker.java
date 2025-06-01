@@ -39,9 +39,12 @@ public class SolverGeneticParentMaker extends SolverBase {
      * ==============================================================================
      */
 
-    public SolverGeneticParentMaker(int[] _boardData) {
+    public SolverGeneticParentMaker(int[] _boardData, boolean _fillEmptyFields) {
+        super();
         this.board = new Board(_boardData);
-        this.generateParent();
+        if (_fillEmptyFields) {
+            this.generateParent();
+        }
     }
 
     public void generateParent() {

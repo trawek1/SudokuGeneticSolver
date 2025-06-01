@@ -6,25 +6,31 @@ public class App {
                 System.out.println("==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== === START");
                 Logger.debug("==== ==== ==== ==== START");
 
+                // ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- Solver Brute Force
+                // SolverBruteForce solver = new
+                // SolverBruteForce(BoardBase.BOARD_TEST_DATA_4x4);
+                // solver.startSolvingManyTimes();
+
                 // ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- Solver Genetic Population
                 SolverGeneticParentMaker.saveSolvingPreferencesToFile();
                 SolverGeneticIndividual.saveSolvingPreferencesToFile();
                 SolverGeneticCrossover.saveSolvingPreferencesToFile();
                 SolverGeneticPopulation.saveSolvingPreferencesToFile();
 
-                SolverGeneticPopulation population = new SolverGeneticPopulation(BoardBase.BOARD_TEST_DATA_5x5);
                 System.out.println("Populacja=" + SolverGeneticPopulation.getPopulationSize()
                                 + ", % rodziców=" + SolverGeneticPopulation.getBestParentsPercent()
                                 + ", pozycja ostatniego=" + SolverGeneticPopulation.getNumberOfParents());
+                SolverBase.resetTimeMeasurement();
+                SolverBase.startTimeMeasurement();
+                SolverGeneticPopulation population = new SolverGeneticPopulation(BoardBase.BOARD_TEST_DATA_5x5);
+                int firstMax = population.getStatsBestFitness();
+                int intimeMax = firstMax;
                 System.out.println("Generacja= " + population.getGenerationsCount()
                                 + " :: Dopasowanie: max=" + population.getStatsBestFitness()
                                 + ", ost.rodzica=" + population.getStatsFitnessOfLastParent()
                                 + ", med=" + population.getStatsAverageFitness()
                                 + ", min=" + population.getStatsWorstFitness());
-
-                int firstMax = population.getStatsBestFitness();
-                int intimeMax = firstMax;
-                for (int i = 0; i < 1000000; i++) {
+                for (int i = 0; i < 50_000; i++) {
                         population.createNextAndSwapPopulation();
                         if (population.getGenerationsCount() % 1000 == 0) {
                                 System.out.println("Generacja= " + population.getGenerationsCount()
@@ -37,6 +43,9 @@ public class App {
                                 }
                         }
                 }
+                SolverBase.stopTimeMeasurement();
+
+                Logger.info("Czas rozwiązywania: {}", SolverBase.showSolvingTime());
                 System.out.println("RESULT MAX: first=" + firstMax
                                 + ", intime=" + intimeMax
                                 + ", last=" + population.getStatsBestFitness());
@@ -67,10 +76,6 @@ public class App {
                 // crossover.crossoverSinglePoint(SolverGeneticCrossover.USE_RANDOM_POINT);
                 // crossover.crossoverTwoPoint(SolverGeneticCrossover.USE_SYMMETRIC_POINT,
                 // SolverGeneticCrossover.USE_SYMMETRIC_POINT);
-
-                // ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- Solver Brute Force
-                // SolverBruteForce solver = new SolverBruteForce(testBoardData3x3);
-                // solver.startSolvingManyTimes();
 
                 // ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- Board Field Possibilities
                 // BoardFieldPossibilities options = new BoardFieldPossibilities(3);

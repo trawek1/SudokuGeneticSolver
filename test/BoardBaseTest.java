@@ -3,7 +3,7 @@ import org.junit.jupiter.api.Test;
 public class BoardBaseTest {
     @Test
     void testGetBoardSize() {
-        // TODO > uzupełnić testy klasy
+
     }
 
     @Test

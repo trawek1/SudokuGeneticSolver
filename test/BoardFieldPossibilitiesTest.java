@@ -46,7 +46,7 @@ public class BoardFieldPossibilitiesTest {
 
     @Test
     void testClearValuesImpossible() {
-        // TODO > uzupełnić testy klasy
+
     }
 
     @Test

@@ -25,11 +25,11 @@ public class SolverBase {
     }
 
     public SolverBase() {
-        resetTimeMeasurement();
     }
 
     protected static void startTimeMeasurement() {
         solvingCounter += 1;
+        timeStop = 0;
         timeStart = System.nanoTime();
     }
 
@@ -37,6 +37,8 @@ public class SolverBase {
         timeStop = System.nanoTime();
         solvingTime = timeStop - timeStart;
         solvingTimeSum += solvingTime;
+        timeStart = 0;
+        timeStop = 0;
     }
 
     protected static void resetTimeMeasurement() {
