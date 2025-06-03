@@ -49,8 +49,8 @@ public class SolverGeneticParentMaker extends SolverBase {
 
     public void generateParent() {
         switch (parentGeneratingMethod) {
-            case ParentGeneratingMethods.RANDOM_FULL -> this.generatorRandomFull();
-            case ParentGeneratingMethods.RANDOM_WITH_CHECKING -> this.generatorRandomWithChecking();
+            case RANDOM_FULL -> this.generatorRandomFull();
+            case RANDOM_WITH_CHECKING -> this.generatorRandomWithChecking();
             default -> {
                 Logger.error("Nieznana metoda generowania rodziców: {}", parentGeneratingMethod);
                 this.generatorRandomWithChecking();

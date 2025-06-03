@@ -24,6 +24,14 @@
             "mainClass": "SudokuSolverGUI",
             "projectName": "SudokuGeneticSolver_319e0951",
             "javaExec": "C:\\Program Files\\Java\\jdk-21\\bin\\javaw.exe"
+        },
+        {
+            "type": "java",
+            "name": "SudokuSolverGUI - uwr",
+            "request": "launch",
+            "mainClass": "SudokuSolverGUI",
+            "projectName": "SudokuGeneticSolver_319e0951",
+            "javaExec": "C:\\Program Files\\Java\\jdk1.8.0_144\\bin\\javaw.exe"
         }
     ]
 }
