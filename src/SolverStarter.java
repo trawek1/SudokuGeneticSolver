@@ -5,7 +5,7 @@ public class SolverStarter {
 	private static final int GENERATIONS_NUMBER_DEFAULT = 50_000;
 	private static int generationsNumber;
 
-	private static SudokuBoardsEnum sudokuTestBoard;
+	public static SudokuBoardsEnum sudokuTestBoard;
 	private static SolvingMethodsEnum solvingMethod;
 	private static boolean calculatingIsOn;
 	public static Board boardForScreen;
