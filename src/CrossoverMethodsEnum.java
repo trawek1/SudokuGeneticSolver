@@ -1,30 +1,30 @@
-public enum CrossoverMethods {
+public enum CrossoverMethodsEnum {
     CROSSOVER_UNIFORM("losowa") {
-        public CrossoverMethods next() {
+        public CrossoverMethodsEnum next() {
             return CROSSOVER_BALANCED_UNIFORM;
         }
     },
     CROSSOVER_BALANCED_UNIFORM("losowa balansowana") {
-        public CrossoverMethods next() {
+        public CrossoverMethodsEnum next() {
             return CROSSOVER_SINGLE_POINT;
         }
     },
     CROSSOVER_SINGLE_POINT("jedno-punktowa") {
-        public CrossoverMethods next() {
+        public CrossoverMethodsEnum next() {
             return CROSSOVER_TWO_POINTS;
         }
     },
     CROSSOVER_TWO_POINTS("dwu-punktowa") {
-        public CrossoverMethods next() {
+        public CrossoverMethodsEnum next() {
             return CROSSOVER_UNIFORM;
         }
     };
 
     private final String displayName;
 
-    public abstract CrossoverMethods next();
+    public abstract CrossoverMethodsEnum next();
 
-    CrossoverMethods(String _displayName) {
+    CrossoverMethodsEnum(String _displayName) {
         this.displayName = _displayName;
     }
 

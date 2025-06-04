@@ -4,6 +4,8 @@ import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.input.KeyType;
+import com.googlecode.lanterna.screen.Screen;
+import com.googlecode.lanterna.screen.TerminalScreen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
 import com.googlecode.lanterna.terminal.swing.TerminalEmulatorAutoCloseTrigger;
@@ -36,121 +38,104 @@ public class SudokuSolverGUI {
     private static int TERMINAL_WIDTH = 80;
     private static int TERMINAL_HEIGHT = 57;
 
-    // private static int[] testBoard2x2 = {
-    // 0, -2, -4, 0,
-    // -1, 0, 0, -3,
-    // -4, 0, 0, -2,
-    // 0, -1, -3, 0
-    // };
-    // private static int[] testBoard3x3 = {
-    // -9, 0, -6, 0, 0, -8, 0, 0, 0,
-    // 0, 0, 0, 0, 0, -1, 0, -9, 0,
-    // -2, 0, 0, -9, -6, 0, -7, 0, 0,
-    // 0, 0, 0, -1, 0, 0, 0, 0, 0,
-    // 0, 0, -4, -2, -9, 0, 0, -5, 0,
-    // 0, -5, 0, 0, 0, 0, -8, 0, 0,
-    // 0, 0, 0, 0, 0, -6, 0, 0, 0,
-    // -7, 0, 0, 0, 0, 0, 0, 0, -3,
-    // 0, 0, -2, -5, -4, 0, 0, -8, 0
-    // };
-    // private static int[] testBoard4x4 = {
-    // 0, 0, -8, 0, 0, 0, -2, -16, 0, -14, 0, -11, -7, -10, 0, -4,
-    // 0, -15, 0, 0, 0, 0, -8, 0, -13, 0, 0, -9, 0, 0, -16, -14,
-    // -14, 0, 0, -16, 0, 0, -11, -12, -8, -6, -2, -10, -13, -5, 0, -1,
-    // 0, 0, -11, 0, 0, 0, 0, 0, -16, -7, -15, 0, 0, 0, 0, 0,
-    // -6, 0, -15, 0, 0, 0, -14, -7, 0, 0, -4, 0, 0, 0, -10, -13,
-    // 0, -2, 0, 0, -1, 0, -15, -13, -3, 0, 0, -16, -5, -11, 0, 0,
-    // -5, 0, -3, 0, 0, 0, 0, 0, -15, -8, -6, 0, 0, 0, -14, 0,
-    // 0, 0, -16, -7, -3, 0, -5, 0, 0, 0, -10, -2, -4, 0, 0, 0,
-    // 0, -6, 0, -3, -14, -9, 0, 0, 0, 0, 0, 0, -1, 0, 0, 0,
-    // -10, -8, -4, 0, 0, -1, 0, -2, 0, 0, 0, -12, -15, 0, 0, -16,
-    // -9, -1, -5, 0, 0, 0, 0, -10, 0, 0, 0, -7, 0, -3, -13, -12,
-    // -16, 0, -12, 0, 0, 0, -6, -11, 0, -1, 0, -13, -9, -2, -8, -10,
-    // 0, -3, 0, 0, 0, -2, -1, -4, 0, -15, 0, 0, 0, 0, -11, -5,
-    // -11, 0, -13, 0, -6, 0, 0, -5, 0, -4, 0, -3, 0, -8, 0, 0,
-    // -15, -4, 0, 0, 0, 0, -3, 0, -2, 0, 0, 0, 0, 0, 0, 0,
-    // 0, -14, 0, 0, 0, 0, -10, -15, -7, -5, -9, 0, -12, -13, 0, -3
-    // };
-    private static int[] testBoard5x5 = {
-            0, -2, 0, 0, 0, -3, -14, 0, -8, 0, 0, 0, 0, 0, 0, 0, 0, -13, -4, -24, 0, -7, -1, 0, 0,
-            0, -10, -17, 0, 0, 0, -6, -18, 0, 0, -22, -16, 0, -12, 0, 0, 0, 0, -1, 0, 0, 0, -13, -19, 0,
-            0, -15, -24, -13, -7, 0, 0, 0, -4, 0, -10, 0, 0, -3, -14, 0, -18, 0, 0, 0, 0, -22, -2, 6, 0,
-            0, 0, -1, -21, 0, 0, -15, 0, -22, 0, 0, -19, -13, 0, 0, 0, -8, 0, 0, 0, 0, -16, -18, -20, 0,
-            0, -5, 0, 0, -20, -7, -25, -19, 0, 0, 0, -21, -17, -18, -2, -10, -12, -22, -9, -15, -11, 0, 0, 0, 0,
-            -11, 0, 0, 0, -22, -8, 0, -24, -7, -1, -5, 0, 0, 0, -13, -16, -17, -25, -23, -2, -4, 0, -6, 0, -19,
-            -16, -9, -12, 0, -17, 0, -19, -22, 0, 0, 0, 0, -18, -21, 0, 0, -20, -6, -13, 0, -7, 0, 0, -23, -11,
-            0, 0, -6, 0, -21, -9, -16, 0, -3, 0, 0, -22, -20, -19, 0, 0, 0, 0, -15, -8, -25, 0, 0, 0, 0,
-            0, 0, -23, -5, 0, -2, 0, 0, -11, -17, -8, 0, 0, 0, -16, -12, -9, 0, 0, -21, 0, -3, -10, 0, 0,
-            0, 0, 0, 0, 0, -6, 0, 0, -12, 0, -9, -1, -25, 0, -3, 0, -11, 0, 0, -7, 0, 0, -21, 0, 0,
-            0, 0, -9, 0, 0, -23, 0, -5, -17, -4, -16, 0, -11, 0, -22, -18, -2, 0, -21, -13, 0, 0, -7, 0, 0,
-            -4, -6, 0, 0, -5, 0, 0, -2, 0, 0, 0, -18, -21, -24, 0, 0, -19, -3, 0, -12, -23, 0, 0, -17, 0,
-            0, 0, 0, -12, -11, 0, -7, -3, 0, -24, -17, -20, -15, -13, -19, -1, 0, -5, -8, 0, -6, -9, 0, 0, 0,
-            0, -22, 0, 0, -14, -19, 0, -6, -16, 0, 0, -8, -9, -7, 0, 0, 0, -24, 0, 0, -3, 0, 0, -1, -18,
-            0, 0, -21, 0, 0, -25, -13, 0, -20, -8, -12, 0, -14, 0, -10, -9, -16, -15, 0, -6, 0, 0, -4, 0, 0,
-            0, 0, -25, 0, 0, -24, 0, 0, -18, 0, -4, 0, -3, -10, -5, 0, -1, 0, 0, -14, 0, 0, 0, 0, 0,
-            0, 0, -5, -3, 0, -17, 0, 0, -23, -7, -13, 0, 0, 0, -18, -19, -21, 0, 0, -22, 0, -11, -12, 0, 0,
-            0, 0, 0, 0, -18, -10, -8, 0, 0, 0, 0, -25, -23, -2, 0, 0, -5, 0, -16, -11, -9, 0, -3, 0, 0,
-            -17, -20, 0, 0, -2, 0, -22, -16, -6, 0, 0, -7, -12, 0, 0, 0, 0, -9, -3, 0, -18, 0, -23, -24, -25,
-            -6, 0, -4, 0, -16, -1, -11, -12, -25, -3, -19, 0, 0, 0, -21, -17, -23, -8, 0, -18, -2, 0, 0, 0, -14,
-            0, 0, 0, 0, -4, -14, -24, -11, -19, -23, -21, -17, -16, -8, 0, 0, 0, -1, -2, -9, -13, 0, 0, -5, 0,
-            0, -1, -14, -23, 0, 0, 0, 0, -9, 0, 0, 0, -19, -5, 0, 0, -24, 0, -12, 0, 0, -8, -17, 0, 0,
-            0, -16, -11, -8, 0, 0, 0, 0, -1, 0, -6, -4, 0, 0, -23, 0, -15, 0, 0, 0, -14, -12, -9, -10, 0,
-            0, -21, -3, 0, 0, 0, -17, 0, 0, 0, 0, -15, 0, -25, -20, 0, 0, -4, -10, 0, 0, 0, -16, -11, 0,
-            0, 0, -20, -2, 0, -16, -5, -8, 0, 0, 0, 0, 0, 0, 0, 0, -6, 0, -19, -25, 0, 0, 0, -3, 0
-    };
-
-    private static Board screenBoard = new Board(testBoard5x5);
     private static Terminal terminal = null;
+    private static Screen screen = null;
     private static TextGraphics constField;
     private static TextGraphics fluidField;
     private static TextGraphics boardField;
 
+    /**
+     * ==============================================================================
+     * =================================================================MET.STATYCZNE
+     * ==============================================================================
+     */
+
+    static {
+    }
+
+    /**
+     * ==============================================================================
+     * ================================================================MET.DYNAMICZNE
+     * ==============================================================================
+     */
+
     public static void main(String[] args) throws InterruptedException {
         try {
-            // defaultTerminalFactory = new DefaultTerminalFactory();
             terminal = new DefaultTerminalFactory(System.out, System.in, Charset.defaultCharset())
                     .setInitialTerminalSize(new TerminalSize(TERMINAL_WIDTH, TERMINAL_HEIGHT))
                     .setTerminalEmulatorFrameAutoCloseTrigger(TerminalEmulatorAutoCloseTrigger.CloseOnEscape)
                     .setTerminalEmulatorTitle("Sudoku Solver")
                     .setPreferTerminalEmulator(true)
                     .createTerminal();
-            // terminal.enterPrivateMode();
-            terminal.clearScreen();
             terminal.setCursorVisible(false);
+
+            screen = new TerminalScreen(terminal);
+            screen.startScreen();
+            screen.setCursorPosition(null);
+            screen.clear();
 
             prepareScreenElements();
             drawAll();
-            terminal.flush();
 
-            KeyStroke keyStroke = terminal.readInput();
-            while (keyStroke.getKeyType() != KeyType.Escape) {
-                if (keyStroke.getKeyType() == KeyType.F1) {
-                    SolverGeneticParentMaker.changeParentGeneratingMethod();
-                } else if (keyStroke.getKeyType() == KeyType.F2) {
-                    SolverGeneticPopulation.changeBestParentsPercentByStep();
-                } else if (keyStroke.getKeyType() == KeyType.F3) {
-                    SolverGeneticPopulation.changeParentSelectionMethod();
-                } else if (keyStroke.getKeyType() == KeyType.F4) {
-                    SolverGeneticCrossover.changeCrossoverMethod();
-                } else if (keyStroke.getKeyType() == KeyType.F5) {
-                    SolverGeneticCrossover.changeMutationProbabilityByStep();
-                } else if (keyStroke.getKeyType() == KeyType.F6) {
-                    SolverGeneticIndividual.changeFitnessCalculatingMethod();
-                } else if (keyStroke.getKeyType() == KeyType.F7) {
-                    SolverGeneticPopulation.changePopulationSizeByStep();
+            KeyStroke keyStroke = screen.pollInput();
+            boolean mustRefresh = true;
+            while (true) {
+                keyStroke = screen.pollInput();
+                if (keyStroke == null) {
+                    TerminalSize newSize = screen.doResizeIfNecessary();
+                    if (newSize != null) {
+                        mustRefresh = true;
+                    }
+                } else {
+                    if (keyStroke.getKeyType() == KeyType.Escape) {
+                        break;
+                    } else if (keyStroke.getKeyType() == KeyType.Character
+                            && (keyStroke.getCharacter() == 'R' || keyStroke.getCharacter() == 'r')) {
+                        SolverStarter.changeSudokuTestBoard();
+                    } else if (keyStroke.getKeyType() == KeyType.Character
+                            && (keyStroke.getCharacter() == 'M' || keyStroke.getCharacter() == 'm')) {
+                        SolverStarter.changeSolvingMethod();
+                    } else if (keyStroke.getKeyType() == KeyType.F1) {
+                        SolverGeneticParentMaker.changeParentGeneratingMethod();
+                    } else if (keyStroke.getKeyType() == KeyType.F2) {
+                        SolverGeneticPopulation.changeBestParentsPercentByStep();
+                    } else if (keyStroke.getKeyType() == KeyType.F3) {
+                        SolverGeneticPopulation.changeParentSelectionMethod();
+                    } else if (keyStroke.getKeyType() == KeyType.F4) {
+                        SolverGeneticCrossover.changeCrossoverMethod();
+                    } else if (keyStroke.getKeyType() == KeyType.F5) {
+                        SolverGeneticCrossover.changeMutationProbabilityByStep();
+                    } else if (keyStroke.getKeyType() == KeyType.F6) {
+                        SolverGeneticIndividual.changeFitnessCalculatingMethod();
+                    } else if (keyStroke.getKeyType() == KeyType.F7) {
+                        SolverGeneticPopulation.changePopulationSizeByStep();
+                    } else if (keyStroke.getKeyType() == KeyType.F8) {
+                        SolverStarter.changeGenerationsNumberByStep();
+                    } else if (keyStroke.getKeyType() == KeyType.F12) {
+                        SolverStarter.switchCalculatingOn();
+                    }
+                    mustRefresh = true;
                 }
-
-                drawAll();
-                terminal.flush();
-
-                keyStroke = terminal.readInput();
+                if (mustRefresh) {
+                    drawAll();
+                    mustRefresh = false;
+                }
+                Thread.yield();
             }
 
         } catch (IOException e) {
             Logger.error("Wystąpił błąd podczas pracy programu! {}", e.getMessage());
         } finally {
+            if (screen != null) {
+                try {
+                    screen.close();
+                } catch (IOException e) {
+                    Logger.error("Wystąpił błąd podczas zamykania programu! {}", e.getMessage());
+                }
+            }
             if (terminal != null) {
                 try {
+                    terminal.exitPrivateMode();
                     terminal.close();
                 } catch (IOException e) {
                     Logger.error("Wystąpił błąd podczas zamykania programu! {}", e.getMessage());
@@ -180,7 +165,7 @@ public class SudokuSolverGUI {
         int titleWidth = 51;
         int boardWidth = 0;
         int boardHeight = 0;
-        switch (screenBoard.getSudokuSize()) {
+        switch (SolverStarter.boardForScreen.getSudokuSize()) {
             case 2 -> {
                 boardWidth = 13;
                 boardHeight = 7;
@@ -199,15 +184,27 @@ public class SudokuSolverGUI {
             }
             default -> {
                 Logger.warn("Wartość jest spoza zakresu! Oczekiwano {}-{}, otrzymano {}. Zakończono program.",
-                        BoardBase.SUDOKU_SIZE_MIN, BoardBase.SUDOKU_SIZE_MAX, screenBoard.getSudokuSize());
+                        BoardBase.SUDOKU_SIZE_MIN, BoardBase.SUDOKU_SIZE_MAX,
+                        SolverStarter.boardForScreen.getSudokuSize());
                 System.exit(0);
             }
         }
+
+        try {
+            screen.clear();
+            screen.refresh();
+            terminal.flush();
+        } catch (Exception e) {
+            Logger.error("Wystąpił błąd podczas pracy programu! {}", e.getMessage());
+            System.exit(0);
+        }
+
         drawTitle(1, (TERMINAL_WIDTH - titleWidth) / 2);
         drawSudokuBoard(8, (TERMINAL_WIDTH - boardWidth) / 2);
         drawMenu(8 + boardHeight + 1, 2);
 
         try {
+            screen.refresh();
             terminal.flush();
         } catch (Exception e) {
             Logger.error("Wystąpił błąd podczas pracy programu! {}", e.getMessage());
@@ -280,8 +277,8 @@ public class SudokuSolverGUI {
     }
 
     public static void drawSudokuBoard(int _startRow, int _startCol) {
-        int sudSize = screenBoard.getSudokuSize();
-        int boardSize = screenBoard.getBoardSize();
+        int sudSize = SolverStarter.boardForScreen.getSudokuSize();
+        int boardSize = SolverStarter.boardForScreen.getBoardSize();
 
         for (int row = 0; row < boardSize; row++) {
             for (int col = 0; col < boardSize; col++) {
@@ -360,9 +357,9 @@ public class SudokuSolverGUI {
                 // boardField.putString(actCol + 2, actRow, BOARD_2X_VERT);
                 // }
 
-                int fieldValue = Math.abs(screenBoard.getValue(row + 1, col + 1));
+                int fieldValue = Math.abs(SolverStarter.boardForScreen.getValue(row + 1, col + 1));
 
-                if (screenBoard.isConstField(row + 1, col + 1)) {
+                if (SolverStarter.boardForScreen.isConstField(row + 1, col + 1)) {
                     constField.putString(actCol, actRow, String.format("%2d", fieldValue), SGR.BOLD);
                 } else {
                     if (fieldValue == BoardBase.EMPTY_FIELD) {
@@ -383,17 +380,23 @@ public class SudokuSolverGUI {
         String optionName;
         String optionValue;
 
-        // TODO >>>>> dokończyć menu (R,M,F8,F12)
         boardField.putString(actCol, actRow, "=== MENU ===");
+
         actRow++;
-        boardField.putString(actCol, actRow, "R ");
-        fluidField.putString(namesCol, actRow, "Rozmiar planszy");
+        optionName = "Rozmiar planszy: ";
+        optionValue = String.format("%-" + (colWidth - optionName.length()) + "s",
+                SolverStarter.getSudokuTestBoardName());
+        boardField.putString(actCol, actRow, "R");
+        fluidField.putString(namesCol, actRow, optionName);
+        fluidField.putString(namesCol + optionName.length(), actRow, optionValue, SGR.BOLD);
+
         actRow++;
-        boardField.putString(actCol, actRow, "D ");
-        fluidField.putString(namesCol, actRow, "Dane wejściowe");
-        actRow++;
-        boardField.putString(actCol, actRow, "M ");
-        fluidField.putString(namesCol, actRow, "Metoda rozwiązywania");
+        optionName = "Metoda rozwiązywania: ";
+        optionValue = String.format("%-" + (colWidth - optionName.length()) + "s",
+                SolverStarter.getSolvingMethodName());
+        boardField.putString(actCol, actRow, "M");
+        fluidField.putString(namesCol, actRow, optionName);
+        fluidField.putString(namesCol + optionName.length(), actRow, optionValue, SGR.BOLD);
 
         actRow++;
         optionName = "- generator rodziców: ";
@@ -452,15 +455,22 @@ public class SudokuSolverGUI {
         fluidField.putString(namesCol + optionName.length(), actRow, optionValue, SGR.BOLD);
 
         actRow++;
+        optionName = "- ilość generacji: ";
+        optionValue = String.format("%-" + (colWidth - optionName.length()) + "d",
+                SolverStarter.getGenerationsNumber());
         boardField.putString(actCol, actRow, "F8");
-        fluidField.putString(namesCol, actRow, "- ilość generacji");
+        fluidField.putString(namesCol, actRow, optionName);
+        fluidField.putString(namesCol + optionName.length(), actRow, optionValue, SGR.BOLD);
 
         actRow++;
-        actRow++;
+        if (SolverStarter.isCalculatingOn()) {
+            optionName = "PRZERWIJ rozwiązywanie sudoku";
+        } else {
+            optionName = "ZACZNIJ rozwiązywanie sudoku ";
+        }
         boardField.putString(actCol, actRow, "F12");
-        fluidField.putString(namesCol, actRow, "START / STOP");
+        fluidField.putString(namesCol, actRow, optionName, SGR.BOLD);
 
-        actRow++;
         actRow++;
         boardField.putString(actCol, actRow, "ESC");
         fluidField.putString(namesCol, actRow, "Koniec programu");

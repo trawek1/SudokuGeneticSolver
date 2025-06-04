@@ -16,8 +16,8 @@ public class SolverGeneticPopulation extends SolverBase {
     private static final int BEST_PARENTS_PERCENT_DEFAULT = 30;
     private static int bestParentsPercent;
 
-    private static final ParentSelectionMethods PARENT_SELECTION_METHOD_DEFAULT = ParentSelectionMethods.ROULETTE_SELECTION;
-    private static ParentSelectionMethods parentSelectionMethod;
+    private static final ParentSelectionMethodsEnum PARENT_SELECTION_METHOD_DEFAULT = ParentSelectionMethodsEnum.ROULETTE_SELECTION;
+    private static ParentSelectionMethodsEnum parentSelectionMethod;
 
     private List<SolverGeneticIndividual> population;
     private int[] initialBoard;

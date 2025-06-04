@@ -1,20 +1,20 @@
-public enum ParentSelectionMethods {
+public enum ParentSelectionMethodsEnum {
     ELITE_SELECTION("elitarna") {
-        public ParentSelectionMethods next() {
+        public ParentSelectionMethodsEnum next() {
             return ROULETTE_SELECTION;
         }
     },
     ROULETTE_SELECTION("ruletkowa") {
-        public ParentSelectionMethods next() {
+        public ParentSelectionMethodsEnum next() {
             return ELITE_SELECTION;
         }
     };
 
     private final String displayName;
 
-    public abstract ParentSelectionMethods next();
+    public abstract ParentSelectionMethodsEnum next();
 
-    ParentSelectionMethods(String _displayName) {
+    ParentSelectionMethodsEnum(String _displayName) {
         this.displayName = _displayName;
     }
 

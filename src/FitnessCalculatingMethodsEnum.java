@@ -1,20 +1,20 @@
-public enum FitnessCalculatingMethods {
+public enum FitnessCalculatingMethodsEnum {
     MISSING_VALUES("liczy brakujące") {
-        public FitnessCalculatingMethods next() {
+        public FitnessCalculatingMethodsEnum next() {
             return VALUES_COLLISIONS;
         }
     },
     VALUES_COLLISIONS("liczy kolizje") {
-        public FitnessCalculatingMethods next() {
+        public FitnessCalculatingMethodsEnum next() {
             return MISSING_VALUES;
         }
     };
 
     private final String displayName;
 
-    public abstract FitnessCalculatingMethods next();
+    public abstract FitnessCalculatingMethodsEnum next();
 
-    FitnessCalculatingMethods(String _displayName) {
+    FitnessCalculatingMethodsEnum(String _displayName) {
         this.displayName = _displayName;
     }
 

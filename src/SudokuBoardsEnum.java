@@ -1,20 +1,14 @@
-import org.tinylog.Logger;
-
-public class BoardBase {
-    public static final int RETURN_ERROR = -999999;
-    public static final int EMPTY_FIELD = 0;
-    public static final int SUDOKU_SIZE_MIN = 2;
-    public static final int SUDOKU_SIZE_MAX = 5;
-    public static final int SUDOKU_SIZE_DEFAULT = 3;
-
-    // TODO >>>>> usunąć boardData i przetestować
-    public static final int[] BOARD_TEST_DATA_2x2 = {
+public enum SudokuBoardsEnum {
+    X2E("SUDOKU 2x2 EASY", new int[] {
             0, -2, -4, 0,
             -1, 0, 0, -3,
             -4, 0, 0, -2,
-            0, -1, -3, 0
-    };
-    public static final int[] BOARD_TEST_DATA_3x3 = {
+            0, -1, -3, 0 }) {
+        public SudokuBoardsEnum next() {
+            return X3N;
+        }
+    },
+    X3N("SUDOKU 3x3 NORMAL", new int[] {
             -9, 0, -6, 0, 0, -8, 0, 0, 0,
             0, 0, 0, 0, 0, -1, 0, -9, 0,
             -2, 0, 0, -9, -6, 0, -7, 0, 0,
@@ -23,9 +17,33 @@ public class BoardBase {
             0, -5, 0, 0, 0, 0, -8, 0, 0,
             0, 0, 0, 0, 0, -6, 0, 0, 0,
             -7, 0, 0, 0, 0, 0, 0, 0, -3,
-            0, 0, -2, -5, -4, 0, 0, -8, 0
-    };
-    public static final int[] BOARD_TEST_DATA_4x4 = {
+            0, 0, -2, -5, -4, 0, 0, -8, 0 }) {
+        public SudokuBoardsEnum next() {
+            return X4E;
+        }
+    },
+    X4E("SUDOKU 4x4 EASY", new int[] {
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }) {
+        public SudokuBoardsEnum next() {
+            return X4N;
+        }
+    },
+    X4N("SUDOKU 4x4 NORMAL", new int[] {
             0, 0, -8, 0, 0, 0, -2, -16, 0, -14, 0, -11, -7, -10, 0, -4,
             0, -15, 0, 0, 0, 0, -8, 0, -13, 0, 0, -9, 0, 0, -16, -14,
             -14, 0, 0, -16, 0, 0, -11, -12, -8, -6, -2, -10, -13, -5, 0, -1,
@@ -41,52 +59,33 @@ public class BoardBase {
             0, -3, 0, 0, 0, -2, -1, -4, 0, -15, 0, 0, 0, 0, -11, -5,
             -11, 0, -13, 0, -6, 0, 0, -5, 0, -4, 0, -3, 0, -8, 0, 0,
             -15, -4, 0, 0, 0, 0, -3, 0, -2, 0, 0, 0, 0, 0, 0, 0,
-            0, -14, 0, 0, 0, 0, -10, -15, -7, -5, -9, 0, -12, -13, 0, -3
-    };
-    public static final int[] BOARD_TEST_DATA_4x4_HARD = {
+            0, -14, 0, 0, 0, 0, -10, -15, -7, -5, -9, 0, -12, -13, 0, -3 }) {
+        public SudokuBoardsEnum next() {
+            return X4H;
+        }
+    },
+    X4H("SUDOKU 4x4 HARD", new int[] {
             0, 0, 0, -14, -15, 0, -1, 0, -12, -9, 0, 0, 0, -6, 0, 0,
             0, 0, -2, 0, -3, 0, -11, 0, 0, 0, 0, 0, 0, 0, 0, -1,
             -3, 0, 0, 0, 0, 0, 0, -13, -6, 0, -10, 0, 0, 0, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -15, 0, -7, -5, 0, -13,
-
             -14, 0, -6, 0, 0, 0, -4, 0, 0, 0, 0, 0, 0, 0, -16, 0,
             -13, -10, 0, 0, 0, 0, 0, -5, -9, -16, -6, 0, -15, 0, 0, 0,
             -12, -9, -8, 0, -10, 0, 0, -16, 0, -11, 0, 0, -13, 0, 0, -4,
             0, 0, 0, 0, 0, -1, 0, -3, -15, 0, -7, -10, -14, -12, 0, -6,
-
             -1, 0, 0, 0, -14, -6, 0, -11, -5, -10, -16, 0, 0, -8, 0, -3,
             0, 0, -14, 0, 0, 0, -16, 0, 0, -13, 0, 0, 0, 0, 0, 0,
             -9, 0, -5, 0, 0, 0, 0, 0, -7, -12, 0, -6, 0, 0, -4, 0,
             0, -4, 0, 0, 0, 0, -5, 0, -3, 0, 0, 0, 0, 0, 0, -11,
-
             0, 0, 0, -8, -13, 0, 0, 0, 0, 0, -9, -12, -16, -4, 0, -10,
             0, 0, 0, -2, -5, 0, 0, 0, -10, 0, -13, 0, 0, 0, 0, -14,
             -6, -3, -10, 0, -2, -7, 0, 0, 0, 0, -8, 0, -12, 0, -5, 0,
-            0, -5, -4, 0, 0, -3, -14, 0, 0, 0, 0, -16, 0, 0, -8, 0
-    };
-    public static final int[] BOARD_TEST_DATA_4x4_EASY = {
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    };
-
-    public static final int[] BOARD_TEST_DATA_5x5 = {
+            0, -5, -4, 0, 0, -3, -14, 0, 0, 0, 0, -16, 0, 0, -8, 0 }) {
+        public SudokuBoardsEnum next() {
+            return X5N;
+        }
+    },
+    X5N("SUDOKU 5x5 NORMAL", new int[] {
             0, -2, 0, 0, 0, -3, -14, 0, -8, 0, 0, 0, 0, 0, 0, 0, 0, -13, -4, -24, 0, -7, -1, 0, 0,
             0, -10, -17, 0, 0, 0, -6, -18, 0, 0, -22, -16, 0, -12, 0, 0, 0, 0, -1, 0, 0, 0, -13, -19, 0,
             0, -15, -24, -13, -7, 0, 0, 0, -4, 0, -10, 0, 0, -3, -14, 0, -18, 0, 0, 0, 0, -22, -2, 6, 0,
@@ -111,69 +110,27 @@ public class BoardBase {
             0, -1, -14, -23, 0, 0, 0, 0, -9, 0, 0, 0, -19, -5, 0, 0, -24, 0, -12, 0, 0, -8, -17, 0, 0,
             0, -16, -11, -8, 0, 0, 0, 0, -1, 0, -6, -4, 0, 0, -23, 0, -15, 0, 0, 0, -14, -12, -9, -10, 0,
             0, -21, -3, 0, 0, 0, -17, 0, 0, 0, 0, -15, 0, -25, -20, 0, 0, -4, -10, 0, 0, 0, -16, -11, 0,
-            0, 0, -20, -2, 0, -16, -5, -8, 0, 0, 0, 0, 0, 0, 0, 0, -6, 0, -19, -25, 0, 0, 0, -3, 0
+            0, 0, -20, -2, 0, -16, -5, -8, 0, 0, 0, 0, 0, 0, 0, 0, -6, 0, -19, -25, 0, 0, 0, -3, 0 }) {
+        public SudokuBoardsEnum next() {
+            return X2E;
+        }
     };
 
-    private int sudokuSize;
-    private int boardSize;
-    private boolean checkPossibilities;
+    private final String displayName;
+    private final int[] boardData;
 
-    public BoardBase(int _size) {
-        this.recalculateBoard(_size);
-        this.checkPossibilities = false;
+    public abstract SudokuBoardsEnum next();
+
+    SudokuBoardsEnum(String _displayName, int[] _boardData) {
+        this.displayName = _displayName;
+        this.boardData = _boardData;
     }
 
-    public void recalculateBoard(int _newSize) {
-        if (!isSudokuSizeInRange(_newSize)) {
-            Logger.warn("Rozmiar sudoku jest spoza zakresu! Otrzymano {}, ustawiono {}.",
-                    _newSize, SUDOKU_SIZE_DEFAULT);
-            _newSize = SUDOKU_SIZE_DEFAULT;
-        }
-        this.sudokuSize = _newSize;
-        this.boardSize = this.sudokuSize * this.sudokuSize;
+    public String getDisplayName() {
+        return displayName;
     }
 
-    private boolean isSudokuSizeInRange(int _size) {
-        return _size > 0 && _size <= SUDOKU_SIZE_MAX;
-    }
-
-    public boolean isValueInRange(int _value) {
-        return _value > 0 && _value <= this.boardSize;
-    }
-
-    public boolean isCorrectRowNumber(int _rowNumber) {
-        return isValueInRange(_rowNumber);
-    }
-
-    public boolean isCorrectColNumber(int _colNumber) {
-        return isValueInRange(_colNumber);
-    }
-
-    public boolean isCorrectBlockNumber(int _blockNumber) {
-        return isValueInRange(_blockNumber);
-    }
-
-    public int getSudokuSize() {
-        return this.sudokuSize;
-    }
-
-    public int getBoardSize() {
-        return this.boardSize;
-    }
-
-    public int getMaxValue() {
-        return this.boardSize;
-    }
-
-    protected boolean arePossibilitiesCheckingOn() {
-        return this.checkPossibilities;
-    }
-
-    protected void setPossibilitiesCheckingOn() {
-        this.checkPossibilities = true;
-    }
-
-    protected void setPossibilitiesCheckingOff() {
-        this.checkPossibilities = false;
+    public int[] getBoardData() {
+        return boardData;
     }
 }

@@ -4,8 +4,8 @@ import java.util.Random;
 import java.util.Set;
 
 public class SolverGeneticParentMaker extends SolverBase {
-    private static final ParentGeneratingMethods PARENT_GENERATING_METHOD_DEFAULT = ParentGeneratingMethods.RANDOM_WITH_CHECKING;
-    private static ParentGeneratingMethods parentGeneratingMethod;
+    private static final ParentGeneratingMethodsEnum PARENT_GENERATING_METHOD_DEFAULT = ParentGeneratingMethodsEnum.RANDOM_WITH_CHECKING;
+    private static ParentGeneratingMethodsEnum parentGeneratingMethod;
 
     private final int MAX_SAFE_GENERATION_ATTEMPTS = 25;
     private Board board;

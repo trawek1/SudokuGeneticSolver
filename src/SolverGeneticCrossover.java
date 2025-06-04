@@ -18,8 +18,8 @@ public class SolverGeneticCrossover extends SolverBase {
     private static final int MUTATION_PROBABILITY_DEFAULT = 15;
     private static int mutationProbability;
 
-    private static final CrossoverMethods CROSSOVER_METHOD_DEFAULT = CrossoverMethods.CROSSOVER_BALANCED_UNIFORM;
-    private static CrossoverMethods crossoverMethod;
+    private static final CrossoverMethodsEnum CROSSOVER_METHOD_DEFAULT = CrossoverMethodsEnum.CROSSOVER_BALANCED_UNIFORM;
+    private static CrossoverMethodsEnum crossoverMethod;
 
     public final int USE_RANDOM_POINT = -1;
     public final int USE_SYMMETRIC_POINT = -2;
@@ -122,7 +122,7 @@ public class SolverGeneticCrossover extends SolverBase {
         return _crossoverPoint <= 0 || _crossoverPoint >= this.boardLength - 1;
     }
 
-    public void setCrossoverMethod(CrossoverMethods _crossoverMethod) {
+    public void setCrossoverMethod(CrossoverMethodsEnum _crossoverMethod) {
         crossoverMethod = _crossoverMethod;
     }
 

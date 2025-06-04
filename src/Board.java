@@ -6,6 +6,10 @@ import java.util.Set;
 public class Board extends BoardBase {
     private BoardField[][] board;
 
+    public Board() {
+        this(SUDOKU_SIZE_DEFAULT);
+    }
+
     public Board(int _sudokuSize) {
         super(_sudokuSize);
 

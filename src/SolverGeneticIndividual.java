@@ -8,8 +8,8 @@ public class SolverGeneticIndividual extends SolverBase {
     private static final int FITNESS_PENALTY_VALUE_COLLISION = 2;
     private static final int FITNESS_PENALTY_CONST_COLLISION = 5;
 
-    private static final FitnessCalculatingMethods FITNESS_CALCULATING_METHOD_DEFAULT = FitnessCalculatingMethods.VALUES_COLLISIONS;
-    private static FitnessCalculatingMethods fitnessCalculatingMethod;
+    private static final FitnessCalculatingMethodsEnum FITNESS_CALCULATING_METHOD_DEFAULT = FitnessCalculatingMethodsEnum.VALUES_COLLISIONS;
+    private static FitnessCalculatingMethodsEnum fitnessCalculatingMethod;
 
     private Board board;
     private int[] initialBoardData;
@@ -29,7 +29,7 @@ public class SolverGeneticIndividual extends SolverBase {
         return fitnessCalculatingMethod.getDisplayName();
     }
 
-    public static FitnessCalculatingMethods changeFitnessCalculatingMethod() {
+    public static FitnessCalculatingMethodsEnum changeFitnessCalculatingMethod() {
         return fitnessCalculatingMethod = fitnessCalculatingMethod.next();
     }
 

@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "SudokuSolverGUI",
+            "request": "launch",
+            "mainClass": "SudokuSolverGUI",
+            "projectName": "SudokuGeneticSolver_a247a3ed"
+        },
+        {
+            "type": "java",
             "name": "Current File",
             "request": "launch",
             "mainClass": "${file}"
@@ -19,7 +26,7 @@
         },
         {
             "type": "java",
-            "name": "SudokuSolverGUI",
+            "name": "SudokuSolverGUI - dom",
             "request": "launch",
             "mainClass": "SudokuSolverGUI",
             "projectName": "SudokuGeneticSolver_319e0951",
