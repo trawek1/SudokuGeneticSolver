@@ -16,27 +16,26 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 
 public class SudokuSolverGUI extends SolverBase {
-    private static String BOARD_2X_CORNER_TOP_LEFT = String.valueOf((char) 0x2554);
-    private static String BOARD_2X_CORNER_TOP_RIGHT = String.valueOf((char) 0x2557);
-    private static String BOARD_2X_CORNER_BOTTOM_LEFT = String.valueOf((char) 0x255A);
-    private static String BOARD_2X_CORNER_BOTTOM_RIGHT = String.valueOf((char) 0x255D);
-    private static String BOARD_2X_HORI = String.valueOf((char) 0x2550);
-    private static String BOARD_2X_HORI_2X_UP = String.valueOf((char) 0x2569);
-    private static String BOARD_2X_HORI_2X_DOWN = String.valueOf((char) 0x2566);
-    private static String BOARD_2X_HORI_1X_UP = String.valueOf((char) 0x2567);
-    private static String BOARD_2X_HORI_1X_UP_DOWN = String.valueOf((char) 0x256A);
-    private static String BOARD_2X_HORI_1X_DOWN = String.valueOf((char) 0x2564);
-    private static String BOARD_2X_VERT = String.valueOf((char) 0x2551);
-    private static String BOARD_2X_VERT_2X_LEFT = String.valueOf((char) 0x2563);
-    private static String BOARD_2X_VERT_2X_RIGHT = String.valueOf((char) 0x2560);
+    private static final String BOARD_2X_CORNER_TOP_LEFT = String.valueOf((char) 0x2554);
+    private static final String BOARD_2X_CORNER_TOP_RIGHT = String.valueOf((char) 0x2557);
+    private static final String BOARD_2X_CORNER_BOTTOM_LEFT = String.valueOf((char) 0x255A);
+    private static final String BOARD_2X_CORNER_BOTTOM_RIGHT = String.valueOf((char) 0x255D);
+    private static final String BOARD_2X_HORI = String.valueOf((char) 0x2550);
+    private static final String BOARD_2X_HORI_2X_UP = String.valueOf((char) 0x2569);
+    private static final String BOARD_2X_HORI_2X_DOWN = String.valueOf((char) 0x2566);
+    private static final String BOARD_2X_HORI_1X_UP = String.valueOf((char) 0x2567);
+    private static final String BOARD_2X_HORI_1X_UP_DOWN = String.valueOf((char) 0x256A);
+    private static final String BOARD_2X_HORI_1X_DOWN = String.valueOf((char) 0x2564);
+    private static final String BOARD_2X_VERT = String.valueOf((char) 0x2551);
+    private static final String BOARD_2X_VERT_2X_LEFT = String.valueOf((char) 0x2563);
+    private static final String BOARD_2X_VERT_2X_RIGHT = String.valueOf((char) 0x2560);
     // private static String BOARD_2X_VERT_1X_LEFT = String.valueOf((char) 0x2562);
     // private static String BOARD_2X_VERT_1X_RIGHT = String.valueOf((char) 0x255F);
-    private static String BOARD_2X_CROSS = String.valueOf((char) 0x256C);
-    private static String BOARD_1X_VERT = String.valueOf((char) 0x2502);
-    private static String TITLE_BLOCK = String.valueOf((char) 0x2588);
-
-    private static int TERMINAL_WIDTH = 80;
-    private static int TERMINAL_HEIGHT = 57;
+    private static final String BOARD_2X_CROSS = String.valueOf((char) 0x256C);
+    private static final String BOARD_1X_VERT = String.valueOf((char) 0x2502);
+    private static final String TITLE_BLOCK = String.valueOf((char) 0x2588);
+    private static final int TERMINAL_WIDTH = 80;
+    private static final int TERMINAL_HEIGHT = 57;
 
     private static final int GENERATIONS_NUMBER_MIN = 5_000;
     private static final int GENERATIONS_NUMBER_MAX = 500_000;
@@ -44,16 +43,8 @@ public class SudokuSolverGUI extends SolverBase {
     private static final int GENERATIONS_NUMBER_DEFAULT = 50_000;
     private static int generationsNumber;
     private static SolvingMethodsEnum solvingMethod;
-    private static boolean calculatingIsOn;
     public static SudokuBoardsEnum sudokuTestBoard;
     public static Board boardForScreen;
-
-    public static String solvingInfoStatus;
-    public static String solvingInfoTime;
-    public static String solvingInfoDetails1;
-    public static String solvingInfoDetails2;
-    public static String solvingInfoDetails3;
-    public static long solvingTimeStart;
 
     private static Terminal terminal = null;
     private static Screen screen = null;
@@ -71,9 +62,7 @@ public class SudokuSolverGUI extends SolverBase {
         sudokuTestBoard = SudokuBoardsEnum.X3N;
         solvingMethod = SolvingMethodsEnum.GENETIC_X01;
         generationsNumber = GENERATIONS_NUMBER_DEFAULT;
-        calculatingIsOn = false;
         boardForScreen = new Board(sudokuTestBoard.getBoardData());
-        solvingInfoReset();
     }
 
     public static void main(String[] args) throws InterruptedException {
@@ -129,13 +118,16 @@ public class SudokuSolverGUI extends SolverBase {
                     } else if (keyStroke.getKeyType() == KeyType.F8) {
                         changeGenerationsNumberByStep();
                     } else if (keyStroke.getKeyType() == KeyType.F12) {
-                        switchCalculatingOn();
-                        if (isCalculatingOn()) {
-                            startSolving();
-                        }
+                        startStopSolving();
                     }
                     mustRefresh = true;
                 }
+
+                if (SolvingInfo.isChanged()) {
+                    mustRefresh = true;
+                    SolvingInfo.setToNoChanged();
+                }
+
                 if (mustRefresh) {
                     drawAll();
                     mustRefresh = false;
@@ -162,15 +154,6 @@ public class SudokuSolverGUI extends SolverBase {
                 }
             }
         }
-    }
-
-    public static void solvingInfoReset() {
-        solvingInfoStatus = "Trwa ustawianie sudoku";
-        solvingInfoTime = "Czas: --- min -- sek";
-        solvingInfoDetails1 = "";
-        solvingInfoDetails2 = "";
-        solvingInfoDetails3 = "";
-        solvingTimeStart = 0;
     }
 
     public static String getSudokuTestBoardName() {
@@ -202,12 +185,13 @@ public class SudokuSolverGUI extends SolverBase {
         }
     }
 
-    public static boolean isCalculatingOn() {
-        return calculatingIsOn;
-    }
-
-    public static void switchCalculatingOn() {
-        calculatingIsOn = !calculatingIsOn;
+    public static void startStopSolving() {
+        if (SolvingInfo.getStatus() == SolvingStatusEnum.IN_PROGRESS) {
+            SolvingInfo.changeStatusTo(SolvingStatusEnum.STOPPED_BY_USER);
+        } else {
+            SolvingInfo.changeStatusTo(SolvingStatusEnum.IN_PROGRESS);
+            startSolving();
+        }
     }
 
     public static void prepareScreenElements() {
@@ -527,7 +511,7 @@ public class SudokuSolverGUI extends SolverBase {
         fluidField.putString(namesCol + optionName.length(), actRow, optionValue, SGR.BOLD);
 
         actRow++;
-        if (isCalculatingOn()) {
+        if (SolvingInfo.getStatus() == SolvingStatusEnum.IN_PROGRESS) {
             optionName = "PRZERWIJ rozwiązywanie sudoku";
         } else {
             optionName = "ZACZNIJ rozwiązywanie sudoku ";
@@ -549,92 +533,66 @@ public class SudokuSolverGUI extends SolverBase {
         boardField.putString(actCol, actRow, "=== INFORMACJE ===");
 
         actRow++;
-        text = solvingInfoStatus;
+        text = SolvingInfo.getSolvingInfoStatus();
         text = String.format("%-" + (colWidth - text.length()) + "s", text);
         fluidField.putString(actCol, actRow, text);
 
         actRow++;
-        text = solvingInfoStatus;
+        text = SolvingInfo.getSolvingInfoTime();
         text = String.format("%-" + (colWidth - text.length()) + "s", text);
         fluidField.putString(actCol, actRow, text);
 
         actRow++;
-        text = solvingInfoStatus;
+        text = SolvingInfo.getSolvingInfoDetails1();
         text = String.format("%-" + (colWidth - text.length()) + "s", text);
         fluidField.putString(actCol, actRow, text);
 
         actRow++;
-        text = solvingInfoStatus;
+        text = SolvingInfo.getSolvingInfoDetails2();
         text = String.format("%-" + (colWidth - text.length()) + "s", text);
         fluidField.putString(actCol, actRow, text);
 
         actRow++;
-        text = solvingInfoStatus;
+        text = SolvingInfo.getSolvingInfoDetails3();
         text = String.format("%-" + (colWidth - text.length()) + "s", text);
         fluidField.putString(actCol, actRow, text);
-    }
-
-    public static void startSolvingTime() {
-        solvingTimeStart = System.nanoTime();
     }
 
     public static void setSolvingInfoTime(long _actTime) {
-        long nanoseconds1 = _actTime;
-        long minutes1 = nanoseconds1 / 60_000_000_000L;
-        nanoseconds1 %= 60_000_000_000L;
-        long seconds1 = nanoseconds1 / 1_000_000_000;
+        // long nanoseconds1 = _actTime;
+        // long minutes1 = nanoseconds1 / 60_000_000_000L;
+        // nanoseconds1 %= 60_000_000_000L;
+        // long seconds1 = nanoseconds1 / 1_000_000_000;
 
-        long nanoseconds2 = MAX_SOLVING_TIME;
-        long minutes2 = nanoseconds2 / 60_000_000_000L;
-        nanoseconds2 %= 60_000_000_000L;
-        long seconds2 = nanoseconds2 / 1_000_000_000;
-        solvingInfoTime = String.format("Czas: %02dm %02ds z %02dm %02ds", minutes1, seconds1, minutes2, seconds2);
+        // long nanoseconds2 = MAX_SOLVING_TIME;
+        // long minutes2 = nanoseconds2 / 60_000_000_000L;
+        // nanoseconds2 %= 60_000_000_000L;
+        // long seconds2 = nanoseconds2 / 1_000_000_000;
+        // solvingInfoTime = String.format("Czas: %02dm %02ds z %02dm %02ds", minutes1,
+        // seconds1, minutes2, seconds2);
     }
 
-    /**
-     * ==============================================================================
-     * ================================================================MET.DYNAMICZNE
-     * ==============================================================================
-     */
-
     public static void startSolving() {
-        int solvingIterations;
         switch (solvingMethod) {
             case BRUTE_FORCE_X01:
-                switchCalculatingOn();
-
+                // SolverBruteForce solver = new
+                // SolverBruteForce(boardForScreen.getBoardData());
+                Logger.info("Rozpoczęto rozwiązywanie sudoku metodą Brute Force X01.");
                 break;
             case BRUTE_FORCE_X03:
-                SudokuSolverGUI.solvingInfoReset();
-                resetTimeMeasurement();
-
-                setSolvingIterationsCount(3);
-
-                switchCalculatingOn();
-                for (int i = 0; i < getSolvingIterationsCount(); i++) {
-                    // resetBoard();
-                    // startTimeMeasurement();
-                    // boolean isSolved = this.solve();
-                    // stopTimeMeasurement();
-                    // Logger.info("Rozwiązywanie nr {}, wynik {}, czas {}", i + 1, isSolved ?
-                    // "udane" : "błędne",
-                    // showSolvingTime());
-                }
-
-                Logger.info("Średni czas rozwiązywania: {}", showSolvingAverageTime());
-
+                Logger.info("Rozpoczęto rozwiązywanie sudoku metodą Brute Force X03.");
                 break;
             case BRUTE_FORCE_X10:
-                switchCalculatingOn();
+                Logger.info("Rozpoczęto rozwiązywanie sudoku metodą Brute Force X10.");
                 break;
             case GENETIC_X01:
-                switchCalculatingOn();
+                Logger.info("Rozpoczęto rozwiązywanie sudoku metodą Genetic X01.");
                 break;
             case GENETIC_X03:
-                switchCalculatingOn();
+                Logger.info("Rozpoczęto rozwiązywanie sudoku metodą Genetic X03.");
                 break;
             case GENETIC_X10:
-                switchCalculatingOn();
+                Logger.info("Rozpoczęto rozwiązywanie sudoku metodą Genetic X10.");
                 break;
             default:
                 Logger.warn("Nieoczekiwana wartość ({})!", solvingMethod);

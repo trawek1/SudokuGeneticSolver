@@ -64,12 +64,12 @@ public class SolverBruteForce extends SolverBase {
     }
 
     public void startSolving() {
-        this.board.xxx_showBoard();
+        // this.board.xxx_showBoard();
         Logger.info("Rozpoczeto rozwiązywanie...");
 
-        startTimeMeasurement();
+        // startTimeMeasurement();
         boolean isSolved = this.solve();
-        stopTimeMeasurement();
+        // stopTimeMeasurement();
 
         if (isSolved) {
             Logger.info("Znaleziono rozwiązanie!");
@@ -77,7 +77,7 @@ public class SolverBruteForce extends SolverBase {
             Logger.info("Nie znaleziono rozwiązania!");
         }
         Logger.info("Czas rozwiązywania: {}", showSolvingTime());
-        this.board.xxx_showBoard();
+        // this.board.xxx_showBoard();
     }
 
     public void startSolvingManyTimes(int _solvingNumber) {
@@ -88,16 +88,15 @@ public class SolverBruteForce extends SolverBase {
 
         resetTimeMeasurement();
         for (int i = 0; i < getSolvingIterationsCount(); i++) {
-            resetBoard();
-
-            startTimeMeasurement();
-            boolean isSolved = this.solve();
-            stopTimeMeasurement();
-
-            if (!SudokuSolverGUI.isCalculatingOn()) {
-
+            if (SolvingInfo.getStatus() != SolvingStatusEnum.IN_PROGRESS) {
                 return;
             }
+
+            resetBoard();
+
+            // startTimeMeasurement();
+            boolean isSolved = this.solve();
+            // stopTimeMeasurement();
 
             Logger.info("Rozwiązywanie nr {}, wynik {}, czas {}", i + 1, isSolved ? "udane" : "błędne",
                     showSolvingTime());
