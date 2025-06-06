@@ -123,9 +123,9 @@ public class SudokuSolverGUI extends SolverBase {
                     mustRefresh = true;
                 }
 
-                if (SolvingInfo.isChanged()) {
+                if (SolverInfo.isChanged()) {
                     mustRefresh = true;
-                    SolvingInfo.setToNoChanged();
+                    SolverInfo.setToNoChanged();
                 }
 
                 if (mustRefresh) {
@@ -186,10 +186,10 @@ public class SudokuSolverGUI extends SolverBase {
     }
 
     public static void startStopSolving() {
-        if (SolvingInfo.getStatus() == SolvingStatusEnum.IN_PROGRESS) {
-            SolvingInfo.changeStatusTo(SolvingStatusEnum.STOPPED_BY_USER);
+        if (SolverInfo.getStatus() == SolvingStatusEnum.IN_PROGRESS) {
+            SolverInfo.changeStatusTo(SolvingStatusEnum.STOPPED_BY_USER);
         } else {
-            SolvingInfo.changeStatusTo(SolvingStatusEnum.IN_PROGRESS);
+            SolverInfo.changeStatusTo(SolvingStatusEnum.IN_PROGRESS);
             startSolving();
         }
     }
@@ -511,7 +511,7 @@ public class SudokuSolverGUI extends SolverBase {
         fluidField.putString(namesCol + optionName.length(), actRow, optionValue, SGR.BOLD);
 
         actRow++;
-        if (SolvingInfo.getStatus() == SolvingStatusEnum.IN_PROGRESS) {
+        if (SolverInfo.getStatus() == SolvingStatusEnum.IN_PROGRESS) {
             optionName = "PRZERWIJ rozwiązywanie sudoku";
         } else {
             optionName = "ZACZNIJ rozwiązywanie sudoku ";
@@ -533,51 +533,37 @@ public class SudokuSolverGUI extends SolverBase {
         boardField.putString(actCol, actRow, "=== INFORMACJE ===");
 
         actRow++;
-        text = SolvingInfo.getSolvingInfoStatus();
+        text = SolverInfo.getSolvingInfoStatus();
         text = String.format("%-" + (colWidth - text.length()) + "s", text);
         fluidField.putString(actCol, actRow, text);
 
         actRow++;
-        text = SolvingInfo.getSolvingInfoTime();
+        text = SolverInfo.getSolvingInfoTime();
         text = String.format("%-" + (colWidth - text.length()) + "s", text);
         fluidField.putString(actCol, actRow, text);
 
         actRow++;
-        text = SolvingInfo.getSolvingInfoDetails1();
+        text = SolverInfo.getSolvingInfoDetails1();
         text = String.format("%-" + (colWidth - text.length()) + "s", text);
         fluidField.putString(actCol, actRow, text);
 
         actRow++;
-        text = SolvingInfo.getSolvingInfoDetails2();
+        text = SolverInfo.getSolvingInfoDetails2();
         text = String.format("%-" + (colWidth - text.length()) + "s", text);
         fluidField.putString(actCol, actRow, text);
 
         actRow++;
-        text = SolvingInfo.getSolvingInfoDetails3();
+        text = SolverInfo.getSolvingInfoDetails3();
         text = String.format("%-" + (colWidth - text.length()) + "s", text);
         fluidField.putString(actCol, actRow, text);
-    }
-
-    public static void setSolvingInfoTime(long _actTime) {
-        // long nanoseconds1 = _actTime;
-        // long minutes1 = nanoseconds1 / 60_000_000_000L;
-        // nanoseconds1 %= 60_000_000_000L;
-        // long seconds1 = nanoseconds1 / 1_000_000_000;
-
-        // long nanoseconds2 = MAX_SOLVING_TIME;
-        // long minutes2 = nanoseconds2 / 60_000_000_000L;
-        // nanoseconds2 %= 60_000_000_000L;
-        // long seconds2 = nanoseconds2 / 1_000_000_000;
-        // solvingInfoTime = String.format("Czas: %02dm %02ds z %02dm %02ds", minutes1,
-        // seconds1, minutes2, seconds2);
     }
 
     public static void startSolving() {
         switch (solvingMethod) {
             case BRUTE_FORCE_X01:
-                // SolverBruteForce solver = new
-                // SolverBruteForce(boardForScreen.getBoardData());
                 Logger.info("Rozpoczęto rozwiązywanie sudoku metodą Brute Force X01.");
+                SolverBruteForce solverObj = new SolverBruteForce(boardForScreen.getBoardData());
+
                 break;
             case BRUTE_FORCE_X03:
                 Logger.info("Rozpoczęto rozwiązywanie sudoku metodą Brute Force X03.");

@@ -1,6 +1,6 @@
 import org.tinylog.Logger;
 
-public class SolvingInfo {
+public class SolverInfo {
 	private static final long TIME_COUNTING_STOPPED = 0;
 	private static final long TIME_UPDATE_INTERVAL = 1000;
 	private static boolean solvingInfoChanged;
@@ -43,11 +43,39 @@ public class SolvingInfo {
 
 		long currentTime = System.currentTimeMillis();
 		if (currentTime - lastUpdateTime > TIME_UPDATE_INTERVAL) {
+			calculateSolvingTime();
 			lastUpdateTime = currentTime;
 			return true;
 		}
 
 		return false;
+	}
+
+	public static void calculateSolvingTime() {
+		if (solvingTimeStart == TIME_COUNTING_STOPPED) {
+			return;
+		}
+
+		long currentTime = System.currentTimeMillis();
+		if (solvingTimeStop != TIME_COUNTING_STOPPED) {
+			currentTime = solvingTimeStop - solvingTimeStart;
+		} else {
+			currentTime = currentTime - solvingTimeStart;
+		}
+
+		long minutes = (long) currentTime / 60_000;
+		currentTime %= 60_000;
+		long seconds = (long) currentTime / 60;
+
+		long maxTime = SolverBase.MAX_SOLVING_TIME;
+		long minutesMax = (long) maxTime / 60_000;
+		maxTime %= 60_000;
+		long secondsMax = (long) maxTime / 60;
+		solvingInfoTimeTxt = String.format("%02dm %02ds / %02dm %02ds",
+				minutes, seconds, minutesMax, secondsMax);
+
+		solvingInfoChanged = true;
+		lastUpdateTime = currentTime;
 	}
 
 	public static SolvingStatusEnum getStatus() {

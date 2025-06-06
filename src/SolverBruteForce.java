@@ -88,7 +88,7 @@ public class SolverBruteForce extends SolverBase {
 
         resetTimeMeasurement();
         for (int i = 0; i < getSolvingIterationsCount(); i++) {
-            if (SolvingInfo.getStatus() != SolvingStatusEnum.IN_PROGRESS) {
+            if (SolverInfo.getStatus() != SolvingStatusEnum.IN_PROGRESS) {
                 return;
             }
 
