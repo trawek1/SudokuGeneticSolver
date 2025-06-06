@@ -15,7 +15,7 @@ import org.tinylog.Logger;
 import java.io.IOException;
 import java.nio.charset.Charset;
 
-public class SudokuSolverGUI {
+public class SudokuSolverGUI extends SolverBase {
     private static String BOARD_2X_CORNER_TOP_LEFT = String.valueOf((char) 0x2554);
     private static String BOARD_2X_CORNER_TOP_RIGHT = String.valueOf((char) 0x2557);
     private static String BOARD_2X_CORNER_BOTTOM_LEFT = String.valueOf((char) 0x255A);
@@ -38,6 +38,23 @@ public class SudokuSolverGUI {
     private static int TERMINAL_WIDTH = 80;
     private static int TERMINAL_HEIGHT = 57;
 
+    private static final int GENERATIONS_NUMBER_MIN = 5_000;
+    private static final int GENERATIONS_NUMBER_MAX = 500_000;
+    private static final int GENERATIONS_NUMBER_STEP = 5_000;
+    private static final int GENERATIONS_NUMBER_DEFAULT = 50_000;
+    private static int generationsNumber;
+    private static SolvingMethodsEnum solvingMethod;
+    private static boolean calculatingIsOn;
+    public static SudokuBoardsEnum sudokuTestBoard;
+    public static Board boardForScreen;
+
+    public static String solvingInfoStatus;
+    public static String solvingInfoTime;
+    public static String solvingInfoDetails1;
+    public static String solvingInfoDetails2;
+    public static String solvingInfoDetails3;
+    public static long solvingTimeStart;
+
     private static Terminal terminal = null;
     private static Screen screen = null;
     private static TextGraphics constField;
@@ -51,13 +68,13 @@ public class SudokuSolverGUI {
      */
 
     static {
+        sudokuTestBoard = SudokuBoardsEnum.X3N;
+        solvingMethod = SolvingMethodsEnum.GENETIC_X01;
+        generationsNumber = GENERATIONS_NUMBER_DEFAULT;
+        calculatingIsOn = false;
+        boardForScreen = new Board(sudokuTestBoard.getBoardData());
+        solvingInfoReset();
     }
-
-    /**
-     * ==============================================================================
-     * ================================================================MET.DYNAMICZNE
-     * ==============================================================================
-     */
 
     public static void main(String[] args) throws InterruptedException {
         try {
@@ -91,10 +108,10 @@ public class SudokuSolverGUI {
                         break;
                     } else if (keyStroke.getKeyType() == KeyType.Character
                             && (keyStroke.getCharacter() == 'R' || keyStroke.getCharacter() == 'r')) {
-                        SolverStarter.changeSudokuTestBoard();
+                        changeSudokuTestBoard();
                     } else if (keyStroke.getKeyType() == KeyType.Character
                             && (keyStroke.getCharacter() == 'M' || keyStroke.getCharacter() == 'm')) {
-                        SolverStarter.changeSolvingMethod();
+                        changeSolvingMethod();
                     } else if (keyStroke.getKeyType() == KeyType.F1) {
                         SolverGeneticParentMaker.changeParentGeneratingMethod();
                     } else if (keyStroke.getKeyType() == KeyType.F2) {
@@ -110,9 +127,12 @@ public class SudokuSolverGUI {
                     } else if (keyStroke.getKeyType() == KeyType.F7) {
                         SolverGeneticPopulation.changePopulationSizeByStep();
                     } else if (keyStroke.getKeyType() == KeyType.F8) {
-                        SolverStarter.changeGenerationsNumberByStep();
+                        changeGenerationsNumberByStep();
                     } else if (keyStroke.getKeyType() == KeyType.F12) {
-                        SolverStarter.switchCalculatingOn();
+                        switchCalculatingOn();
+                        if (isCalculatingOn()) {
+                            startSolving();
+                        }
                     }
                     mustRefresh = true;
                 }
@@ -144,6 +164,52 @@ public class SudokuSolverGUI {
         }
     }
 
+    public static void solvingInfoReset() {
+        solvingInfoStatus = "Trwa ustawianie sudoku";
+        solvingInfoTime = "Czas: --- min -- sek";
+        solvingInfoDetails1 = "";
+        solvingInfoDetails2 = "";
+        solvingInfoDetails3 = "";
+        solvingTimeStart = 0;
+    }
+
+    public static String getSudokuTestBoardName() {
+        return sudokuTestBoard.getDisplayName();
+    }
+
+    public static SudokuBoardsEnum changeSudokuTestBoard() {
+        sudokuTestBoard = sudokuTestBoard.next();
+        boardForScreen = new Board(sudokuTestBoard.getBoardData());
+        return sudokuTestBoard;
+    }
+
+    public static String getSolvingMethodName() {
+        return solvingMethod.getDisplayName();
+    }
+
+    public static SolvingMethodsEnum changeSolvingMethod() {
+        return solvingMethod = solvingMethod.next();
+    }
+
+    public static int getGenerationsNumber() {
+        return generationsNumber;
+    }
+
+    public static void changeGenerationsNumberByStep() {
+        generationsNumber += GENERATIONS_NUMBER_STEP;
+        if (generationsNumber > GENERATIONS_NUMBER_MAX) {
+            generationsNumber = GENERATIONS_NUMBER_MIN;
+        }
+    }
+
+    public static boolean isCalculatingOn() {
+        return calculatingIsOn;
+    }
+
+    public static void switchCalculatingOn() {
+        calculatingIsOn = !calculatingIsOn;
+    }
+
     public static void prepareScreenElements() {
         try {
             constField = terminal.newTextGraphics();
@@ -165,7 +231,7 @@ public class SudokuSolverGUI {
         int titleWidth = 51;
         int boardWidth = 0;
         int boardHeight = 0;
-        switch (SolverStarter.boardForScreen.getSudokuSize()) {
+        switch (boardForScreen.getSudokuSize()) {
             case 2 -> {
                 boardWidth = 13;
                 boardHeight = 7;
@@ -185,7 +251,7 @@ public class SudokuSolverGUI {
             default -> {
                 Logger.warn("Wartość jest spoza zakresu! Oczekiwano {}-{}, otrzymano {}. Zakończono program.",
                         BoardBase.SUDOKU_SIZE_MIN, BoardBase.SUDOKU_SIZE_MAX,
-                        SolverStarter.boardForScreen.getSudokuSize());
+                        boardForScreen.getSudokuSize());
                 System.exit(0);
             }
         }
@@ -202,6 +268,7 @@ public class SudokuSolverGUI {
         drawTitle(1, (TERMINAL_WIDTH - titleWidth) / 2);
         drawSudokuBoard(8, (TERMINAL_WIDTH - boardWidth) / 2);
         drawMenu(8 + boardHeight + 1, 2);
+        drawSolvingInfo(8 + boardHeight + 1, 52);
 
         try {
             screen.refresh();
@@ -277,8 +344,8 @@ public class SudokuSolverGUI {
     }
 
     public static void drawSudokuBoard(int _startRow, int _startCol) {
-        int sudSize = SolverStarter.boardForScreen.getSudokuSize();
-        int boardSize = SolverStarter.boardForScreen.getBoardSize();
+        int sudSize = boardForScreen.getSudokuSize();
+        int boardSize = boardForScreen.getBoardSize();
 
         for (int row = 0; row < boardSize; row++) {
             for (int col = 0; col < boardSize; col++) {
@@ -357,9 +424,9 @@ public class SudokuSolverGUI {
                 // boardField.putString(actCol + 2, actRow, BOARD_2X_VERT);
                 // }
 
-                int fieldValue = Math.abs(SolverStarter.boardForScreen.getValue(row + 1, col + 1));
+                int fieldValue = Math.abs(boardForScreen.getValue(row + 1, col + 1));
 
-                if (SolverStarter.boardForScreen.isConstField(row + 1, col + 1)) {
+                if (boardForScreen.isConstField(row + 1, col + 1)) {
                     constField.putString(actCol, actRow, String.format("%2d", fieldValue), SGR.BOLD);
                 } else {
                     if (fieldValue == BoardBase.EMPTY_FIELD) {
@@ -384,16 +451,14 @@ public class SudokuSolverGUI {
 
         actRow++;
         optionName = "Rozmiar planszy: ";
-        optionValue = String.format("%-" + (colWidth - optionName.length()) + "s",
-                SolverStarter.getSudokuTestBoardName());
+        optionValue = String.format("%-" + (colWidth - optionName.length()) + "s", getSudokuTestBoardName());
         boardField.putString(actCol, actRow, "R");
         fluidField.putString(namesCol, actRow, optionName);
         fluidField.putString(namesCol + optionName.length(), actRow, optionValue, SGR.BOLD);
 
         actRow++;
         optionName = "Metoda rozwiązywania: ";
-        optionValue = String.format("%-" + (colWidth - optionName.length()) + "s",
-                SolverStarter.getSolvingMethodName());
+        optionValue = String.format("%-" + (colWidth - optionName.length()) + "s", getSolvingMethodName());
         boardField.putString(actCol, actRow, "M");
         fluidField.putString(namesCol, actRow, optionName);
         fluidField.putString(namesCol + optionName.length(), actRow, optionValue, SGR.BOLD);
@@ -456,14 +521,13 @@ public class SudokuSolverGUI {
 
         actRow++;
         optionName = "- ilość generacji: ";
-        optionValue = String.format("%-" + (colWidth - optionName.length()) + "d",
-                SolverStarter.getGenerationsNumber());
+        optionValue = String.format("%-" + (colWidth - optionName.length()) + "d", getGenerationsNumber());
         boardField.putString(actCol, actRow, "F8");
         fluidField.putString(namesCol, actRow, optionName);
         fluidField.putString(namesCol + optionName.length(), actRow, optionValue, SGR.BOLD);
 
         actRow++;
-        if (SolverStarter.isCalculatingOn()) {
+        if (isCalculatingOn()) {
             optionName = "PRZERWIJ rozwiązywanie sudoku";
         } else {
             optionName = "ZACZNIJ rozwiązywanie sudoku ";
@@ -475,5 +539,113 @@ public class SudokuSolverGUI {
         boardField.putString(actCol, actRow, "ESC");
         fluidField.putString(namesCol, actRow, "Koniec programu");
     }
+
+    public static void drawSolvingInfo(int _startRow, int _startCol) {
+        final int colWidth = 24;
+        int actRow = _startRow;
+        int actCol = _startCol;
+        String text;
+
+        boardField.putString(actCol, actRow, "=== INFORMACJE ===");
+
+        actRow++;
+        text = solvingInfoStatus;
+        text = String.format("%-" + (colWidth - text.length()) + "s", text);
+        fluidField.putString(actCol, actRow, text);
+
+        actRow++;
+        text = solvingInfoStatus;
+        text = String.format("%-" + (colWidth - text.length()) + "s", text);
+        fluidField.putString(actCol, actRow, text);
+
+        actRow++;
+        text = solvingInfoStatus;
+        text = String.format("%-" + (colWidth - text.length()) + "s", text);
+        fluidField.putString(actCol, actRow, text);
+
+        actRow++;
+        text = solvingInfoStatus;
+        text = String.format("%-" + (colWidth - text.length()) + "s", text);
+        fluidField.putString(actCol, actRow, text);
+
+        actRow++;
+        text = solvingInfoStatus;
+        text = String.format("%-" + (colWidth - text.length()) + "s", text);
+        fluidField.putString(actCol, actRow, text);
+    }
+
+    public static void startSolvingTime() {
+        solvingTimeStart = System.nanoTime();
+    }
+
+    public static void setSolvingInfoTime(long _actTime) {
+        long nanoseconds1 = _actTime;
+        long minutes1 = nanoseconds1 / 60_000_000_000L;
+        nanoseconds1 %= 60_000_000_000L;
+        long seconds1 = nanoseconds1 / 1_000_000_000;
+
+        long nanoseconds2 = MAX_SOLVING_TIME;
+        long minutes2 = nanoseconds2 / 60_000_000_000L;
+        nanoseconds2 %= 60_000_000_000L;
+        long seconds2 = nanoseconds2 / 1_000_000_000;
+        solvingInfoTime = String.format("Czas: %02dm %02ds z %02dm %02ds", minutes1, seconds1, minutes2, seconds2);
+    }
+
+    /**
+     * ==============================================================================
+     * ================================================================MET.DYNAMICZNE
+     * ==============================================================================
+     */
+
+    public static void startSolving() {
+        int solvingIterations;
+        switch (solvingMethod) {
+            case BRUTE_FORCE_X01:
+                switchCalculatingOn();
+
+                break;
+            case BRUTE_FORCE_X03:
+                SudokuSolverGUI.solvingInfoReset();
+                resetTimeMeasurement();
+
+                setSolvingIterationsCount(3);
+
+                switchCalculatingOn();
+                for (int i = 0; i < getSolvingIterationsCount(); i++) {
+                    // resetBoard();
+                    // startTimeMeasurement();
+                    // boolean isSolved = this.solve();
+                    // stopTimeMeasurement();
+                    // Logger.info("Rozwiązywanie nr {}, wynik {}, czas {}", i + 1, isSolved ?
+                    // "udane" : "błędne",
+                    // showSolvingTime());
+                }
+
+                Logger.info("Średni czas rozwiązywania: {}", showSolvingAverageTime());
+
+                break;
+            case BRUTE_FORCE_X10:
+                switchCalculatingOn();
+                break;
+            case GENETIC_X01:
+                switchCalculatingOn();
+                break;
+            case GENETIC_X03:
+                switchCalculatingOn();
+                break;
+            case GENETIC_X10:
+                switchCalculatingOn();
+                break;
+            default:
+                Logger.warn("Nieoczekiwana wartość ({})!", solvingMethod);
+                break;
+        }
+    }
+
+    /**
+     * ==============================================================================
+     * ================================================================MET.DYNAMICZNE
+     * ==============================================================================
+     */
 
 }

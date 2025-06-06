@@ -11,6 +11,7 @@ public class SolverBase {
     private static final String SOLVING_DATA_FILE_EXT = ".csv";
     private static final int MAX_SOLVING_ITERATIONS_COUNT = 100;
     protected static final int DEFAULT_SOLVING_ITERATIONS_COUNT = 1;
+    protected static final long MAX_SOLVING_TIME = 10 * 60_000_000_000L;
     private static String solvingDataFilename = "";
     private static int solvingInterationsCount = 0;
     private static long solvingTimeSum = 0;
@@ -80,13 +81,18 @@ public class SolverBase {
         return solvingInterationsCount;
     }
 
-    public static void setSolvingIterationsCount(int _count) {
-        if (_count < 1 && _count > MAX_SOLVING_ITERATIONS_COUNT) {
+    public static boolean isSolvingIterationsCountInRange(int _count) {
+        return (_count >= 1 && _count <= MAX_SOLVING_ITERATIONS_COUNT);
+    }
+
+    public static boolean setSolvingIterationsCount(int _count) {
+        if (!isSolvingIterationsCountInRange(_count)) {
             Logger.warn("Wartość jest spoza zakresu! Oczekiwano 1-{}, otrzymano {}.",
                     MAX_SOLVING_ITERATIONS_COUNT, _count);
-            solvingInterationsCount = DEFAULT_SOLVING_ITERATIONS_COUNT;
+            return false;
         }
         solvingInterationsCount = _count;
+        return true;
     }
 
     public static void setSolvingDataFilenameToActual() {

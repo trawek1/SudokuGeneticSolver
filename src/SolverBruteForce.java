@@ -80,19 +80,28 @@ public class SolverBruteForce extends SolverBase {
         this.board.xxx_showBoard();
     }
 
-    public void startSolvingManyTimes() {
-        setSolvingIterationsCount(3);
+    public void startSolvingManyTimes(int _solvingNumber) {
+        if (!setSolvingIterationsCount(_solvingNumber)) {
+            Logger.warn("Nieoczekiwanie przerwano rozwiązywanie sudoku!");
+            return;
+        }
+
         resetTimeMeasurement();
-        Logger.info("Rozpoczeto rozwiązywanie wielokrotne...");
         for (int i = 0; i < getSolvingIterationsCount(); i++) {
             resetBoard();
+
             startTimeMeasurement();
             boolean isSolved = this.solve();
             stopTimeMeasurement();
+
+            if (!SudokuSolverGUI.isCalculatingOn()) {
+
+                return;
+            }
+
             Logger.info("Rozwiązywanie nr {}, wynik {}, czas {}", i + 1, isSolved ? "udane" : "błędne",
                     showSolvingTime());
         }
         Logger.info("Średni czas rozwiązywania: {}", showSolvingAverageTime());
-        Logger.info("Zakończono rozwiązywanie wielokrotne...");
     }
 }

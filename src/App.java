@@ -1,5 +1,4 @@
 import org.tinylog.Logger;
-// import java.util.Arrays;
 
 public class App {
         public static void main(String[] args) {
@@ -23,7 +22,7 @@ public class App {
                 SolverBase.resetTimeMeasurement();
                 SolverBase.startTimeMeasurement();
                 SolverGeneticPopulation population = new SolverGeneticPopulation(
-                                SolverStarter.sudokuTestBoard.getBoardData());
+                                SudokuSolverGUI.sudokuTestBoard.getBoardData());
                 int firstMax = population.getStatsBestFitness();
                 int intimeMax = firstMax;
                 System.out.println("Generacja= " + population.getGenerationsCount()
