@@ -16,7 +16,7 @@ public class SolverBruteForce extends SolverBase {
         }
     }
 
-    private void resetBoard() {
+    public void resetBoard() {
         this.board = new Board(this.boardData);
     }
 
@@ -41,12 +41,23 @@ public class SolverBruteForce extends SolverBase {
 
     private boolean solve() {
         for (int row = 1; row <= board.getBoardSize(); row++) {
+            if (SolverInfo.getStatus() != SolvingStatusEnum.IN_PROGRESS) {
+                break;
+            }
             for (int col = 1; col <= board.getBoardSize(); col++) {
+                if (SolverInfo.getStatus() != SolvingStatusEnum.IN_PROGRESS) {
+                    break;
+                }
                 if (board.isConstField(row, col)) {
                     continue;
                 }
                 if (board.getValue(row, col) == BoardBase.EMPTY_FIELD) {
                     for (int value = 1; value <= board.getMaxValue(); value++) {
+                        if (SolverInfo.getStatus() != SolvingStatusEnum.IN_PROGRESS) {
+                            break;
+                        }
+                        SolverInfo.addDetails(String.format("wie=%2d, kol=%2d, war=%2d", row, col, value));
+
                         if (isValuePossibleInField(row, col, value)) {
                             board.setValue(row, col, value);
                             if (solve()) {
@@ -64,43 +75,44 @@ public class SolverBruteForce extends SolverBase {
     }
 
     public void startSolving() {
-        // this.board.xxx_showBoard();
-        Logger.info("Rozpoczeto rozwiązywanie...");
+        Logger.info("solverbruteforce-startSolving-s");
 
-        // startTimeMeasurement();
+        startTimeMeasurement();
         boolean isSolved = this.solve();
-        // stopTimeMeasurement();
-
-        if (isSolved) {
-            Logger.info("Znaleziono rozwiązanie!");
-        } else {
-            Logger.info("Nie znaleziono rozwiązania!");
+        stopTimeMeasurement();
+        if (SolverInfo.getStatus() == SolvingStatusEnum.IN_PROGRESS) {
+            if (isSolved) {
+                SolverInfo.changeStatusTo(SolvingStatusEnum.COMPLETED);
+            } else {
+                SolverInfo.changeStatusTo(SolvingStatusEnum.FAILED);
+            }
         }
-        Logger.info("Czas rozwiązywania: {}", showSolvingTime());
-        // this.board.xxx_showBoard();
+        // TODO >>> dodaje komunikaty
+        Logger.info("solverbruteforce-startSolving-e");
     }
 
     public void startSolvingManyTimes(int _solvingNumber) {
-        if (!setSolvingIterationsCount(_solvingNumber)) {
-            Logger.warn("Nieoczekiwanie przerwano rozwiązywanie sudoku!");
-            return;
-        }
+        // if (!setSolvingIterationsCount(_solvingNumber)) {
+        // Logger.warn("Nieoczekiwanie przerwano rozwiązywanie sudoku!");
+        // return;
+        // }
 
-        resetTimeMeasurement();
-        for (int i = 0; i < getSolvingIterationsCount(); i++) {
-            if (SolverInfo.getStatus() != SolvingStatusEnum.IN_PROGRESS) {
-                return;
-            }
+        // resetTimeMeasurement();
+        // for (int i = 0; i < getSolvingIterationsCount(); i++) {
+        // if (SolverInfo.getStatus() != SolvingStatusEnum.IN_PROGRESS) {
+        // return;
+        // }
 
-            resetBoard();
+        // resetBoard();
 
-            // startTimeMeasurement();
-            boolean isSolved = this.solve();
-            // stopTimeMeasurement();
+        // // startTimeMeasurement();
+        // boolean isSolved = this.solve();
+        // // stopTimeMeasurement();
 
-            Logger.info("Rozwiązywanie nr {}, wynik {}, czas {}", i + 1, isSolved ? "udane" : "błędne",
-                    showSolvingTime());
-        }
-        Logger.info("Średni czas rozwiązywania: {}", showSolvingAverageTime());
+        // Logger.info("Rozwiązywanie nr {}, wynik {}, czas {}", i + 1, isSolved ?
+        // "udane" : "błędne",
+        // showSolvingTime());
+        // }
+        // Logger.info("Średni czas rozwiązywania: {}", showSolvingAverageTime());
     }
 }

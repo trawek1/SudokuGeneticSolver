@@ -3,34 +3,34 @@ import org.tinylog.Logger;
 public class SolverInfo {
 	private static final long TIME_COUNTING_STOPPED = 0;
 	private static final long TIME_UPDATE_INTERVAL = 1000;
-	private static boolean solvingInfoChanged;
-	private static long solvingTimeStart;
-	private static long solvingTimeStop;
-	private static long lastUpdateTime;
+	private static boolean infoChanged;
+	private static long timeSolvingStart;
+	private static long timeSolvingStop;
+	private static long timeLastUpdate;
 	private static SolvingStatusEnum solvingInfoStatus;
-	private static String solvingInfoTimeTxt;
-	private static String solvingInfoDetails1Txt;
-	private static String solvingInfoDetails2Txt;
-	private static String solvingInfoDetails3Txt;
+	private static String txtTime;
+	private static String txtDetails1;
+	private static String txtDetails2;
+	private static String txtDetails3;
 
 	static {
 		changeStatusTo(SolvingStatusEnum.NOT_STARTED);
 	}
 
 	public static void resetData() {
-		solvingInfoChanged = true;
-		solvingTimeStart = TIME_COUNTING_STOPPED;
-		solvingTimeStop = TIME_COUNTING_STOPPED;
-		lastUpdateTime = TIME_COUNTING_STOPPED;
-		solvingInfoTimeTxt = "";
-		solvingInfoDetails1Txt = "";
-		solvingInfoDetails2Txt = "";
-		solvingInfoDetails3Txt = "";
+		infoChanged = true;
+		timeSolvingStart = TIME_COUNTING_STOPPED;
+		timeSolvingStop = TIME_COUNTING_STOPPED;
+		timeLastUpdate = TIME_COUNTING_STOPPED;
+		txtTime = "";
+		txtDetails1 = "";
+		txtDetails2 = "";
+		txtDetails3 = "";
 	}
 
 	public static boolean isChangedAndReset() {
-		if (solvingInfoChanged) {
-			solvingInfoChanged = false;
+		if (infoChanged) {
+			infoChanged = false;
 			return true;
 		}
 		return false;
@@ -40,30 +40,30 @@ public class SolverInfo {
 		if (solvingInfoStatus != SolvingStatusEnum.IN_PROGRESS) {
 			return false;
 		}
-		if (lastUpdateTime == TIME_COUNTING_STOPPED) {
+		if (timeLastUpdate == TIME_COUNTING_STOPPED) {
 			return false;
 		}
 
 		long currentTime = System.currentTimeMillis();
-		if (currentTime - lastUpdateTime < TIME_UPDATE_INTERVAL) {
+		if (currentTime - timeLastUpdate < TIME_UPDATE_INTERVAL) {
 			return false;
 		}
 
 		calculateSolvingTime();
-		lastUpdateTime = currentTime;
+		timeLastUpdate = currentTime;
 		return true;
 	}
 
 	public static void calculateSolvingTime() {
-		if (solvingTimeStart == TIME_COUNTING_STOPPED) {
+		if (timeSolvingStart == TIME_COUNTING_STOPPED) {
 			return;
 		}
 
 		long currentTime;
-		if (solvingTimeStop == TIME_COUNTING_STOPPED) {
-			currentTime = System.currentTimeMillis() - solvingTimeStart;
+		if (timeSolvingStop == TIME_COUNTING_STOPPED) {
+			currentTime = System.currentTimeMillis() - timeSolvingStart;
 		} else {
-			currentTime = solvingTimeStop - solvingTimeStart;
+			currentTime = timeSolvingStop - timeSolvingStart;
 		}
 
 		currentTime /= 1_000;
@@ -73,26 +73,26 @@ public class SolverInfo {
 		long maxTime = SolverBase.MAX_SOLVING_TIME / 1_000;
 		long minutesMax = (long) maxTime / 60;
 		long secondsMax = (long) maxTime % 60;
-		solvingInfoTimeTxt = String.format("%02dm %02ds / %02dm %02ds",
+		txtTime = String.format("%02dm %02ds / %02dm %02ds",
 				minutes, seconds, minutesMax, secondsMax);
 
-		solvingInfoChanged = true;
-		lastUpdateTime = currentTime;
+		infoChanged = true;
+		timeLastUpdate = currentTime;
 	}
 
 	public static boolean isSolvingTimeExceeded() {
 		if (solvingInfoStatus != SolvingStatusEnum.IN_PROGRESS) {
 			return false;
 		}
-		if (solvingTimeStart == TIME_COUNTING_STOPPED) {
+		if (timeSolvingStart == TIME_COUNTING_STOPPED) {
 			return false;
 		}
 		long currentTime = System.currentTimeMillis();
-		if (currentTime - solvingTimeStart < SolverBase.MAX_SOLVING_TIME) {
+		if (currentTime - timeSolvingStart < SolverBase.MAX_SOLVING_TIME) {
 			return false;
 		}
-		solvingTimeStop = currentTime;
-		solvingInfoChanged = true;
+		timeSolvingStop = currentTime;
+		infoChanged = true;
 		return true;
 	}
 
@@ -102,7 +102,7 @@ public class SolverInfo {
 
 	public static void changeStatusTo(SolvingStatusEnum _status) {
 		solvingInfoStatus = _status;
-		solvingInfoChanged = true;
+		infoChanged = true;
 		switch (_status) {
 			case NOT_STARTED:
 				Logger.info("Ustawiono status: NOT_STARTED.");
@@ -111,67 +111,90 @@ public class SolverInfo {
 			case IN_PROGRESS:
 				Logger.info("Ustawiono status: IN_PROGRESS.");
 				resetData();
-				lastUpdateTime = System.currentTimeMillis();
-				solvingTimeStart = System.currentTimeMillis();
+				timeLastUpdate = System.currentTimeMillis();
+				timeSolvingStart = System.currentTimeMillis();
+				calculateSolvingTime();
+
 				// TODO >>>>> uzupełnić akcje wg statusu
 				break;
 			case COMPLETED:
 				Logger.info("Ustawiono status: COMPLETED.");
-				lastUpdateTime = TIME_COUNTING_STOPPED;
-				solvingTimeStop = System.currentTimeMillis();
+				timeLastUpdate = TIME_COUNTING_STOPPED;
+				timeSolvingStop = System.currentTimeMillis();
+				calculateSolvingTime();
+
 				// TODO >>>>> uzupełnić akcje wg statusu
-				solvingInfoChanged = true;
+				infoChanged = true;
 				break;
 			case FAILED:
 				Logger.info("Ustawiono status: FAILED.");
-				lastUpdateTime = TIME_COUNTING_STOPPED;
-				solvingTimeStop = System.currentTimeMillis();
+				timeLastUpdate = TIME_COUNTING_STOPPED;
+				timeSolvingStop = System.currentTimeMillis();
+				calculateSolvingTime();
+
 				// TODO >>>>> uzupełnić akcje wg statusu
-				solvingInfoChanged = true;
+				infoChanged = true;
 				break;
 			case STOPPED_BY_USER:
 				Logger.info("Ustawiono status: STOPPED_BY_USER.");
-				lastUpdateTime = TIME_COUNTING_STOPPED;
-				solvingTimeStop = System.currentTimeMillis();
+				timeLastUpdate = TIME_COUNTING_STOPPED;
+				timeSolvingStop = System.currentTimeMillis();
+				calculateSolvingTime();
+
 				// TODO >>>>> uzupełnić akcje wg statusu
-				solvingInfoChanged = true;
+				infoChanged = true;
 				break;
 			case STOPPED_BY_TIMEOUT:
 				Logger.info("Ustawiono status: STOPPED_BY_TIMEOUT.");
-				lastUpdateTime = TIME_COUNTING_STOPPED;
-				solvingTimeStop = System.currentTimeMillis();
+				timeLastUpdate = TIME_COUNTING_STOPPED;
+				timeSolvingStop = System.currentTimeMillis();
 				calculateSolvingTime();
+
 				// TODO >>>>> uzupełnić akcje wg statusu
-				solvingInfoChanged = true;
+				infoChanged = true;
 				break;
 			case STOPPED_BY_GENERATION_LIMIT:
 				Logger.info("Ustawiono status: STOPPED_BY_GENERATION_LIMIT.");
-				lastUpdateTime = TIME_COUNTING_STOPPED;
-				solvingTimeStop = System.currentTimeMillis();
+				timeLastUpdate = TIME_COUNTING_STOPPED;
+				timeSolvingStop = System.currentTimeMillis();
+				calculateSolvingTime();
+
 				// TODO >>>>> uzupełnić akcje wg statusu
-				solvingInfoChanged = true;
+				infoChanged = true;
 				break;
 		}
 	}
 
-	public static String getSolvingInfoStatus() {
+	public static String getTxtStatus() {
 		return solvingInfoStatus.getDisplayName();
 	}
 
-	public static String getSolvingInfoTime() {
-		return solvingInfoTimeTxt;
+	public static String getTxtTime() {
+		return txtTime;
 	}
 
-	public static String getSolvingInfoDetails1() {
-		return solvingInfoDetails1Txt;
+	public static String getTxtDetails1() {
+		return txtDetails1;
 	}
 
-	public static String getSolvingInfoDetails2() {
-		return solvingInfoDetails2Txt;
+	public static String getTxtDetails2() {
+		return txtDetails2;
 	}
 
-	public static String getSolvingInfoDetails3() {
-		return solvingInfoDetails3Txt;
+	public static String getTxtDetails3() {
+		return txtDetails3;
 	}
 
+	public static void addDetails(String _details) {
+		txtDetails3 = txtDetails2;
+		txtDetails2 = txtDetails1;
+		txtDetails1 = _details;
+	}
+
+	public static void addDetailsAndShow(String _details) {
+		txtDetails3 = txtDetails2;
+		txtDetails2 = txtDetails1;
+		txtDetails1 = _details;
+		infoChanged = true;
+	}
 }

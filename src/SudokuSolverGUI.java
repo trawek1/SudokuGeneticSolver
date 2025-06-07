@@ -541,27 +541,27 @@ public class SudokuSolverGUI extends SolverBase {
         boardField.putString(actCol, actRow, "=== INFORMACJE ===" + xxx_counter);
 
         actRow++;
-        text = SolverInfo.getSolvingInfoStatus();
+        text = SolverInfo.getTxtStatus();
         text = String.format("%-" + (colWidth - text.length()) + "s", text);
         fluidField.putString(actCol, actRow, text);
 
         actRow++;
-        text = SolverInfo.getSolvingInfoTime();
+        text = SolverInfo.getTxtTime();
         text = String.format("%-" + (colWidth - text.length()) + "s", text);
         fluidField.putString(actCol, actRow, text);
 
         actRow++;
-        text = SolverInfo.getSolvingInfoDetails1();
+        text = SolverInfo.getTxtDetails1();
         text = String.format("%-" + (colWidth - text.length()) + "s", text);
         fluidField.putString(actCol, actRow, text);
 
         actRow++;
-        text = SolverInfo.getSolvingInfoDetails2();
+        text = SolverInfo.getTxtDetails2();
         text = String.format("%-" + (colWidth - text.length()) + "s", text);
         fluidField.putString(actCol, actRow, text);
 
         actRow++;
-        text = SolverInfo.getSolvingInfoDetails3();
+        text = SolverInfo.getTxtDetails3();
         text = String.format("%-" + (colWidth - text.length()) + "s", text);
         fluidField.putString(actCol, actRow, text);
     }
@@ -570,18 +570,9 @@ public class SudokuSolverGUI extends SolverBase {
         switch (solvingMethod) {
             case BRUTE_FORCE_X01:
                 Logger.info("Rozpoczęto rozwiązywanie sudoku metodą Brute Force X01.");
-                // SolverBruteForce solverObj = new
-                // SolverBruteForce(boardForScreen.getBoardData());
-                while (true) {
-                    try {
-                        Thread.sleep(750);
-                    } catch (Exception e) {
-                        Thread.currentThread().interrupt();
-                    }
-                    if (SolverInfo.getStatus() != SolvingStatusEnum.IN_PROGRESS) {
-                        break;
-                    }
-                }
+                SolverBruteForce solverObj = new SolverBruteForce(boardForScreen.getBoardData());
+                solverObj.resetBoard();
+                solverObj.startSolving();
                 Logger.info("Zakończono metodą Brute Force X01.");
                 break;
             case BRUTE_FORCE_X03:

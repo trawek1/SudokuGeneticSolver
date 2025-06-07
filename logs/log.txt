@@ -1,8 +1,0 @@
-2025-06-07 05:32:53.235 INFO  SolverInfo.changeStatusTo :: Ustawiono status: NOT_STARTED.
-2025-06-07 05:32:55.610 INFO  SolverInfo.changeStatusTo :: Ustawiono status: IN_PROGRESS.
-2025-06-07 05:32:55.610 INFO  SudokuSolverGUI.startSolving :: Rozpoczęto rozwiązywanie sudoku metodą Genetic X01.
-2025-06-07 05:33:01.610 INFO  SolverInfo.changeStatusTo :: Ustawiono status: STOPPED_BY_TIMEOUT.
-2025-06-07 05:35:31.370 INFO  SolverInfo.changeStatusTo :: Ustawiono status: NOT_STARTED.
-2025-06-07 05:35:36.809 INFO  SolverInfo.changeStatusTo :: Ustawiono status: IN_PROGRESS.
-2025-06-07 05:35:36.810 INFO  SudokuSolverGUI.startSolving :: Rozpoczęto rozwiązywanie sudoku metodą Genetic X01.
-2025-06-07 05:35:42.810 INFO  SolverInfo.changeStatusTo :: Ustawiono status: STOPPED_BY_TIMEOUT.
