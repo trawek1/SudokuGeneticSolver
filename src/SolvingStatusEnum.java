@@ -12,6 +12,8 @@ public enum SolvingStatusEnum {
 	STOPPED_BY_GENERATION_LIMIT("przekroczono limit pokoleń") {
 	},
 	FAILED("nie rozwiązano") {
+	},
+	ERROR("błąd programu") {
 	};
 
 	private final String displayName;

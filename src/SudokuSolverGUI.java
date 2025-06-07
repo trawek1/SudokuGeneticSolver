@@ -51,6 +51,7 @@ public class SudokuSolverGUI extends SolverBase {
     private static TextGraphics constField;
     private static TextGraphics fluidField;
     private static TextGraphics boardField;
+    private static Thread solverThread;
 
     private static int xxx_counter = 0;
     /**
@@ -134,11 +135,16 @@ public class SudokuSolverGUI extends SolverBase {
                     mustRefresh = true;
                 }
                 if (mustRefresh) {
-                    drawAll();
                     mustRefresh = false;
+                    drawAll();
                 }
 
-                Thread.yield();
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                    Logger.error("Nieoczekiwanie zakończono wątek główny programu! {}", e.getMessage());
+                }
             }
 
         } catch (IOException e) {
@@ -194,9 +200,27 @@ public class SudokuSolverGUI extends SolverBase {
     public static void startStopSolving() {
         if (SolverInfo.getStatus() == SolvingStatusEnum.IN_PROGRESS) {
             SolverInfo.changeStatusTo(SolvingStatusEnum.STOPPED_BY_USER);
+            try {
+                solverThread.join(2000);
+                if (solverThread.isAlive()) {
+                    Logger.warn("Wymuszono zakończenie wątku solvera!");
+                    solverThread.interrupt();
+                }
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                Logger.error("Nieoczekiwanie zakończono wątek główny programu! {}", e.getMessage());
+            }
         } else {
             SolverInfo.changeStatusTo(SolvingStatusEnum.IN_PROGRESS);
-            startSolving();
+            solverThread = new Thread(() -> {
+                try {
+                    startSolving();
+                } catch (Exception e) {
+                    Logger.error("Nieoczekiwanie zakończono wątek solvera! {}", e.getMessage());
+                    SolverInfo.changeStatusTo(SolvingStatusEnum.ERROR);
+                }
+            });
+            solverThread.start();
         }
     }
 
@@ -573,7 +597,7 @@ public class SudokuSolverGUI extends SolverBase {
                 SolverBruteForce solverObj = new SolverBruteForce(boardForScreen.getBoardData());
                 solverObj.resetBoard();
                 solverObj.startSolving();
-                Logger.info("Zakończono metodą Brute Force X01.");
+
                 break;
             case BRUTE_FORCE_X03:
                 Logger.info("Rozpoczęto rozwiązywanie sudoku metodą Brute Force X03.");

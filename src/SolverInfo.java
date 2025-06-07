@@ -50,7 +50,6 @@ public class SolverInfo {
 		}
 
 		calculateSolvingTime();
-		timeLastUpdate = currentTime;
 		return true;
 	}
 
@@ -77,7 +76,7 @@ public class SolverInfo {
 				minutes, seconds, minutesMax, secondsMax);
 
 		infoChanged = true;
-		timeLastUpdate = currentTime;
+		timeLastUpdate = System.currentTimeMillis();
 	}
 
 	public static boolean isSolvingTimeExceeded() {
@@ -158,6 +157,12 @@ public class SolverInfo {
 				timeLastUpdate = TIME_COUNTING_STOPPED;
 				timeSolvingStop = System.currentTimeMillis();
 				calculateSolvingTime();
+
+				// TODO >>>>> uzupełnić akcje wg statusu
+				infoChanged = true;
+				break;
+			case ERROR:
+				Logger.info("Ustawiono status: ERROR.");
 
 				// TODO >>>>> uzupełnić akcje wg statusu
 				infoChanged = true;

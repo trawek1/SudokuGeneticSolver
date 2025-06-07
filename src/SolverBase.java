@@ -11,7 +11,7 @@ public class SolverBase {
     private static final String SOLVING_DATA_FILE_EXT = ".csv";
     private static final int MAX_SOLVING_ITERATIONS_COUNT = 100;
     protected static final int DEFAULT_SOLVING_ITERATIONS_COUNT = 1;
-    protected static final long MAX_SOLVING_TIME = 6_000; // 600_000 = 10 minutes in milliseconds
+    protected static final long MAX_SOLVING_TIME = 60_000; // 600_000 = 10 minutes in milliseconds
     private static String solvingDataFilename = "";
     private static int solvingInterationsCount = 0;
     private static long solvingTimeSum = 0;
