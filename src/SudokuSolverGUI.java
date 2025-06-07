@@ -52,6 +52,7 @@ public class SudokuSolverGUI extends SolverBase {
     private static TextGraphics fluidField;
     private static TextGraphics boardField;
 
+    private static int xxx_counter = 0;
     /**
      * ==============================================================================
      * =================================================================MET.STATYCZNE
@@ -123,15 +124,20 @@ public class SudokuSolverGUI extends SolverBase {
                     mustRefresh = true;
                 }
 
-                if (SolverInfo.isChanged()) {
-                    mustRefresh = true;
-                    SolverInfo.setToNoChanged();
+                if (SolverInfo.isSolvingTimeExceeded()) {
+                    SolverInfo.changeStatusTo(SolvingStatusEnum.STOPPED_BY_TIMEOUT);
                 }
-
+                if (SolverInfo.isUpdateTime()) {
+                    mustRefresh = true;
+                }
+                if (SolverInfo.isChangedAndReset()) {
+                    mustRefresh = true;
+                }
                 if (mustRefresh) {
                     drawAll();
                     mustRefresh = false;
                 }
+
                 Thread.yield();
             }
 
@@ -530,7 +536,9 @@ public class SudokuSolverGUI extends SolverBase {
         int actCol = _startCol;
         String text;
 
-        boardField.putString(actCol, actRow, "=== INFORMACJE ===");
+        // TODO xxx usunąć po testach
+        xxx_counter++;
+        boardField.putString(actCol, actRow, "=== INFORMACJE ===" + xxx_counter);
 
         actRow++;
         text = SolverInfo.getSolvingInfoStatus();
@@ -562,11 +570,23 @@ public class SudokuSolverGUI extends SolverBase {
         switch (solvingMethod) {
             case BRUTE_FORCE_X01:
                 Logger.info("Rozpoczęto rozwiązywanie sudoku metodą Brute Force X01.");
-                SolverBruteForce solverObj = new SolverBruteForce(boardForScreen.getBoardData());
-
+                // SolverBruteForce solverObj = new
+                // SolverBruteForce(boardForScreen.getBoardData());
+                while (true) {
+                    try {
+                        Thread.sleep(750);
+                    } catch (Exception e) {
+                        Thread.currentThread().interrupt();
+                    }
+                    if (SolverInfo.getStatus() != SolvingStatusEnum.IN_PROGRESS) {
+                        break;
+                    }
+                }
+                Logger.info("Zakończono metodą Brute Force X01.");
                 break;
             case BRUTE_FORCE_X03:
                 Logger.info("Rozpoczęto rozwiązywanie sudoku metodą Brute Force X03.");
+
                 break;
             case BRUTE_FORCE_X10:
                 Logger.info("Rozpoczęto rozwiązywanie sudoku metodą Brute Force X10.");
