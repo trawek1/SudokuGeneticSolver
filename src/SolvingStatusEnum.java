@@ -1,9 +1,13 @@
 public enum SolvingStatusEnum {
 	NOT_STARTED("nie uruchomiono") {
 	},
+	STARTED("uruchomiono") {
+	},
 	IN_PROGRESS("w toku...") {
 	},
 	COMPLETED("rozwiązano!") {
+	},
+	ITERATION_COMPLETED("rozwiązano iterację!") {
 	},
 	STOPPED_BY_USER("przerwano z menu") {
 	},

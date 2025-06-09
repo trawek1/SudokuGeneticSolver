@@ -1,3 +1,12 @@
 2025-06-09 14:12:19.228 INFO  SolverInfo.changeStatusTo :: Ustawiono status: NOT_STARTED.
 2025-06-09 14:12:22.964 INFO  SolverInfo.changeStatusTo :: Ustawiono status: IN_PROGRESS.
 2025-06-09 14:12:23.045 INFO  SolverInfo.changeStatusTo :: Ustawiono status: COMPLETED.
+2025-06-09 14:51:24.485 INFO  SolverInfo.changeStatusTo :: Ustawiono status: NOT_STARTED.
+2025-06-09 14:51:30.879 INFO  SolverInfo.changeStatusTo :: Ustawiono status: IN_PROGRESS.
+2025-06-09 14:51:30.987 INFO  SolverInfo.changeStatusTo :: Ustawiono status: COMPLETED.
+2025-06-09 15:00:23.360 INFO  SolverInfo.changeStatusTo :: Ustawiono status: NOT_STARTED.
+2025-06-09 15:00:27.018 INFO  SolverInfo.changeStatusTo :: Ustawiono status: IN_PROGRESS.
+2025-06-09 15:00:27.072 INFO  SolverInfo.changeStatusTo :: Ustawiono status: ITERATION COMPLETED.
+2025-06-09 15:09:42.317 INFO  SolverInfo.changeStatusTo :: Ustawiono status: NOT_STARTED.
+2025-06-09 15:09:45.568 INFO  SolverInfo.changeStatusTo :: Ustawiono status: STARTED.
+2025-06-09 15:09:59.917 INFO  SolverInfo.changeStatusTo :: Ustawiono status: STARTED.

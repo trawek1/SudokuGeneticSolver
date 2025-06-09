@@ -88,7 +88,11 @@ public class SolverBruteForce extends SolverBase {
 
         if (SolverInfo.getStatus() == SolvingStatusEnum.IN_PROGRESS) {
             if (isSolved) {
-                SolverInfo.changeStatusTo(SolvingStatusEnum.COMPLETED);
+                if (SolverBase.areIterationsInProgress()) {
+                    SolverInfo.changeStatusTo(SolvingStatusEnum.ITERATION_COMPLETED);
+                } else {
+                    SolverInfo.changeStatusTo(SolvingStatusEnum.COMPLETED);
+                }
                 SolverBase.saveSolvingDataToFile("=== czas rozwiazania: " + showSolvingAverageTime());
             } else {
                 SolverInfo.changeStatusTo(SolvingStatusEnum.FAILED);

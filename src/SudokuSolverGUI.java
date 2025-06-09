@@ -211,7 +211,7 @@ public class SudokuSolverGUI extends SolverBase {
                 Logger.error("Nieoczekiwanie zakończono wątek główny programu! {}", e.getMessage());
             }
         } else {
-            SolverInfo.changeStatusTo(SolvingStatusEnum.IN_PROGRESS);
+            SolverInfo.changeStatusTo(SolvingStatusEnum.STARTED);
             solverThread = new Thread(() -> {
                 try {
                     startSolving();
@@ -606,11 +606,12 @@ public class SudokuSolverGUI extends SolverBase {
     }
 
     public static void startSolving() {
+        SolverBruteForce solverObj;
         switch (solvingMethod) {
             case BRUTE_FORCE_X01:
-                SolverBruteForce solverObj = new SolverBruteForce(boardForScreen.getBoardData());
-                SolverBase.setSolvingIterationsLimit(1);
                 setSolvingDataFilenameToActual("brute-force-x01");
+                solverObj = new SolverBruteForce(boardForScreen.getBoardData());
+                SolverBase.setSolvingIterationsLimit(1);
                 SolverBase.saveSolvingDataToFile("=== metoda  : " + SudokuSolverGUI.getSolvingMethodName());
                 SolverBase.saveSolvingDataToFile("=== plansza : " + SudokuSolverGUI.getSudokuTestBoardName());
                 SolverBase.saveSolvingDataToFile("=== czas max: " + convertMilisecondsToHMSV(SOLVING_TIME_MAX, 2));
@@ -619,8 +620,18 @@ public class SudokuSolverGUI extends SolverBase {
                 solverObj.startSolving();
                 break;
             case BRUTE_FORCE_X03:
-                Logger.info("Rozpoczęto rozwiązywanie sudoku metodą Brute Force X03.");
-
+                setSolvingDataFilenameToActual("brute-force-x03");
+                solverObj = new SolverBruteForce(boardForScreen.getBoardData());
+                SolverBase.setSolvingIterationsLimit(3);
+                SolverBase.saveSolvingDataToFile("=== metoda  : " + SudokuSolverGUI.getSolvingMethodName());
+                SolverBase.saveSolvingDataToFile("=== plansza : " + SudokuSolverGUI.getSudokuTestBoardName());
+                SolverBase.saveSolvingDataToFile("=== czas max: " + convertMilisecondsToHMSV(SOLVING_TIME_MAX, 2));
+                SolverBase.saveSolvingDataToFile("=== iteracje: " + SolverBase.getSolvingIterationsLimit());
+                while (SolverBase.areIterationsInProgress()) {
+                    solverObj.resetBoard();
+                    solverObj.startSolving();
+                }
+                resetTimeMeasurement();
                 break;
             case BRUTE_FORCE_X10:
                 Logger.info("Rozpoczęto rozwiązywanie sudoku metodą Brute Force X10.");

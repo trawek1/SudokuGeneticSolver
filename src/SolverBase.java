@@ -149,6 +149,10 @@ public class SolverBase {
         return solvingIterationsCounter;
     }
 
+    public static boolean areIterationsInProgress() {
+        return (solvingIterationsCounter < solvingInterationsLimit);
+    }
+
     public static boolean isSolvingIterationsCountInRange(int _count) {
         return (_count >= 1 && _count <= MAX_SOLVING_ITERATIONS_COUNT);
     }

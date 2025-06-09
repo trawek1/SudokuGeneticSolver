@@ -107,11 +107,18 @@ public class SolverInfo {
 				Logger.info("Ustawiono status: NOT_STARTED.");
 				resetData();
 				break;
-			case IN_PROGRESS:
-				Logger.info("Ustawiono status: IN_PROGRESS.");
+			case STARTED:
+				Logger.info("Ustawiono status: STARTED.");
 				resetData();
 				timeLastUpdate = System.currentTimeMillis();
 				timeSolvingStart = System.currentTimeMillis();
+				calculateSolvingTime();
+
+				// TODO >>>>> uzupełnić akcje wg statusu
+				break;
+			case IN_PROGRESS:
+				Logger.info("Ustawiono status: IN_PROGRESS.");
+				timeLastUpdate = System.currentTimeMillis();
 				calculateSolvingTime();
 
 				// TODO >>>>> uzupełnić akcje wg statusu
@@ -122,6 +129,15 @@ public class SolverInfo {
 				timeSolvingStop = System.currentTimeMillis();
 				calculateSolvingTime();
 				SolverBase.saveSolvingDataToFile("=== COMPLETED");
+
+				// TODO >>>>> uzupełnić akcje wg statusu
+				infoChanged = true;
+				break;
+			case ITERATION_COMPLETED:
+				Logger.info("Ustawiono status: ITERATION COMPLETED.");
+				timeLastUpdate = System.currentTimeMillis();
+				SolverBase.saveSolvingDataToFile("=== ITERATION COMPLETED");
+				changeStatusTo(SolvingStatusEnum.IN_PROGRESS);
 
 				// TODO >>>>> uzupełnić akcje wg statusu
 				infoChanged = true;
