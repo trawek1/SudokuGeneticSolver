@@ -9,7 +9,7 @@ public enum SolvingStatusEnum {
 	},
 	STOPPED_BY_TIMEOUT("przekroczono czas") {
 	},
-	STOPPED_BY_GENERATION_LIMIT("przekroczono limit pokoleń") {
+	STOPPED_BY_GENERATIONS_LIMIT("przekroczono limit pokoleń") {
 	},
 	FAILED("nie rozwiązano") {
 	},

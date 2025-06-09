@@ -593,8 +593,11 @@ public class SudokuSolverGUI extends SolverBase {
     public static void startSolving() {
         switch (solvingMethod) {
             case BRUTE_FORCE_X01:
-                Logger.info("Rozpoczęto rozwiązywanie sudoku metodą Brute Force X01.");
                 SolverBruteForce solverObj = new SolverBruteForce(boardForScreen.getBoardData());
+                setSolvingDataFilenameToActual("brute-force-x01");
+                SolverBase.saveSolvingDataToFile("=== metoda  : " + SudokuSolverGUI.getSolvingMethodName());
+                SolverBase.saveSolvingDataToFile("=== plansza : " + SudokuSolverGUI.getSudokuTestBoardName());
+                SolverBase.saveSolvingDataToFile("=== czas max: " + convertMilisecondsToHMSV(SOLVING_TIME_MAX, 2));
                 solverObj.resetBoard();
                 solverObj.startSolving();
 

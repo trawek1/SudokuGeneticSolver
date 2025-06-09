@@ -69,7 +69,7 @@ public class SolverInfo {
 		long minutes = (long) currentTime / 60;
 		long seconds = (long) currentTime % 60;
 
-		long maxTime = SolverBase.MAX_SOLVING_TIME / 1_000;
+		long maxTime = SolverBase.SOLVING_TIME_MAX / 1_000;
 		long minutesMax = (long) maxTime / 60;
 		long secondsMax = (long) maxTime % 60;
 		txtTime = String.format("%02dm %02ds / %02dm %02ds",
@@ -87,7 +87,7 @@ public class SolverInfo {
 			return false;
 		}
 		long currentTime = System.currentTimeMillis();
-		if (currentTime - timeSolvingStart < SolverBase.MAX_SOLVING_TIME) {
+		if (currentTime - timeSolvingStart < SolverBase.SOLVING_TIME_MAX) {
 			return false;
 		}
 		timeSolvingStop = currentTime;
@@ -113,6 +113,7 @@ public class SolverInfo {
 				timeLastUpdate = System.currentTimeMillis();
 				timeSolvingStart = System.currentTimeMillis();
 				calculateSolvingTime();
+				SolverBase.saveSolvingDataToFile("========= IN PROGRESS");
 
 				// TODO >>>>> uzupełnić akcje wg statusu
 				break;
@@ -121,6 +122,7 @@ public class SolverInfo {
 				timeLastUpdate = TIME_COUNTING_STOPPED;
 				timeSolvingStop = System.currentTimeMillis();
 				calculateSolvingTime();
+				SolverBase.saveSolvingDataToFile("========= COMPLETED");
 
 				// TODO >>>>> uzupełnić akcje wg statusu
 				infoChanged = true;
@@ -130,6 +132,7 @@ public class SolverInfo {
 				timeLastUpdate = TIME_COUNTING_STOPPED;
 				timeSolvingStop = System.currentTimeMillis();
 				calculateSolvingTime();
+				SolverBase.saveSolvingDataToFile("========= FAILED");
 
 				// TODO >>>>> uzupełnić akcje wg statusu
 				infoChanged = true;
@@ -139,6 +142,7 @@ public class SolverInfo {
 				timeLastUpdate = TIME_COUNTING_STOPPED;
 				timeSolvingStop = System.currentTimeMillis();
 				calculateSolvingTime();
+				SolverBase.saveSolvingDataToFile("========= STOPPED BY USER");
 
 				// TODO >>>>> uzupełnić akcje wg statusu
 				infoChanged = true;
@@ -148,21 +152,24 @@ public class SolverInfo {
 				timeLastUpdate = TIME_COUNTING_STOPPED;
 				timeSolvingStop = System.currentTimeMillis();
 				calculateSolvingTime();
+				SolverBase.saveSolvingDataToFile("========= STOPPED BY TIMEOUT");
 
 				// TODO >>>>> uzupełnić akcje wg statusu
 				infoChanged = true;
 				break;
-			case STOPPED_BY_GENERATION_LIMIT:
-				Logger.info("Ustawiono status: STOPPED_BY_GENERATION_LIMIT.");
+			case STOPPED_BY_GENERATIONS_LIMIT:
+				Logger.info("Ustawiono status: STOPPED_BY_GENERATIONS_LIMIT.");
 				timeLastUpdate = TIME_COUNTING_STOPPED;
 				timeSolvingStop = System.currentTimeMillis();
 				calculateSolvingTime();
+				SolverBase.saveSolvingDataToFile("========= STOPPED BY GENERATIONS LIMIT");
 
 				// TODO >>>>> uzupełnić akcje wg statusu
 				infoChanged = true;
 				break;
 			case ERROR:
 				Logger.info("Ustawiono status: ERROR.");
+				SolverBase.saveSolvingDataToFile("========= ERROR");
 
 				// TODO >>>>> uzupełnić akcje wg statusu
 				infoChanged = true;

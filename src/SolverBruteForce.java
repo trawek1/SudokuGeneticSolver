@@ -1,3 +1,4 @@
+import java.time.LocalDateTime;
 import java.util.Set;
 
 import org.tinylog.Logger;
@@ -40,6 +41,7 @@ public class SolverBruteForce extends SolverBase {
     }
 
     private boolean solve() {
+        String info;
         for (int row = 1; row <= board.getBoardSize(); row++) {
             if (SolverInfo.getStatus() != SolvingStatusEnum.IN_PROGRESS) {
                 break;
@@ -56,9 +58,11 @@ public class SolverBruteForce extends SolverBase {
                         if (SolverInfo.getStatus() != SolvingStatusEnum.IN_PROGRESS) {
                             break;
                         }
-                        SolverInfo.addDetails(String.format("wie=%2d, kol=%2d, war=%2d", row, col, value));
 
                         if (isValuePossibleInField(row, col, value)) {
+                            info = String.format("wie=%2d, kol=%2d, war=%2d", row, col, value);
+                            SolverInfo.addDetails(info);
+                            SolverBase.saveSolvingDataToFile("ustawiam," + info);
                             board.setValue(row, col, value);
                             if (solve()) {
                                 return true;
@@ -75,20 +79,20 @@ public class SolverBruteForce extends SolverBase {
     }
 
     public void startSolving() {
-        Logger.info("solverbruteforce-startSolving-s");
-
+        SolverBase.saveSolvingDataToFile("=== start   : " + LocalDateTime.now());
         startTimeMeasurement();
         boolean isSolved = this.solve();
         stopTimeMeasurement();
+        SolverBase.saveSolvingDataToFile("=== stop    : " + LocalDateTime.now());
+
         if (SolverInfo.getStatus() == SolvingStatusEnum.IN_PROGRESS) {
             if (isSolved) {
                 SolverInfo.changeStatusTo(SolvingStatusEnum.COMPLETED);
+                SolverBase.saveSolvingDataToFile("=== czas rozwiązania: " + showSolvingAverageTime());
             } else {
                 SolverInfo.changeStatusTo(SolvingStatusEnum.FAILED);
             }
         }
-        // TODO >>> dodaje komunikaty
-        Logger.info("solverbruteforce-startSolving-e");
     }
 
     public void startSolvingManyTimes(int _solvingNumber) {
