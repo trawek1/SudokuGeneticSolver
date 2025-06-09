@@ -61,8 +61,8 @@ public class SudokuSolverGUI extends SolverBase {
      */
 
     static {
-        sudokuTestBoard = SudokuBoardsEnum.X3N;
-        solvingMethod = SolvingMethodsEnum.GENETIC_X01;
+        sudokuTestBoard = SudokuBoardsEnum.X2E;
+        solvingMethod = SolvingMethodsEnum.BRUTE_FORCE_X01;
         generationsNumber = GENERATIONS_NUMBER_DEFAULT;
         boardForScreen = new Board(sudokuTestBoard.getBoardData());
     }
@@ -566,26 +566,41 @@ public class SudokuSolverGUI extends SolverBase {
 
         actRow++;
         text = SolverInfo.getTxtStatus();
+        if (text.length() >= colWidth) {
+            text = text.substring(0, colWidth - 1);
+        }
         text = String.format("%-" + (colWidth - text.length()) + "s", text);
         fluidField.putString(actCol, actRow, text);
 
         actRow++;
         text = SolverInfo.getTxtTime();
+        if (text.length() >= colWidth) {
+            text = text.substring(0, colWidth - 1);
+        }
         text = String.format("%-" + (colWidth - text.length()) + "s", text);
         fluidField.putString(actCol, actRow, text);
 
         actRow++;
         text = SolverInfo.getTxtDetails1();
+        if (text.length() >= colWidth) {
+            text = text.substring(0, colWidth - 1);
+        }
         text = String.format("%-" + (colWidth - text.length()) + "s", text);
         fluidField.putString(actCol, actRow, text);
 
         actRow++;
         text = SolverInfo.getTxtDetails2();
+        if (text.length() >= colWidth) {
+            text = text.substring(0, colWidth - 1);
+        }
         text = String.format("%-" + (colWidth - text.length()) + "s", text);
         fluidField.putString(actCol, actRow, text);
 
         actRow++;
         text = SolverInfo.getTxtDetails3();
+        if (text.length() >= colWidth) {
+            text = text.substring(0, colWidth - 1);
+        }
         text = String.format("%-" + (colWidth - text.length()) + "s", text);
         fluidField.putString(actCol, actRow, text);
     }
@@ -594,13 +609,14 @@ public class SudokuSolverGUI extends SolverBase {
         switch (solvingMethod) {
             case BRUTE_FORCE_X01:
                 SolverBruteForce solverObj = new SolverBruteForce(boardForScreen.getBoardData());
+                SolverBase.setSolvingIterationsLimit(1);
                 setSolvingDataFilenameToActual("brute-force-x01");
                 SolverBase.saveSolvingDataToFile("=== metoda  : " + SudokuSolverGUI.getSolvingMethodName());
                 SolverBase.saveSolvingDataToFile("=== plansza : " + SudokuSolverGUI.getSudokuTestBoardName());
                 SolverBase.saveSolvingDataToFile("=== czas max: " + convertMilisecondsToHMSV(SOLVING_TIME_MAX, 2));
+                SolverBase.saveSolvingDataToFile("=== iteracje: " + SolverBase.getSolvingIterationsLimit());
                 solverObj.resetBoard();
                 solverObj.startSolving();
-
                 break;
             case BRUTE_FORCE_X03:
                 Logger.info("Rozpoczęto rozwiązywanie sudoku metodą Brute Force X03.");

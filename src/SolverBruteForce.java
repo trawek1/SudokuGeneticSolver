@@ -60,9 +60,10 @@ public class SolverBruteForce extends SolverBase {
                         }
 
                         if (isValuePossibleInField(row, col, value)) {
-                            info = String.format("wie=%2d, kol=%2d, war=%2d", row, col, value);
+                            info = String.format("ite=%2d, wie=%2d, kol=%2d, war=%2d",
+                                    getSolvingIterationsCounter(), row, col, value);
                             SolverInfo.addDetails(info);
-                            SolverBase.saveSolvingDataToFile("ustawiam," + info);
+                            SolverBase.saveSolvingDataToFile("dane, " + info);
                             board.setValue(row, col, value);
                             if (solve()) {
                                 return true;
@@ -88,7 +89,7 @@ public class SolverBruteForce extends SolverBase {
         if (SolverInfo.getStatus() == SolvingStatusEnum.IN_PROGRESS) {
             if (isSolved) {
                 SolverInfo.changeStatusTo(SolvingStatusEnum.COMPLETED);
-                SolverBase.saveSolvingDataToFile("=== czas rozwiązania: " + showSolvingAverageTime());
+                SolverBase.saveSolvingDataToFile("=== czas rozwiazania: " + showSolvingAverageTime());
             } else {
                 SolverInfo.changeStatusTo(SolvingStatusEnum.FAILED);
             }

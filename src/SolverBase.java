@@ -14,15 +14,15 @@ public class SolverBase {
     protected static final int DEFAULT_SOLVING_ITERATIONS_COUNT = 1;
     protected static final long SOLVING_TIME_MAX = 1_800_000; // 600_000 = 10 minutes in milliseconds
     private static String solvingDataFilename = "";
-    private static int solvingInterationsCount = 0;
+    private static int solvingInterationsLimit = 0;
     private static long solvingTimeSum = 0;
-    private static int solvingCounter = 0;
+    private static int solvingIterationsCounter = 0;
     private static long solvingTime = 0;
     private static long timeStart = 0;
     private static long timeStop = 0;
 
     static {
-        solvingInterationsCount = DEFAULT_SOLVING_ITERATIONS_COUNT;
+        solvingInterationsLimit = DEFAULT_SOLVING_ITERATIONS_COUNT;
         setSolvingDataFilenameToActual("");
     }
 
@@ -99,7 +99,7 @@ public class SolverBase {
     }
 
     protected static void startTimeMeasurement() {
-        solvingCounter += 1;
+        solvingIterationsCounter += 1;
         timeStop = 0;
         timeStart = System.nanoTime();
     }
@@ -114,7 +114,7 @@ public class SolverBase {
 
     protected static void resetTimeMeasurement() {
         solvingTimeSum = 0;
-        solvingCounter = 0;
+        solvingIterationsCounter = 0;
         solvingTime = 0;
         timeStart = 0;
         timeStop = 0;
@@ -125,7 +125,7 @@ public class SolverBase {
     }
 
     protected static String showSolvingAverageTimeAsNanoseconds() {
-        return String.format("%d", solvingTimeSum / solvingCounter);
+        return String.format("%d", solvingTimeSum / solvingIterationsCounter);
     }
 
     private static String calculateSolvingTime(long _time, int _counter) {
@@ -138,24 +138,28 @@ public class SolverBase {
     }
 
     protected static String showSolvingAverageTime() {
-        return calculateSolvingTime(solvingTimeSum, solvingCounter);
+        return calculateSolvingTime(solvingTimeSum, solvingIterationsCounter);
     }
 
-    public static int getSolvingIterationsCount() {
-        return solvingInterationsCount;
+    public static int getSolvingIterationsLimit() {
+        return solvingInterationsLimit;
+    }
+
+    public static int getSolvingIterationsCounter() {
+        return solvingIterationsCounter;
     }
 
     public static boolean isSolvingIterationsCountInRange(int _count) {
         return (_count >= 1 && _count <= MAX_SOLVING_ITERATIONS_COUNT);
     }
 
-    public static boolean setSolvingIterationsCount(int _count) {
+    public static boolean setSolvingIterationsLimit(int _count) {
         if (!isSolvingIterationsCountInRange(_count)) {
             Logger.warn("Wartość jest spoza zakresu! Oczekiwano 1-{}, otrzymano {}.",
                     MAX_SOLVING_ITERATIONS_COUNT, _count);
             return false;
         }
-        solvingInterationsCount = _count;
+        solvingInterationsLimit = _count;
         return true;
     }
 
@@ -180,5 +184,12 @@ public class SolverBase {
         } catch (IOException e) {
             Logger.warn("Błąd podczas zapisu do pliku '{}'! Error: {}", solvingDataFilename, e.getMessage());
         }
+    }
+
+    public static boolean isSolvingIterationsEnded() {
+        if (solvingIterationsCounter >= solvingInterationsLimit) {
+            return true;
+        }
+        return false;
     }
 }

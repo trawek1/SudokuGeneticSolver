@@ -113,7 +113,6 @@ public class SolverInfo {
 				timeLastUpdate = System.currentTimeMillis();
 				timeSolvingStart = System.currentTimeMillis();
 				calculateSolvingTime();
-				SolverBase.saveSolvingDataToFile("========= IN PROGRESS");
 
 				// TODO >>>>> uzupełnić akcje wg statusu
 				break;
@@ -122,7 +121,7 @@ public class SolverInfo {
 				timeLastUpdate = TIME_COUNTING_STOPPED;
 				timeSolvingStop = System.currentTimeMillis();
 				calculateSolvingTime();
-				SolverBase.saveSolvingDataToFile("========= COMPLETED");
+				SolverBase.saveSolvingDataToFile("=== COMPLETED");
 
 				// TODO >>>>> uzupełnić akcje wg statusu
 				infoChanged = true;
@@ -132,7 +131,7 @@ public class SolverInfo {
 				timeLastUpdate = TIME_COUNTING_STOPPED;
 				timeSolvingStop = System.currentTimeMillis();
 				calculateSolvingTime();
-				SolverBase.saveSolvingDataToFile("========= FAILED");
+				SolverBase.saveSolvingDataToFile("=== FAILED");
 
 				// TODO >>>>> uzupełnić akcje wg statusu
 				infoChanged = true;
@@ -142,7 +141,7 @@ public class SolverInfo {
 				timeLastUpdate = TIME_COUNTING_STOPPED;
 				timeSolvingStop = System.currentTimeMillis();
 				calculateSolvingTime();
-				SolverBase.saveSolvingDataToFile("========= STOPPED BY USER");
+				SolverBase.saveSolvingDataToFile("=== STOPPED BY USER");
 
 				// TODO >>>>> uzupełnić akcje wg statusu
 				infoChanged = true;
@@ -152,7 +151,7 @@ public class SolverInfo {
 				timeLastUpdate = TIME_COUNTING_STOPPED;
 				timeSolvingStop = System.currentTimeMillis();
 				calculateSolvingTime();
-				SolverBase.saveSolvingDataToFile("========= STOPPED BY TIMEOUT");
+				SolverBase.saveSolvingDataToFile("=== STOPPED BY TIMEOUT");
 
 				// TODO >>>>> uzupełnić akcje wg statusu
 				infoChanged = true;
@@ -162,14 +161,14 @@ public class SolverInfo {
 				timeLastUpdate = TIME_COUNTING_STOPPED;
 				timeSolvingStop = System.currentTimeMillis();
 				calculateSolvingTime();
-				SolverBase.saveSolvingDataToFile("========= STOPPED BY GENERATIONS LIMIT");
+				SolverBase.saveSolvingDataToFile("=== STOPPED BY GENERATIONS LIMIT");
 
 				// TODO >>>>> uzupełnić akcje wg statusu
 				infoChanged = true;
 				break;
 			case ERROR:
 				Logger.info("Ustawiono status: ERROR.");
-				SolverBase.saveSolvingDataToFile("========= ERROR");
+				SolverBase.saveSolvingDataToFile("=== ERROR");
 
 				// TODO >>>>> uzupełnić akcje wg statusu
 				infoChanged = true;

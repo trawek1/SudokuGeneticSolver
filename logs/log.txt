@@ -1,0 +1,3 @@
+2025-06-09 14:12:19.228 INFO  SolverInfo.changeStatusTo :: Ustawiono status: NOT_STARTED.
+2025-06-09 14:12:22.964 INFO  SolverInfo.changeStatusTo :: Ustawiono status: IN_PROGRESS.
+2025-06-09 14:12:23.045 INFO  SolverInfo.changeStatusTo :: Ustawiono status: COMPLETED.
