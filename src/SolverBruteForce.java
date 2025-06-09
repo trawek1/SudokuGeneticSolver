@@ -99,29 +99,4 @@ public class SolverBruteForce extends SolverBase {
             }
         }
     }
-
-    public void startSolvingManyTimes(int _solvingNumber) {
-        // if (!setSolvingIterationsCount(_solvingNumber)) {
-        // Logger.warn("Nieoczekiwanie przerwano rozwiązywanie sudoku!");
-        // return;
-        // }
-
-        // resetTimeMeasurement();
-        // for (int i = 0; i < getSolvingIterationsCount(); i++) {
-        // if (SolverInfo.getStatus() != SolvingStatusEnum.IN_PROGRESS) {
-        // return;
-        // }
-
-        // resetBoard();
-
-        // // startTimeMeasurement();
-        // boolean isSolved = this.solve();
-        // // stopTimeMeasurement();
-
-        // Logger.info("Rozwiązywanie nr {}, wynik {}, czas {}", i + 1, isSolved ?
-        // "udane" : "błędne",
-        // showSolvingTime());
-        // }
-        // Logger.info("Średni czas rozwiązywania: {}", showSolvingAverageTime());
-    }
 }

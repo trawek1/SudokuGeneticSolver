@@ -57,7 +57,7 @@ public class SolverBase {
             return result;
         }
 
-        return result + String.format(" %03dms", time);
+        return result + String.format(" %03dms", miliseconds);
     }
 
     public static String convertNanosecondsToHMSVU(long _nanoseconds, int _precision) {
@@ -95,7 +95,7 @@ public class SolverBase {
             return result;
         }
 
-        return result + String.format(" %06dns", time);
+        return result + String.format(" %06dns", nanoseconds);
     }
 
     protected static void startTimeMeasurement() {
