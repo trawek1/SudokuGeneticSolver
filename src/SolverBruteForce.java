@@ -89,13 +89,13 @@ public class SolverBruteForce extends SolverBase {
         if (SolverInfo.getStatus() == SolvingStatusEnum.IN_PROGRESS) {
             if (isSolved) {
                 if (SolverBase.areIterationsInProgress()) {
-                    SolverInfo.changeStatusTo(SolvingStatusEnum.ITERATION_COMPLETED);
+                    SolverInfo.setStatusTo(SolvingStatusEnum.ITERATION_COMPLETED);
                 } else {
-                    SolverInfo.changeStatusTo(SolvingStatusEnum.COMPLETED);
+                    SolverInfo.setStatusTo(SolvingStatusEnum.COMPLETED);
                 }
                 SolverBase.saveSolvingDataToFile("=== czas rozwiazania: " + showSolvingAverageTime());
             } else {
-                SolverInfo.changeStatusTo(SolvingStatusEnum.FAILED);
+                SolverInfo.setStatusTo(SolvingStatusEnum.FAILED);
             }
         }
     }

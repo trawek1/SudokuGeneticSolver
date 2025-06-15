@@ -4,6 +4,8 @@ import java.util.*;
 import org.tinylog.Logger;
 
 public class SolverGeneticPopulation extends SolverBase {
+    public static final int FITNESS_LEVEL_ERROR = -1;
+
     public static final int POPULATION_SIZE_MIN = 50;
     public static final int POPULATION_SIZE_MAX = 500;
     public static final int POPULATION_SIZE_STEP = 50;
@@ -21,6 +23,7 @@ public class SolverGeneticPopulation extends SolverBase {
 
     private List<SolverGeneticIndividual> population;
     private int[] initialBoard;
+    private boolean solved;
     private int generationsCount;
 
     /**
@@ -89,15 +92,6 @@ public class SolverGeneticPopulation extends SolverBase {
         parentSelectionMethod = parentSelectionMethod.next();
     }
 
-    public static void saveSolvingPreferencesToFile() {
-        saveSolvingDataToFile("Metoda selekcji rodziców: " + parentSelectionMethod);
-        saveSolvingDataToFile("Wielkość populacji [" + POPULATION_SIZE_MIN + "-" + POPULATION_SIZE_MAX + "]: "
-                + getPopulationSize());
-        saveSolvingDataToFile("Wielkość puli rodziców [" + BEST_PARENTS_PERCENT_MIN + "%-"
-                + BEST_PARENTS_PERCENT_MAX + "%]: " + getBestParentsPercent() + "% ("
-                + getNumberOfParents() + ")");
-    }
-
     /**
      * ==============================================================================
      * ================================================================MET.DYNAMICZNE
@@ -107,20 +101,29 @@ public class SolverGeneticPopulation extends SolverBase {
     public SolverGeneticPopulation(int[] _initialBoard) {
         this.initialBoard = _initialBoard;
         this.population = new ArrayList<>(getPopulationSize());
-        this.generationsCount = 1;
+        this.solved = false;
+        this.generationsCount = 0;
         this.initializePopulation();
     }
 
     private void initializePopulation() {
         for (int i = 0; i < getPopulationSize(); i++) {
+            if (SolverInfo.getStatus() != SolvingStatusEnum.IN_PROGRESS) {
+                break;
+            }
             SolverGeneticIndividual individual = new SolverGeneticIndividual(this.initialBoard);
             individual.getBoardFromParent();
             this.population.add(individual);
-            // saveSolvingDataToFile("INI-GEN, POTOMEK nr=," + (i + 1)
-            // + ", lvl=," + individual.getBoardErrorLevel());
+            if (individual.getFitnessLevel() == 0) {
+                this.solved = true;
+                break;
+            }
         }
         this.sortPopulationByFitness();
-        this.savePopulationData();
+    }
+
+    public boolean isSolved() {
+        return this.solved;
     }
 
     private void sortPopulationByFitness() {
@@ -132,7 +135,10 @@ public class SolverGeneticPopulation extends SolverBase {
     }
 
     public int getStatsBestFitness() {
-        return population.get(0).getFitnessLevel();
+        if (population.get(0) != null) {
+            return population.get(0).getFitnessLevel();
+        }
+        return FITNESS_LEVEL_ERROR;
     }
 
     public int getStatsWorstFitness() {
@@ -140,7 +146,11 @@ public class SolverGeneticPopulation extends SolverBase {
     }
 
     public int getStatsFitnessOfLastParent() {
-        return population.get(getNumberOfParents() - 1).getFitnessLevel();
+        int lastParentPosition = getNumberOfParents() - 1;
+        if (population.size() > lastParentPosition) {
+            return population.get(lastParentPosition).getFitnessLevel();
+        }
+        return FITNESS_LEVEL_ERROR;
     }
 
     public double getStatsAverageFitness() {
@@ -207,7 +217,12 @@ public class SolverGeneticPopulation extends SolverBase {
         }
 
         this.population.clear();
+        this.generationsCount++;
         for (int i = 0; i < getPopulationSize(); i++) {
+            if (SolverInfo.getStatus() != SolvingStatusEnum.IN_PROGRESS) {
+                break;
+            }
+
             int parent1Position = random.nextInt(parents.size());
             SolverGeneticIndividual parent1 = parents.get(parent1Position);
             int parent2Position = random.nextInt(parents.size());
@@ -218,7 +233,6 @@ public class SolverGeneticPopulation extends SolverBase {
             SolverGeneticIndividual child = new SolverGeneticIndividual(crossover.getCrossover());
             child.calculateFitness();
             population.add(child);
-
             // saveSolvingDataToFile("GEN, POKOLENIE nr=," + this.generationsCount
             // + ", POTOMEK: nr=," + (i + 1)
             // + ", lvl=," + child.getBoardErrorLevel()
@@ -226,10 +240,13 @@ public class SolverGeneticPopulation extends SolverBase {
             // + ", lvl=," + parent1.getBoardErrorLevel()
             // + ", RODZIC-2 pos=," + parent2Position
             // + ", lvl=," + parent2.getBoardErrorLevel());
+            if (child.getFitnessLevel() == 0) {
+                this.solved = true;
+                break;
+            }
         }
         this.sortPopulationByFitness();
         this.savePopulationData();
-        this.generationsCount++;
     }
 
     public void savePopulationData() {

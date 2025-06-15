@@ -14,7 +14,7 @@ public class SolverInfo {
 	private static String txtDetails3;
 
 	static {
-		changeStatusTo(SolvingStatusEnum.NOT_STARTED);
+		setStatusTo(SolvingStatusEnum.NOT_STARTED);
 	}
 
 	public static void resetData() {
@@ -99,7 +99,7 @@ public class SolverInfo {
 		return solvingInfoStatus;
 	}
 
-	public static void changeStatusTo(SolvingStatusEnum _status) {
+	public static void setStatusTo(SolvingStatusEnum _status) {
 		solvingInfoStatus = _status;
 		infoChanged = true;
 		switch (_status) {
@@ -113,15 +113,12 @@ public class SolverInfo {
 				timeLastUpdate = System.currentTimeMillis();
 				timeSolvingStart = System.currentTimeMillis();
 				calculateSolvingTime();
-				SolverInfo.changeStatusTo(SolvingStatusEnum.IN_PROGRESS);
-				// TODO >> uzupełnić akcje wg statusu
+				SolverInfo.setStatusTo(SolvingStatusEnum.IN_PROGRESS);
 				break;
 			case IN_PROGRESS:
 				Logger.info("Ustawiono status: IN_PROGRESS.");
 				timeLastUpdate = System.currentTimeMillis();
 				calculateSolvingTime();
-
-				// TODO >> uzupełnić akcje wg statusu
 				break;
 			case COMPLETED:
 				Logger.info("Ustawiono status: COMPLETED.");
@@ -129,17 +126,13 @@ public class SolverInfo {
 				timeSolvingStop = System.currentTimeMillis();
 				calculateSolvingTime();
 				SolverBase.saveSolvingDataToFile("=== COMPLETED");
-
-				// TODO >> uzupełnić akcje wg statusu
 				infoChanged = true;
 				break;
 			case ITERATION_COMPLETED:
 				Logger.info("Ustawiono status: ITERATION COMPLETED.");
 				timeLastUpdate = System.currentTimeMillis();
 				SolverBase.saveSolvingDataToFile("=== ITERATION COMPLETED");
-				changeStatusTo(SolvingStatusEnum.IN_PROGRESS);
-
-				// TODO >> uzupełnić akcje wg statusu
+				setStatusTo(SolvingStatusEnum.IN_PROGRESS);
 				infoChanged = true;
 				break;
 			case FAILED:
@@ -148,8 +141,6 @@ public class SolverInfo {
 				timeSolvingStop = System.currentTimeMillis();
 				calculateSolvingTime();
 				SolverBase.saveSolvingDataToFile("=== FAILED");
-
-				// TODO >> uzupełnić akcje wg statusu
 				infoChanged = true;
 				break;
 			case STOPPED_BY_USER:
@@ -158,8 +149,6 @@ public class SolverInfo {
 				timeSolvingStop = System.currentTimeMillis();
 				calculateSolvingTime();
 				SolverBase.saveSolvingDataToFile("=== STOPPED BY USER");
-
-				// TODO >> uzupełnić akcje wg statusu
 				infoChanged = true;
 				break;
 			case STOPPED_BY_TIMEOUT:
@@ -168,8 +157,6 @@ public class SolverInfo {
 				timeSolvingStop = System.currentTimeMillis();
 				calculateSolvingTime();
 				SolverBase.saveSolvingDataToFile("=== STOPPED BY TIMEOUT");
-
-				// TODO >> uzupełnić akcje wg statusu
 				infoChanged = true;
 				break;
 			case STOPPED_BY_GENERATIONS_LIMIT:
@@ -178,15 +165,11 @@ public class SolverInfo {
 				timeSolvingStop = System.currentTimeMillis();
 				calculateSolvingTime();
 				SolverBase.saveSolvingDataToFile("=== STOPPED BY GENERATIONS LIMIT");
-
-				// TODO >> uzupełnić akcje wg statusu
 				infoChanged = true;
 				break;
 			case ERROR:
 				Logger.info("Ustawiono status: ERROR.");
 				SolverBase.saveSolvingDataToFile("=== ERROR");
-
-				// TODO >> uzupełnić akcje wg statusu
 				infoChanged = true;
 				break;
 		}

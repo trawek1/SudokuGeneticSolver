@@ -71,11 +71,10 @@ public class SolverGeneticIndividual extends SolverBase {
                 Logger.error("Nieznana metoda liczenia dopasowania: {}", fitnessCalculatingMethod);
                 this.calculateFitnessByValuesCollisions();
         }
-        if (this.fitnessLevel == 0) {
-            SolverBase.stopTimeMeasurement();
-            Logger.info("Średni czas rozwiązywania: {}", showSolvingAverageTime());
-            System.exit(0);
-        }
+        // if (this.fitnessLevel == 0) {
+        // SolverBase.stopTimeMeasurement();
+        // Logger.info("Średni czas rozwiązywania: {}", showSolvingAverageTime());
+        // }
     }
 
     public void calculateFitnessByMissingValues() {

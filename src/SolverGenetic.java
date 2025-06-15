@@ -29,20 +29,18 @@ public class SolverGenetic extends SolverBase {
     }
 
     private boolean solve() {
-        SolverGeneticPopulation population = null;
+        SolverGeneticPopulation population = new SolverGeneticPopulation(this.boardData);
+        population.savePopulationData();
 
         for (int i = 0; i < generationsNumber; i++) {
-            if (population == null) {
-                population = new SolverGeneticPopulation(this.boardData);
-                // TODO >>>> dodać sprawdzanie fitness=0
-                // TODO >>>> przenieść tu zapis statystyk do pliku
+            if (population.isSolved()) {
+                break;
             }
             population.createNextAndSwapPopulation();
-            // TODO >>>> przenieść tu zapis statystyk do pliku
-            // TODO >>>> dodać sprawdzanie fitness=0
+            population.savePopulationData();
         }
 
-        return true; // TODO >>>>> uzupełnić wyłapywanie fitness = 0
+        return population.isSolved();
     }
 
     public void startSolving() {
@@ -55,13 +53,13 @@ public class SolverGenetic extends SolverBase {
         if (SolverInfo.getStatus() == SolvingStatusEnum.IN_PROGRESS) {
             if (isSolved) {
                 if (SolverBase.areIterationsInProgress()) {
-                    SolverInfo.changeStatusTo(SolvingStatusEnum.ITERATION_COMPLETED);
+                    SolverInfo.setStatusTo(SolvingStatusEnum.ITERATION_COMPLETED);
                 } else {
-                    SolverInfo.changeStatusTo(SolvingStatusEnum.COMPLETED);
+                    SolverInfo.setStatusTo(SolvingStatusEnum.COMPLETED);
                 }
                 SolverBase.saveSolvingDataToFile("=== czas rozwiazania: " + showSolvingAverageTime());
             } else {
-                SolverInfo.changeStatusTo(SolvingStatusEnum.FAILED);
+                SolverInfo.setStatusTo(SolvingStatusEnum.FAILED);
             }
         }
     }
