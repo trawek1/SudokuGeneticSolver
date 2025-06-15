@@ -1,142 +1,22 @@
-
-2025-06-09 17:45:44.302 INFO  SolverInfo.changeStatusTo :: Ustawiono status: NOT_STARTED.
-2025-06-09 17:45:53.290 INFO  SolverInfo.changeStatusTo :: Ustawiono status: STARTED.
-2025-06-09 17:50:25.617 INFO  SolverInfo.changeStatusTo :: Ustawiono status: NOT_STARTED.
-2025-06-09 17:50:29.140 INFO  SolverInfo.changeStatusTo :: Ustawiono status: STARTED.
-2025-06-09 17:55:24.725 INFO  SolverInfo.changeStatusTo :: Ustawiono status: NOT_STARTED.
-2025-06-09 17:55:27.723 INFO  SolverInfo.changeStatusTo :: Ustawiono status: STARTED.
-2025-06-09 17:55:27.723 INFO  SolverInfo.changeStatusTo :: Ustawiono status: IN_PROGRESS.
-2025-06-09 17:55:27.729 INFO  SolverInfo.changeStatusTo :: Ustawiono status: ITERATION COMPLETED.
-2025-06-09 17:55:27.730 INFO  SolverInfo.changeStatusTo :: Ustawiono status: IN_PROGRESS.
-2025-06-09 17:55:27.738 INFO  SolverInfo.changeStatusTo :: Ustawiono status: ITERATION COMPLETED.
-2025-06-09 17:55:27.739 INFO  SolverInfo.changeStatusTo :: Ustawiono status: IN_PROGRESS.
-2025-06-09 17:55:27.741 INFO  SolverInfo.changeStatusTo :: Ustawiono status: COMPLETED.
-2025-06-09 17:58:48.515 INFO  SolverInfo.changeStatusTo :: Ustawiono status: NOT_STARTED.
-2025-06-09 17:58:57.085 INFO  SolverInfo.changeStatusTo :: Ustawiono status: STARTED.
-2025-06-09 17:58:57.085 INFO  SolverInfo.changeStatusTo :: Ustawiono status: IN_PROGRESS.
-2025-06-09 17:59:14.893 INFO  SolverInfo.changeStatusTo :: Ustawiono status: ITERATION COMPLETED.
-2025-06-09 17:59:14.894 INFO  SolverInfo.changeStatusTo :: Ustawiono status: IN_PROGRESS.
-2025-06-09 17:59:32.538 INFO  SolverInfo.changeStatusTo :: Ustawiono status: ITERATION COMPLETED.
-2025-06-09 17:59:32.539 INFO  SolverInfo.changeStatusTo :: Ustawiono status: IN_PROGRESS.
-2025-06-09 17:59:50.235 INFO  SolverInfo.changeStatusTo :: Ustawiono status: COMPLETED.
-2025-06-09 18:44:48.357 INFO  SolverInfo.changeStatusTo :: Ustawiono status: NOT_STARTED.
-2025-06-09 18:45:20.020 INFO  SolverInfo.changeStatusTo :: Ustawiono status: STARTED.
-2025-06-09 18:45:20.020 INFO  SolverInfo.changeStatusTo :: Ustawiono status: IN_PROGRESS.
-2025-06-09 18:45:37.790 INFO  SolverInfo.changeStatusTo :: Ustawiono status: ITERATION COMPLETED.
-2025-06-09 18:45:37.791 INFO  SolverInfo.changeStatusTo :: Ustawiono status: IN_PROGRESS.
-2025-06-09 18:45:55.512 INFO  SolverInfo.changeStatusTo :: Ustawiono status: ITERATION COMPLETED.
-2025-06-09 18:45:55.512 INFO  SolverInfo.changeStatusTo :: Ustawiono status: IN_PROGRESS.
-2025-06-09 18:46:13.173 INFO  SolverInfo.changeStatusTo :: Ustawiono status: ITERATION COMPLETED.
-2025-06-09 18:46:13.174 INFO  SolverInfo.changeStatusTo :: Ustawiono status: IN_PROGRESS.
-2025-06-09 18:46:30.735 INFO  SolverInfo.changeStatusTo :: Ustawiono status: ITERATION COMPLETED.
-2025-06-09 18:46:30.735 INFO  SolverInfo.changeStatusTo :: Ustawiono status: IN_PROGRESS.
-2025-06-09 18:46:48.459 INFO  SolverInfo.changeStatusTo :: Ustawiono status: ITERATION COMPLETED.
-2025-06-09 18:46:48.459 INFO  SolverInfo.changeStatusTo :: Ustawiono status: IN_PROGRESS.
-2025-06-09 18:47:06.053 INFO  SolverInfo.changeStatusTo :: Ustawiono status: ITERATION COMPLETED.
-2025-06-09 18:47:06.053 INFO  SolverInfo.changeStatusTo :: Ustawiono status: IN_PROGRESS.
-2025-06-09 18:47:23.762 INFO  SolverInfo.changeStatusTo :: Ustawiono status: ITERATION COMPLETED.
-2025-06-09 18:47:23.762 INFO  SolverInfo.changeStatusTo :: Ustawiono status: IN_PROGRESS.
-2025-06-09 18:47:41.374 INFO  SolverInfo.changeStatusTo :: Ustawiono status: ITERATION COMPLETED.
-2025-06-09 18:47:41.374 INFO  SolverInfo.changeStatusTo :: Ustawiono status: IN_PROGRESS.
-2025-06-09 18:47:59.069 INFO  SolverInfo.changeStatusTo :: Ustawiono status: ITERATION COMPLETED.
-2025-06-09 18:47:59.069 INFO  SolverInfo.changeStatusTo :: Ustawiono status: IN_PROGRESS.
-2025-06-09 18:48:17.042 INFO  SolverInfo.changeStatusTo :: Ustawiono status: COMPLETED.
-2025-06-09 19:35:46.994 INFO  SolverInfo.changeStatusTo :: Ustawiono status: NOT_STARTED.
-2025-06-15 13:41:45.018 INFO  SolverInfo.setStatusTo :: Ustawiono status: NOT_STARTED.
-2025-06-15 13:41:57.808 INFO  SolverInfo.setStatusTo :: Ustawiono status: STARTED.
-2025-06-15 13:41:57.808 INFO  SolverInfo.setStatusTo :: Ustawiono status: IN_PROGRESS.
-2025-06-15 13:41:57.813 INFO  SolverGeneticIndividual.calculateFitness :: Średni czas rozwiązywania: 00h 00m 00s 000ms 291900ns
-2025-06-15 13:43:09.754 INFO  SolverInfo.setStatusTo :: Ustawiono status: NOT_STARTED.
-2025-06-15 13:43:18.863 INFO  SolverInfo.setStatusTo :: Ustawiono status: STARTED.
-2025-06-15 13:43:18.863 INFO  SolverInfo.setStatusTo :: Ustawiono status: IN_PROGRESS.
-2025-06-15 13:43:28.007 INFO  SolverGeneticIndividual.calculateFitness :: Średni czas rozwiązywania: 00h 00m 09s 132ms 060200ns
-2025-06-15 13:44:05.449 INFO  SolverInfo.setStatusTo :: Ustawiono status: NOT_STARTED.
-2025-06-15 13:44:13.693 INFO  SolverInfo.setStatusTo :: Ustawiono status: STARTED.
-2025-06-15 13:44:13.693 INFO  SolverInfo.setStatusTo :: Ustawiono status: IN_PROGRESS.
-2025-06-15 13:45:56.308 INFO  SolverGeneticIndividual.calculateFitness :: Średni czas rozwiązywania: 00h 01m 42s 604ms 861700ns
-2025-06-15 13:46:02.891 INFO  SolverInfo.setStatusTo :: Ustawiono status: NOT_STARTED.
-2025-06-15 13:46:10.681 INFO  SolverInfo.setStatusTo :: Ustawiono status: STARTED.
-2025-06-15 13:46:10.681 INFO  SolverInfo.setStatusTo :: Ustawiono status: IN_PROGRESS.
-2025-06-15 13:46:10.686 INFO  SolverGeneticIndividual.calculateFitness :: Średni czas rozwiązywania: 00h 00m 00s 000ms 269300ns
-2025-06-15 13:46:23.042 INFO  SolverInfo.setStatusTo :: Ustawiono status: NOT_STARTED.
-2025-06-15 13:46:36.833 INFO  SolverInfo.setStatusTo :: Ustawiono status: STARTED.
-2025-06-15 13:46:36.833 INFO  SolverInfo.setStatusTo :: Ustawiono status: IN_PROGRESS.
-2025-06-15 13:47:06.774 INFO  SolverGeneticIndividual.calculateFitness :: Średni czas rozwiązywania: 00h 00m 29s 929ms 768600ns
-2025-06-15 13:47:14.999 INFO  SolverInfo.setStatusTo :: Ustawiono status: NOT_STARTED.
-2025-06-15 13:47:20.175 INFO  SolverInfo.setStatusTo :: Ustawiono status: STARTED.
-2025-06-15 13:47:20.175 INFO  SolverInfo.setStatusTo :: Ustawiono status: IN_PROGRESS.
-2025-06-15 13:48:37.913 INFO  SolverGeneticIndividual.calculateFitness :: Średni czas rozwiązywania: 00h 01m 11s 454ms 803200ns
-2025-06-15 13:49:17.101 INFO  SolverGeneticIndividual.calculateFitness :: Średni czas rozwiązywania: 69h 30m 08s 217ms 713600ns
-2025-06-15 13:50:09.688 ERROR SudokuSolverGUI.lambda$0 :: Nieoczekiwanie zakończono wątek solvera! Index 29 out of bounds for length 1
-2025-06-15 13:50:09.689 INFO  SolverInfo.setStatusTo :: Ustawiono status: ERROR.
-2025-06-15 13:50:26.214 INFO  SolverInfo.setStatusTo :: Ustawiono status: NOT_STARTED.
-2025-06-15 13:50:30.261 INFO  SolverInfo.setStatusTo :: Ustawiono status: STARTED.
-2025-06-15 13:50:30.261 INFO  SolverInfo.setStatusTo :: Ustawiono status: IN_PROGRESS.
-2025-06-15 13:50:30.267 INFO  SolverGeneticIndividual.calculateFitness :: Średni czas rozwiązywania: 00h 00m 00s 000ms 294900ns
-2025-06-15 13:50:30.280 ERROR SudokuSolverGUI.lambda$0 :: Nieoczekiwanie zakończono wątek solvera! Index 29 out of bounds for length 1
-2025-06-15 13:50:30.281 INFO  SolverInfo.setStatusTo :: Ustawiono status: ERROR.
-2025-06-15 13:51:01.437 INFO  SolverInfo.setStatusTo :: Ustawiono status: NOT_STARTED.
-2025-06-15 13:51:07.272 INFO  SolverInfo.setStatusTo :: Ustawiono status: STARTED.
-2025-06-15 13:51:07.272 INFO  SolverInfo.setStatusTo :: Ustawiono status: IN_PROGRESS.
-2025-06-15 13:51:07.278 INFO  SolverGeneticIndividual.calculateFitness :: Średni czas rozwiązywania: 00h 00m 00s 000ms 390300ns
-2025-06-15 13:53:20.474 ERROR SudokuSolverGUI.lambda$0 :: Nieoczekiwanie zakończono wątek solvera! Index 29 out of bounds for length 1
-2025-06-15 13:53:20.475 INFO  SolverInfo.setStatusTo :: Ustawiono status: ERROR.
-2025-06-15 13:53:26.417 INFO  SolverInfo.setStatusTo :: Ustawiono status: STARTED.
-2025-06-15 13:53:26.417 INFO  SolverInfo.setStatusTo :: Ustawiono status: IN_PROGRESS.
-2025-06-15 14:05:00.158 INFO  SolverInfo.setStatusTo :: Ustawiono status: NOT_STARTED.
-2025-06-15 14:05:03.450 INFO  SolverInfo.setStatusTo :: Ustawiono status: STARTED.
-2025-06-15 14:05:03.450 INFO  SolverInfo.setStatusTo :: Ustawiono status: IN_PROGRESS.
-2025-06-15 14:05:03.455 INFO  SolverGeneticIndividual.calculateFitness :: Średni czas rozwiązywania: 00h 00m 00s 000ms 396700ns
-2025-06-15 14:05:29.656 ERROR SudokuSolverGUI.lambda$0 :: Nieoczekiwanie zakończono wątek solvera! Index 29 out of bounds for length 1
-2025-06-15 14:05:29.656 INFO  SolverInfo.setStatusTo :: Ustawiono status: ERROR.
-2025-06-15 14:10:31.626 INFO  SolverInfo.setStatusTo :: Ustawiono status: NOT_STARTED.
-2025-06-15 14:10:36.600 INFO  SolverInfo.setStatusTo :: Ustawiono status: STARTED.
-2025-06-15 14:10:36.600 INFO  SolverInfo.setStatusTo :: Ustawiono status: IN_PROGRESS.
-2025-06-15 14:10:36.605 INFO  SolverGeneticIndividual.calculateFitness :: Średni czas rozwiązywania: 00h 00m 00s 000ms 317600ns
-2025-06-15 14:10:40.297 INFO  SolverInfo.setStatusTo :: Ustawiono status: COMPLETED.
-2025-06-15 14:12:04.244 INFO  SolverInfo.setStatusTo :: Ustawiono status: NOT_STARTED.
-2025-06-15 14:12:11.822 INFO  SolverInfo.setStatusTo :: Ustawiono status: STARTED.
-2025-06-15 14:12:11.822 INFO  SolverInfo.setStatusTo :: Ustawiono status: IN_PROGRESS.
-2025-06-15 14:12:11.827 INFO  SolverGeneticIndividual.calculateFitness :: Średni czas rozwiązywania: 00h 00m 00s 000ms 278000ns
-2025-06-15 14:12:11.847 INFO  SolverInfo.setStatusTo :: Ustawiono status: COMPLETED.
-2025-06-15 14:12:59.293 INFO  SolverInfo.setStatusTo :: Ustawiono status: STARTED.
-2025-06-15 14:12:59.293 INFO  SolverInfo.setStatusTo :: Ustawiono status: IN_PROGRESS.
-2025-06-15 14:12:59.298 INFO  SolverInfo.setStatusTo :: Ustawiono status: COMPLETED.
-2025-06-15 14:22:26.996 INFO  SolverInfo.setStatusTo :: Ustawiono status: NOT_STARTED.
-2025-06-15 14:22:35.111 INFO  SolverInfo.setStatusTo :: Ustawiono status: STARTED.
-2025-06-15 14:22:35.111 INFO  SolverInfo.setStatusTo :: Ustawiono status: IN_PROGRESS.
-2025-06-15 14:22:35.117 INFO  SolverGeneticIndividual.calculateFitness :: Średni czas rozwiązywania: 00h 00m 00s 000ms 335700ns
-2025-06-15 14:22:35.145 INFO  SolverInfo.setStatusTo :: Ustawiono status: ITERATION COMPLETED.
-2025-06-15 14:22:35.145 INFO  SolverInfo.setStatusTo :: Ustawiono status: IN_PROGRESS.
-2025-06-15 14:22:35.146 INFO  SolverGeneticIndividual.calculateFitness :: Średni czas rozwiązywania: 35h 01m 07s 671ms 229250ns
-2025-06-15 14:22:35.147 INFO  SolverInfo.setStatusTo :: Ustawiono status: ITERATION COMPLETED.
-2025-06-15 14:22:35.148 INFO  SolverInfo.setStatusTo :: Ustawiono status: IN_PROGRESS.
-2025-06-15 14:22:35.149 INFO  SolverGeneticIndividual.calculateFitness :: Średni czas rozwiązywania: 46h 41m 30s 230ms 719266ns
-2025-06-15 14:22:35.150 INFO  SolverInfo.setStatusTo :: Ustawiono status: COMPLETED.
-2025-06-15 14:29:22.509 INFO  SolverInfo.setStatusTo :: Ustawiono status: NOT_STARTED.
-2025-06-15 14:29:26.905 INFO  SolverInfo.setStatusTo :: Ustawiono status: STARTED.
-2025-06-15 14:29:26.907 INFO  SolverInfo.setStatusTo :: Ustawiono status: IN_PROGRESS.
-2025-06-15 14:29:26.922 INFO  SolverInfo.setStatusTo :: Ustawiono status: ITERATION COMPLETED.
-2025-06-15 14:29:26.923 INFO  SolverInfo.setStatusTo :: Ustawiono status: IN_PROGRESS.
-2025-06-15 14:29:26.929 INFO  SolverInfo.setStatusTo :: Ustawiono status: ITERATION COMPLETED.
-2025-06-15 14:29:26.929 INFO  SolverInfo.setStatusTo :: Ustawiono status: IN_PROGRESS.
-2025-06-15 14:29:26.932 INFO  SolverInfo.setStatusTo :: Ustawiono status: COMPLETED.
-2025-06-15 14:29:32.685 INFO  SolverInfo.setStatusTo :: Ustawiono status: NOT_STARTED.
-2025-06-15 14:29:42.231 INFO  SolverInfo.setStatusTo :: Ustawiono status: STARTED.
-2025-06-15 14:29:42.231 INFO  SolverInfo.setStatusTo :: Ustawiono status: IN_PROGRESS.
-2025-06-15 14:29:42.248 INFO  SolverGeneticIndividual.calculateFitness :: Średni czas rozwiązywania: 00h 00m 00s 004ms 452500ns
-2025-06-15 14:29:42.268 INFO  SolverInfo.setStatusTo :: Ustawiono status: ITERATION COMPLETED.
-2025-06-15 14:29:42.268 INFO  SolverInfo.setStatusTo :: Ustawiono status: IN_PROGRESS.
-2025-06-15 14:29:42.270 INFO  SolverGeneticIndividual.calculateFitness :: Średni czas rozwiązywania: 35h 04m 41s 237ms 100100ns
-2025-06-15 14:29:42.271 INFO  SolverInfo.setStatusTo :: Ustawiono status: ITERATION COMPLETED.
-2025-06-15 14:29:42.271 INFO  SolverInfo.setStatusTo :: Ustawiono status: IN_PROGRESS.
-2025-06-15 14:29:42.273 INFO  SolverGeneticIndividual.calculateFitness :: Średni czas rozwiązywania: 46h 46m 14s 982ms 402466ns
-2025-06-15 14:29:42.274 INFO  SolverInfo.setStatusTo :: Ustawiono status: COMPLETED.
-2025-06-15 14:45:51.536 INFO  SolverInfo.setStatusTo :: Ustawiono status: NOT_STARTED.
-2025-06-15 14:45:58.236 INFO  SolverInfo.setStatusTo :: Ustawiono status: STARTED.
-2025-06-15 14:45:58.236 INFO  SolverInfo.setStatusTo :: Ustawiono status: IN_PROGRESS.
-2025-06-15 14:45:58.271 INFO  SolverInfo.setStatusTo :: Ustawiono status: ITERATION COMPLETED.
-2025-06-15 14:45:58.271 INFO  SolverInfo.setStatusTo :: Ustawiono status: IN_PROGRESS.
-2025-06-15 14:45:58.277 INFO  SolverInfo.setStatusTo :: Ustawiono status: ITERATION COMPLETED.
-2025-06-15 14:45:58.277 INFO  SolverInfo.setStatusTo :: Ustawiono status: IN_PROGRESS.
-2025-06-15 14:45:58.280 INFO  SolverInfo.setStatusTo :: Ustawiono status: COMPLETED.
+2025-06-15 15:26:31.050 ERROR SudokuSolverGUI.lambda$0 :: Nieoczekiwanie zakończono wątek solvera! Index 0 out of bounds for length 0
+2025-06-15 15:26:36.180 ERROR SudokuSolverGUI.lambda$0 :: Nieoczekiwanie zakończono wątek solvera! Index 0 out of bounds for length 0
+2025-06-15 15:30:14.467 ERROR SudokuSolverGUI.lambda$0 :: Nieoczekiwanie zakończono wątek solvera! Index 0 out of bounds for length 0
+2025-06-15 15:37:35.045 INFO  SolverBase.saveSolvingDataToFile :: Nie zapisano danych: === status: NOT_STARTED >>> STARTED
+2025-06-15 15:37:35.048 INFO  SolverBase.saveSolvingDataToFile :: Nie zapisano danych: === status: STARTED >>> IN_PROGRESS
+2025-06-15 15:38:17.005 INFO  SolverBase.saveSolvingDataToFile :: Nie zapisano danych: === status: NOT_STARTED >>> STARTED
+2025-06-15 15:38:17.008 INFO  SolverBase.saveSolvingDataToFile :: Nie zapisano danych: === status: STARTED >>> IN_PROGRESS
+2025-06-15 15:38:20.616 ERROR SudokuSolverGUI.lambda$0 :: Nieoczekiwanie zakończono wątek solvera! Index 0 out of bounds for length 0
+2025-06-15 15:40:40.038 INFO  SolverBase.saveSolvingDataToFile :: Nie zapisano danych: === status: NOT_STARTED >>> STARTED
+2025-06-15 15:40:40.041 INFO  SolverBase.saveSolvingDataToFile :: Nie zapisano danych: === status: STARTED >>> IN_PROGRESS
+2025-06-15 15:43:03.416 INFO  SolverBase.saveSolvingDataToFile :: Nie zapisano danych: === status: NOT_STARTED >>> STARTED
+2025-06-15 15:43:03.418 INFO  SolverBase.saveSolvingDataToFile :: Nie zapisano danych: === status: STARTED >>> IN_PROGRESS
+2025-06-15 15:43:28.176 INFO  SolverBase.saveSolvingDataToFile :: Nie zapisano danych: === status: NOT_STARTED >>> STARTED
+2025-06-15 15:43:28.179 INFO  SolverBase.saveSolvingDataToFile :: Nie zapisano danych: === status: STARTED >>> IN_PROGRESS
+2025-06-15 15:43:46.696 INFO  SolverBase.saveSolvingDataToFile :: Nie zapisano danych: === status: NOT_STARTED >>> STARTED
+2025-06-15 15:43:46.699 INFO  SolverBase.saveSolvingDataToFile :: Nie zapisano danych: === status: STARTED >>> IN_PROGRESS
+2025-06-15 15:44:05.770 INFO  SolverBase.saveSolvingDataToFile :: Nie zapisano danych: === status: NOT_STARTED >>> STARTED
+2025-06-15 15:44:05.773 INFO  SolverBase.saveSolvingDataToFile :: Nie zapisano danych: === status: STARTED >>> IN_PROGRESS
+2025-06-15 15:54:03.911 INFO  SolverBase.saveSolvingDataToFile :: Nie zapisano danych: === status: NOT_STARTED >>> STARTED
+2025-06-15 15:54:03.914 INFO  SolverBase.saveSolvingDataToFile :: Nie zapisano danych: === status: STARTED >>> IN_PROGRESS
+2025-06-15 16:11:34.998 INFO  SolverBase.saveSolvingDataToFile :: Nie zapisano danych: === status: NOT_STARTED >>> STARTED
+2025-06-15 16:11:35.001 INFO  SolverBase.saveSolvingDataToFile :: Nie zapisano danych: === status: STARTED >>> IN_PROGRESS

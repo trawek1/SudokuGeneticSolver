@@ -1,5 +1,3 @@
-import org.tinylog.Logger;
-
 public class SolverInfo {
 	private static final long TIME_COUNTING_STOPPED = 0;
 	private static final long TIME_UPDATE_INTERVAL = 1000;
@@ -100,76 +98,69 @@ public class SolverInfo {
 	}
 
 	public static void setStatusTo(SolvingStatusEnum _status) {
+		SolvingStatusEnum oldStatus = solvingInfoStatus;
 		solvingInfoStatus = _status;
 		infoChanged = true;
-		switch (_status) {
+		switch (solvingInfoStatus) {
 			case NOT_STARTED:
-				Logger.info("Ustawiono status: NOT_STARTED.");
 				resetData();
 				break;
 			case STARTED:
-				Logger.info("Ustawiono status: STARTED.");
+				SolverBase.saveSolvingDataToFile("=== status: " + oldStatus + " >>> " + solvingInfoStatus);
 				resetData();
 				timeLastUpdate = System.currentTimeMillis();
 				timeSolvingStart = System.currentTimeMillis();
 				calculateSolvingTime();
-				SolverInfo.setStatusTo(SolvingStatusEnum.IN_PROGRESS);
+				setStatusTo(SolvingStatusEnum.IN_PROGRESS);
 				break;
 			case IN_PROGRESS:
-				Logger.info("Ustawiono status: IN_PROGRESS.");
+				SolverBase.saveSolvingDataToFile("=== status: " + oldStatus + " >>> " + solvingInfoStatus);
 				timeLastUpdate = System.currentTimeMillis();
 				calculateSolvingTime();
 				break;
 			case COMPLETED:
-				Logger.info("Ustawiono status: COMPLETED.");
 				timeLastUpdate = TIME_COUNTING_STOPPED;
 				timeSolvingStop = System.currentTimeMillis();
 				calculateSolvingTime();
-				SolverBase.saveSolvingDataToFile("=== COMPLETED");
+				SolverBase.saveSolvingDataToFile("=== status: " + oldStatus + " >>> " + solvingInfoStatus);
 				infoChanged = true;
 				break;
 			case ITERATION_COMPLETED:
-				Logger.info("Ustawiono status: ITERATION COMPLETED.");
 				timeLastUpdate = System.currentTimeMillis();
-				SolverBase.saveSolvingDataToFile("=== ITERATION COMPLETED");
+				SolverBase.saveSolvingDataToFile("=== status: " + oldStatus + " >>> " + solvingInfoStatus);
 				setStatusTo(SolvingStatusEnum.IN_PROGRESS);
 				infoChanged = true;
 				break;
 			case FAILED:
-				Logger.info("Ustawiono status: FAILED.");
 				timeLastUpdate = TIME_COUNTING_STOPPED;
 				timeSolvingStop = System.currentTimeMillis();
 				calculateSolvingTime();
-				SolverBase.saveSolvingDataToFile("=== FAILED");
+				SolverBase.saveSolvingDataToFile("=== status: " + oldStatus + " >>> " + solvingInfoStatus);
 				infoChanged = true;
 				break;
 			case STOPPED_BY_USER:
-				Logger.info("Ustawiono status: STOPPED_BY_USER.");
 				timeLastUpdate = TIME_COUNTING_STOPPED;
 				timeSolvingStop = System.currentTimeMillis();
 				calculateSolvingTime();
-				SolverBase.saveSolvingDataToFile("=== STOPPED BY USER");
+				SolverBase.saveSolvingDataToFile("=== status: " + oldStatus + " >>> " + solvingInfoStatus);
 				infoChanged = true;
 				break;
 			case STOPPED_BY_TIMEOUT:
-				Logger.info("Ustawiono status: STOPPED_BY_TIMEOUT.");
 				timeLastUpdate = TIME_COUNTING_STOPPED;
 				timeSolvingStop = System.currentTimeMillis();
 				calculateSolvingTime();
-				SolverBase.saveSolvingDataToFile("=== STOPPED BY TIMEOUT");
+				SolverBase.saveSolvingDataToFile("=== status: " + oldStatus + " >>> " + solvingInfoStatus);
 				infoChanged = true;
 				break;
 			case STOPPED_BY_GENERATIONS_LIMIT:
-				Logger.info("Ustawiono status: STOPPED_BY_GENERATIONS_LIMIT.");
 				timeLastUpdate = TIME_COUNTING_STOPPED;
 				timeSolvingStop = System.currentTimeMillis();
 				calculateSolvingTime();
-				SolverBase.saveSolvingDataToFile("=== STOPPED BY GENERATIONS LIMIT");
+				SolverBase.saveSolvingDataToFile("=== status: " + oldStatus + " >>> " + solvingInfoStatus);
 				infoChanged = true;
 				break;
 			case ERROR:
-				Logger.info("Ustawiono status: ERROR.");
-				SolverBase.saveSolvingDataToFile("=== ERROR");
+				SolverBase.saveSolvingDataToFile("=== status: " + oldStatus + " >>> " + solvingInfoStatus);
 				infoChanged = true;
 				break;
 		}

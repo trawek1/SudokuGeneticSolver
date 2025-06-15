@@ -23,7 +23,6 @@ public class SolverBase {
 
     static {
         solvingInterationsLimit = DEFAULT_SOLVING_ITERATIONS_COUNT;
-        setSolvingDataFilenameToActual("");
     }
 
     public SolverBase() {
@@ -182,6 +181,10 @@ public class SolverBase {
     }
 
     public static void saveSolvingDataToFile(String _dataToWrite) {
+        if (solvingDataFilename == "") {
+            Logger.info("Nie zapisano danych: " + _dataToWrite);
+            return;
+        }
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(solvingDataFilename, true))) {
             writer.write(_dataToWrite);
             writer.newLine();

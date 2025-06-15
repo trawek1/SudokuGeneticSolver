@@ -1,8 +1,8 @@
 import java.time.LocalDateTime;
 
 public class SolverGenetic extends SolverBase {
-    private static final int GENERATIONS_NUMBER_MIN = 5_000;
-    private static final int GENERATIONS_NUMBER_MAX = 500_000;
+    public static final int GENERATIONS_NUMBER_MIN = 5_000;
+    public static final int GENERATIONS_NUMBER_MAX = 500_000;
     private static final int GENERATIONS_NUMBER_STEP = 5_000;
     private static final int GENERATIONS_NUMBER_DEFAULT = 50_000;
     private static int generationsNumber;
@@ -28,11 +28,46 @@ public class SolverGenetic extends SolverBase {
         }
     }
 
+    public void saveToFileMethodParameters() {
+        SolverBase.saveSolvingDataToFile("=== metoda               : "
+                + SudokuSolverGUI.getSolvingMethodName());
+        SolverBase.saveSolvingDataToFile("=== plansza              : "
+                + SudokuSolverGUI.getSudokuTestBoardName());
+        SolverBase.saveSolvingDataToFile("=== czas max             : "
+                + convertMilisecondsToHMSV(SOLVING_TIME_MAX, 2));
+        SolverBase.saveSolvingDataToFile("=== iteracje             : "
+                + SolverBase.getSolvingIterationsLimit());
+        SolverBase.saveSolvingDataToFile("=== generator rodziców   : "
+                + SolverGeneticParentMaker.getParentGeneratingMethodName());
+        SolverBase.saveSolvingDataToFile("=== funkcja dopasowania  : "
+                + SolverGeneticIndividual.getFitnessCalculatingMethodName());
+        SolverBase.saveSolvingDataToFile("=== metoda krzyżowania   : "
+                + SolverGeneticCrossover.getCrossoverMethodName());
+        SolverBase.saveSolvingDataToFile("=== selekcja rodziców    : "
+                + SolverGeneticPopulation.getParentSelectionMethodName());
+        SolverBase.saveSolvingDataToFile("=== rozmiar populacji    : "
+                + SolverGeneticPopulation.getPopulationSize() + " ("
+                + SolverGeneticPopulation.POPULATION_SIZE_MIN + " - "
+                + SolverGeneticPopulation.POPULATION_SIZE_MAX + ")");
+        SolverBase.saveSolvingDataToFile("=== rozmiar puli rodziców: "
+                + SolverGeneticPopulation.getBestParentsPercent() + "% ("
+                + SolverGeneticPopulation.BEST_PARENTS_PERCENT_MIN + "% - "
+                + SolverGeneticPopulation.BEST_PARENTS_PERCENT_MAX + "%) / "
+                + SolverGeneticPopulation.getNumberOfParents() + "x");
+        SolverBase.saveSolvingDataToFile("=== ilość generacji      : "
+                + SolverGenetic.getGenerationsNumber() + " ("
+                + SolverGenetic.GENERATIONS_NUMBER_MIN + " - "
+                + SolverGenetic.GENERATIONS_NUMBER_MAX + ")");
+    }
+
     private boolean solve() {
         SolverGeneticPopulation population = new SolverGeneticPopulation(this.boardData);
         population.savePopulationData();
 
         for (int i = 0; i < generationsNumber; i++) {
+            if (SolverInfo.getStatus() != SolvingStatusEnum.IN_PROGRESS) {
+                break;
+            }
             if (population.isSolved()) {
                 break;
             }
@@ -59,7 +94,7 @@ public class SolverGenetic extends SolverBase {
                 }
                 SolverBase.saveSolvingDataToFile("=== czas rozwiazania: " + showSolvingAverageTime());
             } else {
-                SolverInfo.setStatusTo(SolvingStatusEnum.FAILED);
+                SolverInfo.setStatusTo(SolvingStatusEnum.STOPPED_BY_GENERATIONS_LIMIT);
             }
         }
     }

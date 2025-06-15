@@ -21,6 +21,13 @@ public class SolverBruteForce extends SolverBase {
         this.board = new Board(this.boardData);
     }
 
+    public void saveToFileMethodParameters() {
+        SolverBase.saveSolvingDataToFile("=== metoda  : " + SudokuSolverGUI.getSolvingMethodName());
+        SolverBase.saveSolvingDataToFile("=== plansza : " + SudokuSolverGUI.getSudokuTestBoardName());
+        SolverBase.saveSolvingDataToFile("=== czas max: " + convertMilisecondsToHMSV(SOLVING_TIME_MAX, 2));
+        SolverBase.saveSolvingDataToFile("=== iteracje: " + SolverBase.getSolvingIterationsLimit());
+    }
+
     private boolean isValuePossibleInField(int _row, int _col, int _value) {
         Set<Integer> values;
 

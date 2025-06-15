@@ -8,14 +8,14 @@ public class SolverGeneticPopulation extends SolverBase {
 
     public static final int POPULATION_SIZE_MIN = 50;
     public static final int POPULATION_SIZE_MAX = 500;
-    public static final int POPULATION_SIZE_STEP = 50;
-    public static final int POPULATION_SIZE_DEFAULT = 100;
+    private static final int POPULATION_SIZE_STEP = 50;
+    private static final int POPULATION_SIZE_DEFAULT = 100;
     private static int populationSize;
 
     public static final int BEST_PARENTS_PERCENT_MIN = 2;
     public static final int BEST_PARENTS_PERCENT_MAX = 50;
-    public static final int BEST_PARENTS_PERCENT_STEP = 2;
-    public static final int BEST_PARENTS_PERCENT_DEFAULT = 30;
+    private static final int BEST_PARENTS_PERCENT_STEP = 2;
+    private static final int BEST_PARENTS_PERCENT_DEFAULT = 30;
     private static int bestParentsPercent;
 
     private static final ParentSelectionMethodsEnum PARENT_SELECTION_METHOD_DEFAULT = ParentSelectionMethodsEnum.ROULETTE_SELECTION;
@@ -198,8 +198,6 @@ public class SolverGeneticPopulation extends SolverBase {
         return parents;
     }
 
-    // TODO >>> dopisać metodę turniejową
-
     public void createNextAndSwapPopulation() {
         Random random = new Random();
 
@@ -246,24 +244,29 @@ public class SolverGeneticPopulation extends SolverBase {
             }
         }
         this.sortPopulationByFitness();
-        this.savePopulationData();
     }
 
     public void savePopulationData() {
+        SolverInfo.addDetails(String.format("GEN %9d", this.generationsCount) + this.getStatData());
+
         Date date = new Date(System.currentTimeMillis());
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss.SSS");
         String time = (", TIME," + sdf.format(date));
 
-        String stats = ", STAT,";
-        stats += this.getStatsBestFitness() + ",";
-        stats += this.getStatsFitnessOfLastParent() + ",";
-        stats += String.format("%4.0f", this.getStatsAverageFitness()) + ",";
-        stats += this.getStatsWorstFitness();
+        String stats = ", STAT," + this.getStatData();
 
         String fitnessAll = ", FIT,";
         for (SolverGeneticIndividual individual : this.population) {
             fitnessAll += individual.getFitnessLevel() + ",";
         }
         saveSolvingDataToFile(String.format("GEN %9d", this.generationsCount) + time + stats + fitnessAll);
+    }
+
+    public String getStatData() {
+        return this.getStatsBestFitness() + ","
+                + this.getStatsFitnessOfLastParent() + ","
+                + String.format("%.0f", this.getStatsAverageFitness()) + ","
+                + this.getStatsWorstFitness();
+
     }
 }

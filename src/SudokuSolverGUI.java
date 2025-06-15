@@ -191,8 +191,8 @@ public class SudokuSolverGUI extends SolverBase {
                 Thread.currentThread().interrupt();
                 Logger.error("Nieoczekiwanie zakończono wątek główny programu! {}", e.getMessage());
             }
-        }
-        if (SolverInfo.getStatus() != SolvingStatusEnum.STARTED) {
+        } else if (SolverInfo.getStatus() == SolvingStatusEnum.STARTED) {
+        } else {
             SolverInfo.setStatusTo(SolvingStatusEnum.STARTED);
             solverThread = new Thread(() -> {
                 try {
@@ -592,23 +592,19 @@ public class SudokuSolverGUI extends SolverBase {
         switch (solvingMethod) {
             case BRUTE_FORCE_X01:
                 setSolvingDataFilenameToActual("brute-force-x01");
-                solverBruteForce = new SolverBruteForce(boardForScreen.getBoardData());
                 SolverBase.setSolvingIterationsLimit(1);
-                SolverBase.saveSolvingDataToFile("=== metoda  : " + SudokuSolverGUI.getSolvingMethodName());
-                SolverBase.saveSolvingDataToFile("=== plansza : " + SudokuSolverGUI.getSudokuTestBoardName());
-                SolverBase.saveSolvingDataToFile("=== czas max: " + convertMilisecondsToHMSV(SOLVING_TIME_MAX, 2));
-                SolverBase.saveSolvingDataToFile("=== iteracje: " + SolverBase.getSolvingIterationsLimit());
+                solverBruteForce = new SolverBruteForce(boardForScreen.getBoardData());
+                solverBruteForce.saveToFileMethodParameters();
+
                 solverBruteForce.resetBoard();
                 solverBruteForce.startSolving();
                 break;
             case BRUTE_FORCE_X03:
                 setSolvingDataFilenameToActual("brute-force-x03");
-                solverBruteForce = new SolverBruteForce(boardForScreen.getBoardData());
                 SolverBase.setSolvingIterationsLimit(3);
-                SolverBase.saveSolvingDataToFile("=== metoda  : " + SudokuSolverGUI.getSolvingMethodName());
-                SolverBase.saveSolvingDataToFile("=== plansza : " + SudokuSolverGUI.getSudokuTestBoardName());
-                SolverBase.saveSolvingDataToFile("=== czas max: " + convertMilisecondsToHMSV(SOLVING_TIME_MAX, 2));
-                SolverBase.saveSolvingDataToFile("=== iteracje: " + SolverBase.getSolvingIterationsLimit());
+                solverBruteForce = new SolverBruteForce(boardForScreen.getBoardData());
+                solverBruteForce.saveToFileMethodParameters();
+
                 while (SolverBase.areIterationsInProgress()) {
                     solverBruteForce.resetBoard();
                     solverBruteForce.startSolving();
@@ -617,12 +613,10 @@ public class SudokuSolverGUI extends SolverBase {
                 break;
             case BRUTE_FORCE_X10:
                 setSolvingDataFilenameToActual("brute-force-x10");
-                solverBruteForce = new SolverBruteForce(boardForScreen.getBoardData());
                 SolverBase.setSolvingIterationsLimit(10);
-                SolverBase.saveSolvingDataToFile("=== metoda  : " + SudokuSolverGUI.getSolvingMethodName());
-                SolverBase.saveSolvingDataToFile("=== plansza : " + SudokuSolverGUI.getSudokuTestBoardName());
-                SolverBase.saveSolvingDataToFile("=== czas max: " + convertMilisecondsToHMSV(SOLVING_TIME_MAX, 2));
-                SolverBase.saveSolvingDataToFile("=== iteracje: " + SolverBase.getSolvingIterationsLimit());
+                solverBruteForce = new SolverBruteForce(boardForScreen.getBoardData());
+                solverBruteForce.saveToFileMethodParameters();
+
                 while (SolverBase.areIterationsInProgress()) {
                     solverBruteForce.resetBoard();
                     solverBruteForce.startSolving();
@@ -631,33 +625,10 @@ public class SudokuSolverGUI extends SolverBase {
                 break;
             case GENETIC_X01:
                 setSolvingDataFilenameToActual("genetic-x01");
-                solverGenetic = new SolverGenetic(boardForScreen.getBoardData());
                 SolverBase.setSolvingIterationsLimit(1);
-                SolverBase.saveSolvingDataToFile("=== metoda               : "
-                        + SudokuSolverGUI.getSolvingMethodName());
-                SolverBase.saveSolvingDataToFile("=== plansza              : "
-                        + SudokuSolverGUI.getSudokuTestBoardName());
-                SolverBase.saveSolvingDataToFile("=== czas max             : "
-                        + convertMilisecondsToHMSV(SOLVING_TIME_MAX, 2));
-                SolverBase.saveSolvingDataToFile("=== iteracje             : "
-                        + SolverBase.getSolvingIterationsLimit());
-                SolverBase.saveSolvingDataToFile("=== generator rodziców   : "
-                        + SolverGeneticParentMaker.getParentGeneratingMethodName());
-                SolverBase.saveSolvingDataToFile("=== funkcja dopasowania  : "
-                        + SolverGeneticIndividual.getFitnessCalculatingMethodName());
-                SolverBase.saveSolvingDataToFile("=== metoda krzyżowania   : "
-                        + SolverGeneticCrossover.getCrossoverMethodName());
-                SolverBase.saveSolvingDataToFile("=== selekcja rodziców    : "
-                        + SolverGeneticPopulation.getParentSelectionMethodName());
-                SolverBase.saveSolvingDataToFile("=== rozmiar populacji    : "
-                        + SolverGeneticPopulation.getPopulationSize() + " ("
-                        + SolverGeneticPopulation.POPULATION_SIZE_MIN + " - "
-                        + SolverGeneticPopulation.POPULATION_SIZE_MAX + ")");
-                SolverBase.saveSolvingDataToFile("=== rozmiar puli rodziców: "
-                        + SolverGeneticPopulation.getBestParentsPercent() + "% ("
-                        + SolverGeneticPopulation.BEST_PARENTS_PERCENT_MIN + "% - "
-                        + SolverGeneticPopulation.BEST_PARENTS_PERCENT_MAX + "%) / "
-                        + SolverGeneticPopulation.getNumberOfParents() + "x");
+                solverGenetic = new SolverGenetic(boardForScreen.getBoardData());
+                solverGenetic.saveToFileMethodParameters();
+
                 while (SolverBase.areIterationsInProgress()) {
                     solverGenetic.startSolving();
                 }
@@ -665,33 +636,10 @@ public class SudokuSolverGUI extends SolverBase {
                 break;
             case GENETIC_X03:
                 setSolvingDataFilenameToActual("genetic-x03");
-                solverGenetic = new SolverGenetic(boardForScreen.getBoardData());
                 SolverBase.setSolvingIterationsLimit(3);
-                SolverBase.saveSolvingDataToFile("=== metoda               : "
-                        + SudokuSolverGUI.getSolvingMethodName());
-                SolverBase.saveSolvingDataToFile("=== plansza              : "
-                        + SudokuSolverGUI.getSudokuTestBoardName());
-                SolverBase.saveSolvingDataToFile("=== czas max             : "
-                        + convertMilisecondsToHMSV(SOLVING_TIME_MAX, 2));
-                SolverBase.saveSolvingDataToFile("=== iteracje             : "
-                        + SolverBase.getSolvingIterationsLimit());
-                SolverBase.saveSolvingDataToFile("=== generator rodziców   : "
-                        + SolverGeneticParentMaker.getParentGeneratingMethodName());
-                SolverBase.saveSolvingDataToFile("=== funkcja dopasowania  : "
-                        + SolverGeneticIndividual.getFitnessCalculatingMethodName());
-                SolverBase.saveSolvingDataToFile("=== metoda krzyżowania   : "
-                        + SolverGeneticCrossover.getCrossoverMethodName());
-                SolverBase.saveSolvingDataToFile("=== selekcja rodziców    : "
-                        + SolverGeneticPopulation.getParentSelectionMethodName());
-                SolverBase.saveSolvingDataToFile("=== rozmiar populacji    : "
-                        + SolverGeneticPopulation.getPopulationSize() + " ("
-                        + SolverGeneticPopulation.POPULATION_SIZE_MIN + " - "
-                        + SolverGeneticPopulation.POPULATION_SIZE_MAX + ")");
-                SolverBase.saveSolvingDataToFile("=== rozmiar puli rodziców: "
-                        + SolverGeneticPopulation.getBestParentsPercent() + "% ("
-                        + SolverGeneticPopulation.BEST_PARENTS_PERCENT_MIN + "% - "
-                        + SolverGeneticPopulation.BEST_PARENTS_PERCENT_MAX + "%) / "
-                        + SolverGeneticPopulation.getNumberOfParents() + "x");
+                solverGenetic = new SolverGenetic(boardForScreen.getBoardData());
+                solverGenetic.saveToFileMethodParameters();
+
                 while (SolverBase.areIterationsInProgress()) {
                     solverGenetic.startSolving();
                 }
@@ -699,33 +647,10 @@ public class SudokuSolverGUI extends SolverBase {
                 break;
             case GENETIC_X10:
                 setSolvingDataFilenameToActual("genetic-x10");
-                solverGenetic = new SolverGenetic(boardForScreen.getBoardData());
                 SolverBase.setSolvingIterationsLimit(10);
-                SolverBase.saveSolvingDataToFile("=== metoda               : "
-                        + SudokuSolverGUI.getSolvingMethodName());
-                SolverBase.saveSolvingDataToFile("=== plansza              : "
-                        + SudokuSolverGUI.getSudokuTestBoardName());
-                SolverBase.saveSolvingDataToFile("=== czas max             : "
-                        + convertMilisecondsToHMSV(SOLVING_TIME_MAX, 2));
-                SolverBase.saveSolvingDataToFile("=== iteracje             : "
-                        + SolverBase.getSolvingIterationsLimit());
-                SolverBase.saveSolvingDataToFile("=== generator rodziców   : "
-                        + SolverGeneticParentMaker.getParentGeneratingMethodName());
-                SolverBase.saveSolvingDataToFile("=== funkcja dopasowania  : "
-                        + SolverGeneticIndividual.getFitnessCalculatingMethodName());
-                SolverBase.saveSolvingDataToFile("=== metoda krzyżowania   : "
-                        + SolverGeneticCrossover.getCrossoverMethodName());
-                SolverBase.saveSolvingDataToFile("=== selekcja rodziców    : "
-                        + SolverGeneticPopulation.getParentSelectionMethodName());
-                SolverBase.saveSolvingDataToFile("=== rozmiar populacji    : "
-                        + SolverGeneticPopulation.getPopulationSize() + " ("
-                        + SolverGeneticPopulation.POPULATION_SIZE_MIN + " - "
-                        + SolverGeneticPopulation.POPULATION_SIZE_MAX + ")");
-                SolverBase.saveSolvingDataToFile("=== rozmiar puli rodziców: "
-                        + SolverGeneticPopulation.getBestParentsPercent() + "% ("
-                        + SolverGeneticPopulation.BEST_PARENTS_PERCENT_MIN + "% - "
-                        + SolverGeneticPopulation.BEST_PARENTS_PERCENT_MAX + "%) / "
-                        + SolverGeneticPopulation.getNumberOfParents() + "x");
+                solverGenetic = new SolverGenetic(boardForScreen.getBoardData());
+                solverGenetic.saveToFileMethodParameters();
+
                 while (SolverBase.areIterationsInProgress()) {
                     solverGenetic.startSolving();
                 }
